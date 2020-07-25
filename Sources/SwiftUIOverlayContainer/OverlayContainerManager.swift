@@ -69,7 +69,7 @@ public struct OverlayContainerStyle{
     let autoHide:Double?
     let enableDrag:Bool
     
-    init(alignment:Alignment = .center,coverColor:Color? = Color.black.opacity(0.4),shadow:OverlayContainerShadow? = nil,blur:UIBlurEffect.Style? = UIBlurEffect.Style.systemChromeMaterial, animation:Animation = .easeInOut, transition:AnyTransition = .opacity,animatable:Bool = true,autoHide:Double? = nil,enableDrag:Bool = false){
+    public init(alignment:Alignment = .center,coverColor:Color? = Color.black.opacity(0.4),shadow:OverlayContainerShadow? = nil,blur:UIBlurEffect.Style? = UIBlurEffect.Style.systemChromeMaterial, animation:Animation = .easeInOut, transition:AnyTransition = .opacity,animatable:Bool = true,autoHide:Double? = nil,enableDrag:Bool = false){
         self.alignment = alignment
         self.animation = animation
         self.transition = transition
