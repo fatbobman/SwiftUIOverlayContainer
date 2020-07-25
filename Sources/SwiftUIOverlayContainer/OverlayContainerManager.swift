@@ -49,7 +49,7 @@ public struct OverlayContainerShadow{
     let x:CGFloat
     let y:CGFloat
     
-    init(color:Color = Color(.sRGBLinear, white: 0, opacity: 0.33),radius:CGFloat = 10,x:CGFloat = 4,y:CGFloat = 0 ){
+    public init(color:Color = Color(.sRGBLinear, white: 0, opacity: 0.33),radius:CGFloat = 10,x:CGFloat = 4,y:CGFloat = 0 ){
         self.color = color
         self.radius = radius
         self.x = x
