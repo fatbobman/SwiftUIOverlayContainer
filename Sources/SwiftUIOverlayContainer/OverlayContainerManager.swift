@@ -1,3 +1,8 @@
+// 用于SwiftUI的通用Overlay View显示控件
+// 项目代码结构模仿了 https://github.com/AndreaMiotto/PartialSheet/
+// Created by Yang Xu on 2020/7/24.
+//
+
 import Combine
 import SwiftUI
 
@@ -58,6 +63,22 @@ public struct OverlayContainerShadow{
 }
 
 public struct OverlayContainerStyle{
+    /*
+     private func cs() -> OverlayContainerStyle{
+         let shadow = OverlayContainerShadow(color:Color.gray.opacity(0.3), radius: 10, x: 0, y: -1)
+         let t = AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom))
+         return OverlayContainerStyle(alignment: .bottom,
+                               coverColor: nil,
+                               shadow: shadow,
+                               blur: nil,
+                               animation: .spring(),
+                               transition: t,
+                               animatable: true,
+                               autoHide: nil, //定时自动取消
+                               enableDrag: true  //允许拖动取消
+         )
+     }
+    */
     
     let alignment:Alignment
     let coverColor:Color?

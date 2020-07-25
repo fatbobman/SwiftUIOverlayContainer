@@ -1,12 +1,9 @@
-//
-//  OverlayView.swift
-//  beta3Test
-//
-//  Created by Yang Xu on 2020/7/24.
+// 用于SwiftUI的通用Overlay View显示控件
+// 项目代码结构模仿了 https://github.com/AndreaMiotto/PartialSheet/
+// Created by Yang Xu on 2020/7/24.
 //
 
 import SwiftUI
-import Combine
 
 struct OverlayContainer: ViewModifier {
     @EnvironmentObject var manager:OverlayContainerManager
@@ -68,13 +65,10 @@ struct OverlayContainer: ViewModifier {
                 if manager.isPresented {
                     manager.content
                         .fixedSize()
-//                        .background(
-//                            Color.clear
                         .ifIs(style.shadow != nil){
                             $0
                                 .shadow(color: style.shadow!.color, radius: style.shadow!.radius, x: style.shadow!.x, y: style.shadow!.y)
                         }
-//                                )
                         .offset(x:x,y:y)
                         .ifIs(style.enableDrag){$0.gesture(drag)}
                         .animation(style.animatable ? style.animation : nil)
@@ -106,6 +100,8 @@ public extension View{
     }
 }
 
+
+// 下面的代码来自于 https://github.com/AndreaMiotto/PartialSheet/
 
 internal enum DeviceType {
     case iphone
