@@ -43,33 +43,33 @@ public class OverlayContainerManager: ObservableObject {
     }
 }
 
-public struct OverlayContainerStyle{
+public struct OverlayContainerShadow{
+    let color: Color
+    let radius:CGFloat
+    let x:CGFloat
+    let y:CGFloat
     
-    public struct Shadow{
-        let color: Color
-        let radius:CGFloat
-        let x:CGFloat
-        let y:CGFloat
-        
-        init(color:Color = Color(.sRGBLinear, white: 0, opacity: 0.33),radius:CGFloat = 10,x:CGFloat = 4,y:CGFloat = 0 ){
-            self.color = color
-            self.radius = radius
-            self.x = x
-            self.y = y
-        }
+    init(color:Color = Color(.sRGBLinear, white: 0, opacity: 0.33),radius:CGFloat = 10,x:CGFloat = 4,y:CGFloat = 0 ){
+        self.color = color
+        self.radius = radius
+        self.x = x
+        self.y = y
     }
+}
+
+public struct OverlayContainerStyle{
     
     let alignment:Alignment
     let coverColor:Color?
     let blur:UIBlurEffect.Style?
-    let shadow:Shadow?
+    let shadow:OverlayContainerShadow?
     let animation:Animation
     let transition:AnyTransition
     let animatable:Bool
     let autoHide:Double?
     let enableDrag:Bool
     
-    init(alignment:Alignment = .center,coverColor:Color? = Color.black.opacity(0.4),shadow:Shadow? = nil,blur:UIBlurEffect.Style? = UIBlurEffect.Style.systemChromeMaterial, animation:Animation = .easeInOut, transition:AnyTransition = .opacity,animatable:Bool = true,autoHide:Double? = nil,enableDrag:Bool = false){
+    init(alignment:Alignment = .center,coverColor:Color? = Color.black.opacity(0.4),shadow:OverlayContainerShadow? = nil,blur:UIBlurEffect.Style? = UIBlurEffect.Style.systemChromeMaterial, animation:Animation = .easeInOut, transition:AnyTransition = .opacity,animatable:Bool = true,autoHide:Double? = nil,enableDrag:Bool = false){
         self.alignment = alignment
         self.animation = animation
         self.transition = transition
