@@ -23,7 +23,7 @@ public class OverlayContainerManager: ObservableObject {
     }
     
     /// The content of the sheet
-    private(set) var content: AnyView
+    @Published var content: AnyView
     /// the onDismiss code runned when the partial sheet is closed
     private(set) var onDismiss: (() -> Void)?
 
