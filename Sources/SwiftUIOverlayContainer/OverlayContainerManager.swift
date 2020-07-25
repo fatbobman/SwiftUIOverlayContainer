@@ -23,7 +23,7 @@ public class OverlayContainerManager: ObservableObject {
     }
     
     /// The content of the sheet
-    @Published var content: AnyView
+    private(set) var content: AnyView
     /// the onDismiss code runned when the partial sheet is closed
     private(set) var onDismiss: (() -> Void)?
 
@@ -31,9 +31,9 @@ public class OverlayContainerManager: ObservableObject {
         self.content = AnyView(EmptyView())
     }
     
-    public func setContent<T:View>(_ content:@escaping () -> T) {
-        self.content = AnyView(content())
-    }
+//    public func setContent<T:View>(_ content:@escaping () -> T) {
+//        self.content = AnyView(content())
+//    }
     
     public func showOverlayView<T>(_ onDismiss: (() -> Void)? = nil, @ViewBuilder content: @escaping () -> T) where T: View {
         self.content = AnyView(content())
