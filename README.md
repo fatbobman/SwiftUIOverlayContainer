@@ -13,6 +13,9 @@ SwiftUIOverlayContainer本身并不提供任何预置的视图样式，不过通
 
 ## Features
 ![Demo](Image/demo.gif)
+
+![Demo for macOS](Image/demoForMac.gif)
+
 ##  How to Use
 
 1. Add a **OverlayContainerManager** instance as an *environment object* to your Root View in you *SceneDelegate* or App
