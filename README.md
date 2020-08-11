@@ -7,7 +7,7 @@ A  SwiftUI modifier to present overlay View on custom style
 代码思路收到了[PartialSheet](https://github.com/AndreaMiotto/PartialSheet)很大的影响
 
 ## Features
-
+![Demo](Image/demo.gif)
 ##  How to Use
 
 1. Add a **OverlayContainerManager** instance as an *environment object* to your Root View in you *SceneDelegate* or App
