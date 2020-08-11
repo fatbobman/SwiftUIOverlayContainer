@@ -4,7 +4,7 @@
 
 A  SwiftUI modifier to present overlay View on custom style
 
-代码思路收到了[PartialSheet](https://github.com/AndreaMiotto/PartialSheet)很大的影响
+代码思路受到了[PartialSheet](https://github.com/AndreaMiotto/PartialSheet)很大的影响
 
 ## Features
 ![Demo](Image/demo.gif)
