@@ -18,62 +18,62 @@ struct OverlayContainer: ViewModifier {
         let drag = DragGesture(minimumDistance: 10, coordinateSpace: .local)
             .onChanged { value in
                 let t = value.translation
-                switch style.alignment{
+                switch self.style.alignment{
                 case .leading:
-                    if t.width < 0 { x = t.width }
+                    if t.width < 0 { self.x = t.width }
                 case .trailing:
-                    if t.width > 0 { x = t.width }
+                    if t.width > 0 { self.x = t.width }
                 case .top:
-                    if t.height < 0 { y = t.height }
+                    if t.height < 0 { self.y = t.height }
                 case .bottom:
-                    if t.height > 0 { y = t.height }
+                    if t.height > 0 { self.y = t.height }
                 default:
                     break
                 }
                 
             }.onEnded { value in
                 let t = value.translation
-                switch style.alignment{
+                switch self.style.alignment{
                 case .leading:
-                    if t.width < -dismissWidth {
-                        x = .zero
-                        y = .zero
-                        manager.closeOverlayView()
+                    if t.width < -self.dismissWidth {
+                        self.x = .zero
+                        self.y = .zero
+                        self.manager.closeOverlayView()
                     }
                     else {
-                        x = .zero
-                        y = .zero
+                        self.x = .zero
+                        self.y = .zero
                     }
                 case .trailing:
-                    if t.width > dismissWidth {
-                        x = .zero
-                        y = .zero
-                        manager.closeOverlayView()
+                    if t.width > self.dismissWidth {
+                        self.x = .zero
+                        self.y = .zero
+                        self.manager.closeOverlayView()
                     }
                     else {
-                        x = .zero
-                        y = .zero
+                        self.x = .zero
+                        self.y = .zero
                     }
                 case .top:
-                    if t.height < -dismissWidth {
-                        x = .zero
-                        y = .zero
-                        manager.closeOverlayView()
+                    if t.height < -self.dismissWidth {
+                        self.x = .zero
+                        self.y = .zero
+                        self.manager.closeOverlayView()
                     }
                     else {
-                        x = .zero
-                        y = .zero
+                        self.x = .zero
+                        self.y = .zero
                     }
                     
                 case .bottom:
-                    if t.height > dismissWidth {
-                        x = .zero
-                        y = .zero
-                        manager.closeOverlayView()
+                    if t.height > self.dismissWidth {
+                        self.x = .zero
+                        self.y = .zero
+                        self.manager.closeOverlayView()
                     }
                     else {
-                        x = .zero
-                        y = .zero
+                        self.x = .zero
+                        self.y = .zero
                     }
                     
                 default:
@@ -96,8 +96,8 @@ struct OverlayContainer: ViewModifier {
                         .transition(.opacity)
                         .opacity(manager.isPresented ? 1.0 : 0)
                         .onTapGesture{
-                            if style.clickDismiss {
-                                manager.closeOverlayView()
+                            if self.style.clickDismiss {
+                                self.manager.closeOverlayView()
                             }
                         }.zIndex(1.5)
                 }
@@ -113,8 +113,8 @@ struct OverlayContainer: ViewModifier {
                         
                         .opacity(manager.isPresented ? 1.0 : 0)
                         .onTapGesture{
-                            if style.clickDismiss {
-                                manager.closeOverlayView()
+                            if self.style.clickDismiss {
+                                self.manager.closeOverlayView()
                             }
                         }
                         .zIndex(1.8)
@@ -155,16 +155,16 @@ struct OverlayContainer: ViewModifier {
                         }
                         .zIndex(3.0)
                         .onAppear{
-                            if style.autoHide != nil {
-                                timer = Timer.publish(every: style.autoHide!, on: .main, in: .common)
-                                timer.connect().store(in: &cancellable)
+                            if self.style.autoHide != nil {
+                                self.timer = Timer.publish(every: self.style.autoHide!, on: .main, in: .common)
+                                self.timer.connect().store(in: &self.cancellable)
                             }
                         }
                         .onDisappear{
-                            cancellable.removeAll()
+                            self.cancellable.removeAll()
                         }
                         .onReceive(timer, perform: { _ in
-                            manager.closeOverlayView()
+                            self.manager.closeOverlayView()
                         })
                 }
             }
