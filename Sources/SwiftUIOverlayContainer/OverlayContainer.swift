@@ -15,22 +15,17 @@ struct OverlayContainer: ViewModifier {
     @State var cancellable:Set<AnyCancellable> = []
     let dismissWidth:CGFloat = 20
     func body(content:Content) -> some View{
-        let distance:CGFloat = 50
         let drag = DragGesture(minimumDistance: 10, coordinateSpace: .local)
             .onChanged { value in
                 let t = value.translation
                 switch style.alignment{
                 case .leading:
-                    if t.width < -distance {manager.closeOverlayView()}
                     if t.width < 0 { x = t.width }
                 case .trailing:
-                    if t.width > distance {manager.closeOverlayView()}
                     if t.width > 0 { x = t.width }
                 case .top:
-                    if t.height < -distance {manager.closeOverlayView()}
                     if t.height < 0 { y = t.height }
                 case .bottom:
-                    if t.height > distance {manager.closeOverlayView()}
                     if t.height > 0 { y = t.height }
                 default:
                     break
@@ -85,14 +80,13 @@ struct OverlayContainer: ViewModifier {
                     break
                 }
                 
-                
             }
         
         return ZStack{
-            
+            Color.clear
+                .zIndex(0.5)
             content
                 .zIndex(1.0)
-            
             
             ZStack(alignment:style.alignment){
                 
@@ -105,10 +99,11 @@ struct OverlayContainer: ViewModifier {
                             if style.clickDismiss {
                                 manager.closeOverlayView()
                             }
-                        }
+                        }.zIndex(1.5)
                 }
                 else {
                     Color.clear
+                        .zIndex(1.5)
                 }
                 
                 if style.blur != nil {
@@ -122,6 +117,7 @@ struct OverlayContainer: ViewModifier {
                                 manager.closeOverlayView()
                             }
                         }
+                        .zIndex(1.8)
                     #endif
                     #if os(macOS)
                     BlurEffectView(material: .fullScreenUI)
@@ -132,7 +128,8 @@ struct OverlayContainer: ViewModifier {
                                 manager.closeOverlayView()
                             }
                         }
-
+                        .zIndex(1.8)
+                    
                     #endif
                     
                 }
@@ -141,19 +138,17 @@ struct OverlayContainer: ViewModifier {
                 if manager.isPresented {
                     manager.content
                         .fixedSize()
-                        .background(
-                            ZStack{
-                                manager.content
-                                    .shadow(radius: 0)
-                                Color.clear
-                            }
-                            .ifIs(style.shadow != nil){
-                                $0
-                                    .shadow(color: style.shadow!.color, radius: style.shadow!.radius, x: style.shadow!.x, y: style.shadow!.y)
-                            }
-                        )
-                        .offset(x:x,y:y)
+                        .ifIs(style.shadow != nil){
+                            $0.background(
+                                ZStack{
+                                    manager.content
+                                        .shadow(radius: 0)
+                                    Color.clear
+                                }
+                                .shadow(color: style.shadow!.color, radius: style.shadow!.radius, x: style.shadow!.x, y: style.shadow!.y)
+                            )}
                         .ifIs(style.enableDrag){$0.gesture(drag)}
+                        .offset(x:x,y:y)
                         .animation(style.animatable ? style.animation : .none)
                         .ifIs(style.transition != nil){
                             $0.transition(style.transition!)
@@ -173,10 +168,10 @@ struct OverlayContainer: ViewModifier {
                         })
                 }
             }
+            .zIndex(2.0)
             .animation(style.animatable ? style.animation : .none)
             .transition(.opacity)
             
-            .zIndex(2.0)
             
         }
         .animation(.none)

@@ -17,7 +17,7 @@ public class OverlayContainerManager: ObservableObject {
     {
         didSet {
             if !isPresented {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
                     self?.content = AnyView(EmptyView())
                     self?.onDismiss = nil
                 }
@@ -25,9 +25,12 @@ public class OverlayContainerManager: ObservableObject {
         }
     }
     
-
+    var cancellabls:Set<AnyCancellable> = []
+    var timer = Timer.publish(every: 1, on: .main, in: .common)
+    var enable = true
+    
     private(set) var content: AnyView
-
+    
     private(set) var onDismiss: (() -> Void)?
     
     public init() {
@@ -35,15 +38,27 @@ public class OverlayContainerManager: ObservableObject {
     }
     
     public func showOverlayView<T>(_ onDismiss: (() -> Void)? = nil, @ViewBuilder content: @escaping () -> T) where T: View {
-        self.content = AnyView(content())
-        self.onDismiss = onDismiss
-        self.isPresented = true
+        if !isPresented && enable {
+            self.content = AnyView(content())
+            self.onDismiss = onDismiss
+            self.isPresented = true
+        }
     }
     
-
+    
     public func closeOverlayView() {
         self.isPresented = false
         self.onDismiss?()
+        
+        //防止因重复点击太快,导致的锁死
+        enable = false
+        timer = Timer.publish(every: 0.5, on: .main, in: .common)
+        timer.sink(receiveValue: {_ in
+            self.enable = true
+            self.cancellabls.removeAll()
+        }).store(in: &cancellabls)
+        timer.connect().store(in: &cancellabls)
+        
     }
 }
 
