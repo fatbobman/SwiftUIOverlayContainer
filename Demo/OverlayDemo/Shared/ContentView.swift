@@ -198,7 +198,6 @@ struct DemoView1:View{
         .frame(width:200,height: 150)
         .background(BlurEffectView(style: .regular))
         .clipShape(RoundedRectangle(cornerRadius: 15))
-        
     }
 }
 
