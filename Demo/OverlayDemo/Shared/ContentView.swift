@@ -106,46 +106,12 @@ let style2 = OverlayContainerStyle(alignment: .leading,
 
 #endif
 
-#if os(macOS)
-let style = OverlayContainerStyle(alignment: .bottom,
-                                  coverColor: Color.black.opacity(0.3),
-                                  shadow: nil,
-                                  blur: .windowBackground,
-                                  animation: .easeInOut ,
-                                  transition:.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)),
-                                  animatable: true,
-                                  autoHide: nil,
-                                  enableDrag: true,
-                                  clickDismiss: true)
 
-let style1 = OverlayContainerStyle(alignment: .center,
-                                   coverColor: Color.black.opacity(0.3),
-                                   shadow: nil,
-                                   blur: .popover,
-                                   animation: .easeInOut ,
-                                   transition:.opacity,
-                                   animatable: true,
-                                   autoHide: 5,
-                                   enableDrag: false,
-                                   clickDismiss: false)
-
-
-let style2 = OverlayContainerStyle(alignment: .leading,
-                                   coverColor: Color.gray.opacity(0.3),
-                                   shadow:.init (color: Color.black.opacity(0.3), radius: 20, x: 2, y: 0),
-                                   blur: nil,
-                                   animation: .easeInOut ,
-                                   transition:.move(edge:.leading),
-                                   animatable: true,
-                                   autoHide: nil,
-                                   enableDrag: false,
-                                   clickDismiss: false)
-#endif
 
 let transition:AnyTransition = .asymmetric(insertion: AnyTransition.move(edge: .bottom).combined(with: .opacity).animation(.easeIn(duration: 0.5)),
                                            removal: AnyTransition.move(edge: .bottom).combined(with: .opacity).animation(.easeIn(duration: 0.3))
 )
-
+#if os(iOS)
 struct DemoView:View{
     @EnvironmentObject var manager:OverlayContainerManager
     @State var more = false
@@ -236,3 +202,4 @@ struct BlurEffectView: UIViewRepresentable {
         uiView.effect = UIBlurEffect(style: style)
     }
 }
+#endif

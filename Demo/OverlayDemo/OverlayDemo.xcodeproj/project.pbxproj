@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		760E94D124E269F500A18BC1 /* SwiftUIOverlayContainer in Frameworks */ = {isa = PBXBuildFile; productRef = 760E94D024E269F500A18BC1 /* SwiftUIOverlayContainer */; };
 		760E94D324E26A7800A18BC1 /* SwiftUIOverlayContainer in Frameworks */ = {isa = PBXBuildFile; productRef = 760E94D224E26A7800A18BC1 /* SwiftUIOverlayContainer */; };
+		7665160B24E359910059FA11 /* MacView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7665160924E359910059FA11 /* MacView.swift */; };
 		769ACC9624E269910053CD5E /* OverlayDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769ACC8324E269900053CD5E /* OverlayDemoApp.swift */; };
 		769ACC9724E269910053CD5E /* OverlayDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769ACC8324E269900053CD5E /* OverlayDemoApp.swift */; };
 		769ACC9824E269910053CD5E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769ACC8424E269900053CD5E /* ContentView.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7665160924E359910059FA11 /* MacView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacView.swift; sourceTree = "<group>"; };
 		769ACC8324E269900053CD5E /* OverlayDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayDemoApp.swift; sourceTree = "<group>"; };
 		769ACC8424E269900053CD5E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		769ACC8524E269910053CD5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 			children = (
 				769ACC8324E269900053CD5E /* OverlayDemoApp.swift */,
 				769ACC8424E269900053CD5E /* ContentView.swift */,
+				7665160924E359910059FA11 /* MacView.swift */,
 				769ACC8524E269910053CD5E /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -216,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7665160B24E359910059FA11 /* MacView.swift in Sources */,
 				769ACC9924E269910053CD5E /* ContentView.swift in Sources */,
 				769ACC9724E269910053CD5E /* OverlayDemoApp.swift in Sources */,
 			);
