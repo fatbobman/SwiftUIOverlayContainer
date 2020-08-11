@@ -1,6 +1,7 @@
 # SwiftUIOverlayContainer
 
-这是在全窗口下,显示各种弹出式View的SwiftUI库.目前支持 iOS 和 macOS
+这是在全窗口下,显示各种弹出式View的SwiftUI库.目前支持 iOS 13 和 macOS
+库代码已经修改可以直接在xcode11下使用
 
 A  SwiftUI modifier to present overlay View on custom style
 
