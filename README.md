@@ -25,7 +25,7 @@ struct Test: App {
     }
 }
 ```
-2. Add the **Partial View** to your *Root View*, and if you want give it a style. In your RootView file at the end of the builder add the following modifier:
+2. Add the **OverlayView** to your *Root View*, and if you want give it a style. In your RootView file at the end of the builder add the following modifier:
 
 ```Swift
 struct ContentView: View {
