@@ -4,13 +4,16 @@
 //
 
 import SwiftUI
+import Combine
 
 struct OverlayContainer: ViewModifier {
     @EnvironmentObject var manager:OverlayContainerManager
     let style:OverlayContainerStyle
     @State private var x:CGFloat = .zero
     @State private var y:CGFloat = .zero
-    
+    @State var timer = Timer.publish(every: 1, on: .main, in: .common)
+    @State var cancellable:Set<AnyCancellable> = []
+    let dismissWidth:CGFloat = 20
     func body(content:Content) -> some View{
         let distance:CGFloat = 50
         let drag = DragGesture(minimumDistance: 10, coordinateSpace: .local)
@@ -34,11 +37,58 @@ struct OverlayContainer: ViewModifier {
                 }
                 
             }.onEnded { value in
-                x = .zero
-                y = .zero
+                let t = value.translation
+                switch style.alignment{
+                case .leading:
+                    if t.width < -dismissWidth {
+                        x = .zero
+                        y = .zero
+                        manager.closeOverlayView()
+                    }
+                    else {
+                        x = .zero
+                        y = .zero
+                    }
+                case .trailing:
+                    if t.width > dismissWidth {
+                        x = .zero
+                        y = .zero
+                        manager.closeOverlayView()
+                    }
+                    else {
+                        x = .zero
+                        y = .zero
+                    }
+                case .top:
+                    if t.height < -dismissWidth {
+                        x = .zero
+                        y = .zero
+                        manager.closeOverlayView()
+                    }
+                    else {
+                        x = .zero
+                        y = .zero
+                    }
+                    
+                case .bottom:
+                    if t.height > dismissWidth {
+                        x = .zero
+                        y = .zero
+                        manager.closeOverlayView()
+                    }
+                    else {
+                        x = .zero
+                        y = .zero
+                    }
+                    
+                default:
+                    break
+                }
+                
+                
             }
         
-       return ZStack{
+        return ZStack{
             
             content
                 .zIndex(1.0)
@@ -46,50 +96,90 @@ struct OverlayContainer: ViewModifier {
             
             ZStack(alignment:style.alignment){
                 
-                if manager.isPresented {
-                    
-                    if style.coverColor != nil {
-                        Rectangle()
-                            .foregroundColor(style.coverColor!)
-                    }
-                    else {
-                        Color.clear
-                    }
-                    
-                    if style.blur != nil {
-                        BlurEffectView(style:style.blur!)
-                    }
+                if style.coverColor != nil {
+                    Rectangle()
+                        .foregroundColor(style.coverColor!)
+                        .transition(.opacity)
+                        .opacity(manager.isPresented ? 1.0 : 0)
+                        .onTapGesture{
+                            if style.clickDismiss {
+                                manager.closeOverlayView()
+                            }
+                        }
+                }
+                else {
+                    Color.clear
+                }
+                
+                if style.blur != nil {
+                    #if os(iOS)
+                    BlurEffectView(style:style.blur!)
+                        .transition(.opacity)
+                        
+                        .opacity(manager.isPresented ? 1.0 : 0)
+                        .onTapGesture{
+                            if style.clickDismiss {
+                                manager.closeOverlayView()
+                            }
+                        }
+                    #endif
+                    #if os(macOS)
+                    BlurEffectView(material: .fullScreenUI)
+                        .transition(.opacity)
+                        .opacity(manager.isPresented ? 1.0 : 0)
+                        .onTapGesture{
+                            if style.clickDismiss {
+                                manager.closeOverlayView()
+                            }
+                        }
+
+                    #endif
                     
                 }
-
+                
+                
                 if manager.isPresented {
                     manager.content
                         .fixedSize()
-                        .ifIs(style.shadow != nil){
-                            $0
-                                .shadow(color: style.shadow!.color, radius: style.shadow!.radius, x: style.shadow!.x, y: style.shadow!.y)
-                        }
+                        .background(
+                            ZStack{
+                                manager.content
+                                    .shadow(radius: 0)
+                                Color.clear
+                            }
+                            .ifIs(style.shadow != nil){
+                                $0
+                                    .shadow(color: style.shadow!.color, radius: style.shadow!.radius, x: style.shadow!.x, y: style.shadow!.y)
+                            }
+                        )
                         .offset(x:x,y:y)
                         .ifIs(style.enableDrag){$0.gesture(drag)}
-                        .animation(style.animatable ? style.animation : nil)
-                        .transition(style.transition)
+                        .animation(style.animatable ? style.animation : .none)
+                        .ifIs(style.transition != nil){
+                            $0.transition(style.transition!)
+                        }
                         .zIndex(3.0)
                         .onAppear{
                             if style.autoHide != nil {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + style.autoHide!){
-                                if manager.isPresented {
-                                    manager.closeOverlayView()
-                                }
-                            }
+                                timer = Timer.publish(every: style.autoHide!, on: .main, in: .common)
+                                timer.connect().store(in: &cancellable)
                             }
                         }
+                        .onDisappear{
+                            cancellable.removeAll()
+                        }
+                        .onReceive(timer, perform: { _ in
+                            manager.closeOverlayView()
+                        })
                 }
             }
-            .animation(.easeInOut)
+            .animation(style.animatable ? style.animation : .none)
             .transition(.opacity)
+            
             .zIndex(2.0)
             
         }
+        .animation(.none)
         .edgesIgnoringSafeArea(.all)
     }
 }
@@ -109,6 +199,7 @@ internal enum DeviceType {
     case mac
 }
 
+#if os(iOS)
 internal var deviceType: DeviceType = {
     #if targetEnvironment(macCatalyst)
     return .mac
@@ -120,9 +211,10 @@ internal var deviceType: DeviceType = {
     }
     #endif
 }()
+#endif
 
 internal extension View {
-
+    
     @ViewBuilder func ifIs<T>(_ condition: Bool, transform: (Self) -> T) -> some View where T: View {
         if condition {
             transform(self)
@@ -130,7 +222,7 @@ internal extension View {
             self
         }
     }
-
+    #if os(iOS)
     @ViewBuilder func iPhone<T>(_ transform: (Self) -> T) -> some View where T: View {
         if deviceType == .iphone {
             transform(self)
@@ -138,7 +230,7 @@ internal extension View {
             self
         }
     }
-
+    
     @ViewBuilder func iPad<T>(_ transform: (Self) -> T) -> some View where T: View {
         if deviceType == .ipad {
             transform(self)
@@ -146,7 +238,7 @@ internal extension View {
             self
         }
     }
-
+    
     @ViewBuilder func mac<T>(_ transform: (Self) -> T) -> some View where T: View {
         if deviceType == .mac {
             transform(self)
@@ -154,7 +246,7 @@ internal extension View {
             self
         }
     }
-
+    
     @ViewBuilder func iPadOrMac<T>(_ transform: (Self) -> T) -> some View where T: View {
         if deviceType == .mac || deviceType == .ipad {
             transform(self)
@@ -162,4 +254,5 @@ internal extension View {
             self
         }
     }
+    #endif
 }

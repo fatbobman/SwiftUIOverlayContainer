@@ -6,10 +6,13 @@
 import Combine
 import SwiftUI
 
+#if os(macOS)
+import AppKit
+#endif
+
 
 public class OverlayContainerManager: ObservableObject {
-
-    /// Published var to present or hide the partial sheet
+    
     @Published var isPresented: Bool = false
     {
         didSet {
@@ -22,26 +25,22 @@ public class OverlayContainerManager: ObservableObject {
         }
     }
     
-    /// The content of the sheet
-    private(set) var content: AnyView
-    /// the onDismiss code runned when the partial sheet is closed
-    private(set) var onDismiss: (() -> Void)?
 
+    private(set) var content: AnyView
+
+    private(set) var onDismiss: (() -> Void)?
+    
     public init() {
         self.content = AnyView(EmptyView())
     }
-    
-//    public func setContent<T:View>(_ content:@escaping () -> T) {
-//        self.content = AnyView(content())
-//    }
     
     public func showOverlayView<T>(_ onDismiss: (() -> Void)? = nil, @ViewBuilder content: @escaping () -> T) where T: View {
         self.content = AnyView(content())
         self.onDismiss = onDismiss
         self.isPresented = true
     }
+    
 
-    /// Close the Partial Sheet and run the onDismiss function if it has been previously specified
     public func closeOverlayView() {
         self.isPresented = false
         self.onDismiss?()
@@ -63,34 +62,19 @@ public struct OverlayContainerShadow{
 }
 
 public struct OverlayContainerStyle{
-    /*
-     private func cs() -> OverlayContainerStyle{
-         let shadow = OverlayContainerShadow(color:Color.gray.opacity(0.3), radius: 10, x: 0, y: -1)
-         let t = AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom))
-         return OverlayContainerStyle(alignment: .bottom,
-                               coverColor: nil,
-                               shadow: shadow,
-                               blur: nil,
-                               animation: .spring(),
-                               transition: t,
-                               animatable: true,
-                               autoHide: nil, //定时自动取消
-                               enableDrag: true  //允许拖动取消
-         )
-     }
-    */
     
     let alignment:Alignment
     let coverColor:Color?
-    let blur:UIBlurEffect.Style?
+    let blur:BlurEffect?
     let shadow:OverlayContainerShadow?
-    let animation:Animation
-    let transition:AnyTransition
+    let animation:Animation?
+    let transition:AnyTransition?
     let animatable:Bool
     let autoHide:Double?
     let enableDrag:Bool
+    let clickDismiss:Bool
     
-    public init(alignment:Alignment = .center,coverColor:Color? = Color.black.opacity(0.4),shadow:OverlayContainerShadow? = nil,blur:UIBlurEffect.Style? = UIBlurEffect.Style.systemChromeMaterial, animation:Animation = .easeInOut, transition:AnyTransition = .opacity,animatable:Bool = true,autoHide:Double? = nil,enableDrag:Bool = false){
+    public init(alignment:Alignment = .center,coverColor:Color? = Color.black.opacity(0.4),shadow:OverlayContainerShadow? = nil,blur:BlurEffect? = nil, animation:Animation? = .easeInOut, transition:AnyTransition? = .opacity,animatable:Bool = true,autoHide:Double? = nil,enableDrag:Bool = false,clickDismiss:Bool = false){
         self.alignment = alignment
         self.animation = animation
         self.transition = transition
@@ -100,24 +84,56 @@ public struct OverlayContainerStyle{
         self.shadow = shadow
         self.autoHide = autoHide
         self.enableDrag = enableDrag
+        self.clickDismiss = clickDismiss
     }
-
+    
     
     public static func defaultStyle() -> OverlayContainerStyle{
         OverlayContainerStyle(alignment: .center, animation: .easeInOut,transition: .opacity,animatable: true )
     }
 }
-
+#if os(iOS)
 internal struct BlurEffectView: UIViewRepresentable {
-
+    
     /// The style of the Blut Effect View
     var style: UIBlurEffect.Style = .systemMaterial
-
+    
     func makeUIView(context: Context) -> UIVisualEffectView {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }
-
+    
     func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
         uiView.effect = UIBlurEffect(style: style)
     }
 }
+#endif
+
+#if os(macOS)
+internal struct BlurEffectView: NSViewRepresentable
+{
+    var material: NSVisualEffectView.Material
+    var blendingMode: NSVisualEffectView.BlendingMode = .withinWindow
+    
+    func makeNSView(context: Context) -> NSVisualEffectView
+    {
+        let visualEffectView = NSVisualEffectView()
+        visualEffectView.material = material
+        visualEffectView.blendingMode = blendingMode
+        visualEffectView.state = NSVisualEffectView.State.active
+        return visualEffectView
+    }
+    
+    func updateNSView(_ visualEffectView: NSVisualEffectView, context: Context)
+    {
+        visualEffectView.material = material
+        visualEffectView.blendingMode = blendingMode
+    }
+}
+#endif
+
+#if os(iOS)
+public typealias BlurEffect = UIBlurEffect.Style
+#endif
+#if os(macOS)
+public typealias BlurEffect = NSVisualEffectView.Material
+#endif
