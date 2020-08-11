@@ -70,9 +70,9 @@ struct ContentView_Previews: PreviewProvider {
 #if os(iOS)
 let style = OverlayContainerStyle(alignment: .bottom,
                                   coverColor: nil,
-                                  shadow: nil,
-                                  //.init(color: Color.black.opacity(0.3), radius: 20, x: 2, y: -2),
-                                  blur: .dark,
+                                  shadow:
+                                  .init(color: Color.black.opacity(0.3), radius: 20, x: 2, y: -2),
+                                  blur: .light,
                                   animation: .easeInOut ,
                                   transition:transition,
                                   animatable: true,
@@ -168,11 +168,13 @@ struct DemoView:View{
             }
             Spacer()
         }
+        .foregroundColor(.white)
         .frame(minWidth:width,minHeight: 200)
         .background(
-            Color.pink
+            Color.blue
         )
         .clipShape(RoundedRectangle(cornerRadius: 10))
+        
         .offset(y:10)
         
     }
