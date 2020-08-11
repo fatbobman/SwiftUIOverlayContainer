@@ -1,10 +1,13 @@
 # SwiftUIOverlayContainer
 
 这是在全窗口下,显示各种弹出式View的SwiftUI库.目前支持 iOS 13 和 macOS
-
 库代码已经修改可以直接在xcode11下使用
 
 A  SwiftUI modifier to present overlay View on custom style
+SwiftUIOverlayContainer itself does not provide any preset view styles, but through it, you have sufficient freedom to achieve the view effects you need. The main purpose of OverlayContainer is to help you complete basic tasks such as animation, interaction, and style customization, so that developers can devote time and energy to the code of the view itself.
+
+
+SwiftUIOverlayContainer本身并不提供任何预置的视图样式，不过通过它，你有充分的自有度来实现自己需要的视图效果。OverlayContainer的主要目的在于帮助你完成动画、交互、样式定制等基础工作，使开发者能够将时间和精力仅需投入在视图本身的代码上。
 
 代码思路受到了[PartialSheet](https://github.com/AndreaMiotto/PartialSheet)很大的影响
 
