@@ -8,11 +8,15 @@ import Combine
 
 struct OverlayContainer: ViewModifier {
     @EnvironmentObject var manager:OverlayContainerManager
-    let style:OverlayContainerStyle
+    let styleInit:OverlayContainerStyle
     @State private var x:CGFloat = .zero
     @State private var y:CGFloat = .zero
     @State var timer = Timer.publish(every: 1, on: .main, in: .common)
     @State var cancellable:Set<AnyCancellable> = []
+    var style:OverlayContainerStyle{
+        guard let s = manager.style else {return styleInit}
+        return s
+    }
     let dismissWidth:CGFloat = 20
     func body(content:Content) -> some View{
         let drag = DragGesture(minimumDistance: 10, coordinateSpace: .local)
@@ -181,7 +185,7 @@ struct OverlayContainer: ViewModifier {
 
 public extension View{
     func addOverlayContainer(style:OverlayContainerStyle = .defaultStyle()) -> some View{
-        self.modifier(OverlayContainer(style: style ))
+        self.modifier(OverlayContainer(styleInit: style ))
     }
 }
 
