@@ -68,7 +68,7 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 #if os(iOS)
-let style = OverlayContainerStyle(alignment: .bottom,
+let style = OverlayContainerStyle(alignment: .trailing,
                                   coverColor: nil,
                                   shadow:
                                   .init(color: Color.black.opacity(0.3), radius: 20, x: 2, y: -2),
@@ -181,7 +181,8 @@ struct DemoView2:View{
             }
             Spacer()
         }
-        .frame(width:300,height:height)
+        .frame(width:300,height: height)
+        
         .background(BlurEffectView(style: .regular))
         
         
