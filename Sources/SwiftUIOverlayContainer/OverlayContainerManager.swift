@@ -25,7 +25,7 @@ public class OverlayContainerManager: ObservableObject {
         }
     }
     
-    @Published var style:OverlayContainerStyle? 
+    @Published public var style:OverlayContainerStyle? 
     
     var cancellabls:Set<AnyCancellable> = []
     var timer = Timer.publish(every: 1, on: .main, in: .common)
