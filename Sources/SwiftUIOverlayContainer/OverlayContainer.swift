@@ -10,9 +10,6 @@ struct OverlayContainer: ViewModifier {
     @EnvironmentObject var manager:OverlayContainerManager
     let styleInit:OverlayContainerStyle
     
-    
-    
-    
     @State private var x:CGFloat = .zero
     @State private var y:CGFloat = .zero
     @State var timer = Timer.publish(every: 1, on: .main, in: .common)
