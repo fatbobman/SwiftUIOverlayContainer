@@ -5,8 +5,8 @@ import PackageDescription
 
 let package = Package(
     name: "SwiftUIOverlayContainer",
-    platforms: [.iOS(.v13),
-                .macOS(.v10_15)
+    platforms: [.iOS(.v15),
+                .macOS(.v12)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
