@@ -27,14 +27,14 @@ import SwiftUI
 ///       color              blur                 blur
 ///       color(red)         color(blue)          color(blue)
 ///
-public enum ContainerBackground {
+public enum ContainerBackgroundStyle {
     case color(Color)
     case blur(Material)
     case view(AnyView)
     case none
 }
 
-extension ContainerBackground {
+extension ContainerBackgroundStyle {
     @ViewBuilder
     func generateBackgroundView() -> some View {
         switch self {
