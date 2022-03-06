@@ -41,14 +41,18 @@ public enum ContainerViewDismissGesture {
 }
 
 extension ContainerViewDismissGesture {
-    func generateGesture(for dismiss: @escaping () -> Void) -> AnyGesture<Void>? {
+    /// generate dismiss gesture with execution closure
+    ///
+    /// The dismiss Action not only includes the cancellation action of Overlay Container view,
+    /// but also the dismiss closure specified by user
+    func generateGesture(with dismissAction: @escaping () -> Void) -> AnyGesture<Void>? {
         switch self {
         case .tap:
-            return TapGesture(count: 1).onEnded { _ in dismiss() }.eraseToAnyGestureForDismiss()
+            return TapGesture(count: 1).onEnded { _ in dismissAction() }.eraseToAnyGestureForDismiss()
         case .doubleTap:
-            return TapGesture(count: 2).onEnded { _ in dismiss() }.eraseToAnyGestureForDismiss()
+            return TapGesture(count: 2).onEnded { _ in dismissAction() }.eraseToAnyGestureForDismiss()
         case .customGesture(let gesture):
-            return gesture.onEnded { _ in dismiss() }.eraseToAnyGestureForDismiss()
+            return gesture.onEnded { _ in dismissAction() }.eraseToAnyGestureForDismiss()
         case .none:
             return nil
         case .swipeUp, .swipeDown, .swipeLeft, .swipeRight:
@@ -56,13 +60,13 @@ extension ContainerViewDismissGesture {
                 .onEnded { direction in
                     switch (direction, self) {
                     case (.left, .swipeLeft):
-                        dismiss()
+                        dismissAction()
                     case (.right, .swipeRight):
-                        dismiss()
+                        dismissAction()
                     case (.up, .swipeUp):
-                        dismiss()
+                        dismissAction()
                     case (.down, .swipeDown):
-                        dismiss()
+                        dismissAction()
                     default:
                         break
                     }
