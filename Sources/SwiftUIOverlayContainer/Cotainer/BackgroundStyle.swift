@@ -1,5 +1,5 @@
 //
-//  Background.swift
+//  BackgroundStyle.swift
 //
 //
 //  Created by Yang Xu on 2022/3/6
@@ -48,4 +48,9 @@ extension ContainerBackgroundStyle {
             EmptyView()
         }
     }
+}
+
+/// define the background style
+public extension ContainerBackgroundStyle {
+    static let regularBlur = ContainerBackgroundStyle.blur(.regular)
 }
