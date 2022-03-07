@@ -14,20 +14,18 @@ import SwiftUI
 
 /// Gesture for dismiss Container View
 ///
-/// Container View's dismiss gesture has higher priority than OverlayContainer
-///
-///     container           containerView           result
-///         nil               nil                     nil
-///         none              none                    nil
-///         tap               nil                     tap
-///         tap               none                    nil
-///         tap               swipeLeft               swipeLeft
-///         nil               tap                     tap
-///         nil               none                    nil
-///
 ///   Convert gesture to AnyGesture<Void> when using customGesture
 ///
 ///      let gesture = LongPressGesture(minimumDuration: 1, maximumDistance: 5).eraseToAnyGestureForDismiss()
+///
+///   Examples
+///
+///     var gesture:ContainerViewDismissGesture {
+///            ContainerViewDismissGesture.merge(containerGesture: containerGesture, viewGesture: viewGesture)
+///         }
+///
+///     containerView
+///          .addDismissGesture(gestureType:gesture, dismissAction: some action)
 ///
 public enum ContainerViewDismissGesture {
     case tap
@@ -74,6 +72,25 @@ extension ContainerViewDismissGesture {
                 .eraseToAnyGestureForDismiss()
         }
     }
+
+    /// merge dismiss gesture between container's configuration and containerView's configuration
+    ///
+    /// Container View's dismiss gesture has higher priority than OverlayContainer
+    ///
+    ///     container           containerView           result
+    ///         nil               nil                     none
+    ///         none              none                    none
+    ///         tap               nil                     tap
+    ///         tap               none                    none
+    ///         tap               swipeLeft               swipeLeft
+    ///         nil               tap                     tap
+    ///         nil               none                    none
+    ///
+    /// - Returns: ContainerViewDismissGesture
+    static func merge(containerGesture: Self?, viewGesture: Self?) -> Self {
+        guard let containerGesture = containerGesture else { return viewGesture ?? Self.none }
+        return viewGesture ?? containerGesture
+    }
 }
 
 public extension Gesture {
@@ -113,5 +130,25 @@ struct SwipeGesture: Gesture {
                     }
                 }
         )
+    }
+}
+
+extension View {
+    /// add dismiss gesture to Container View
+    ///
+    ///   Examples
+    ///
+    ///     var gesture:ContainerViewDismissGesture {
+    ///            ContainerViewDismissGesture.merge(containerGesture: containerGesture, viewGesture: viewGesture)
+    ///         }
+    ///
+    ///     containerView
+    ///          .addDismissGesture(gestureType:gesture, dismissAction: some action)
+    ///
+    @ViewBuilder
+    func addDismissGesture(gestureType: ContainerViewDismissGesture, dismissAction: @escaping () -> Void) -> some View {
+        if let gesture = gestureType.generateGesture(with: dismissAction) {
+            self.gesture(gesture)
+        } else { self }
     }
 }
