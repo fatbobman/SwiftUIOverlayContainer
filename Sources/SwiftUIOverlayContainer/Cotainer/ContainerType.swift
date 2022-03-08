@@ -12,8 +12,15 @@
 import Foundation
 import SwiftUI
 
-/// 容器视图的显示类型，此类型将决定容器采用的布局方式
+/// The display type of the container view, this type will determine the layout used for the container
 ///
+/// Horizontal: the views are arranged horizontally. Normally (spacing is greater than 0), views do not overlap each other. Internal implementation uses HStack.
+///
+///  Vertical: the views are arranged vertically, under normal conditions (spacing greater than 0), there is no overlap between views. Usually used to implement information tips at the top or bottom of the screen. The internal implementation uses VStack.
+///
+/// Stacking: Aligns the views along the Z-axis. Views will overlay each other. ZStack is used for internal implementation. When ContainerViewQueueType is oneByeOne or oneBy
+///
+/// Works with ContainerViewQueueType to create different effects.
 ///
 public enum ContainerViewDisplayType {
     case horizontal
