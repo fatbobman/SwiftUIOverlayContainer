@@ -14,14 +14,14 @@ import SwiftUI
 
 /// dismiss container view automatic
 public enum ContainerViewAutoDismiss: Equatable {
-    case timeInterval(TimeInterval)
+    case seconds(TimeInterval)
     case none
 }
 
 extension ContainerViewAutoDismiss {
     /// merger container autoDismiss and containerView autoDismiss
     ///
-    ///       container         view           result
+    ///       container        view            result
     ///        nil             nil             none
     ///        timeInterval    none            none
     ///        none            timeInterval    timeInterval
@@ -41,7 +41,8 @@ extension View {
     /// add auto dismiss closure for container View
     ///
     ///      var autoDismiss: ContainerViewAutoDismiss {
-    ///           ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss, viewAutoDismiss: viewAutoDismiss
+    ///           ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss, 
+    ///                                          viewAutoDismiss: viewAutoDismiss)
     ///      }
     ///
     ///      containerView
@@ -53,8 +54,8 @@ extension View {
     ///   - dismissAction: dismiss closure. include container manager closure and specific dismiss closure
     /// - Returns: View with dismiss task
     @ViewBuilder
-    func autoDismiss(_ type: ContainerViewAutoDismiss, dismissAction: @escaping () -> Void) -> some View {
-        if case .timeInterval(let timeInterval) = type {
+    func autoDismiss(_ type: ContainerViewAutoDismiss, dismissAction: @escaping DismissAction) -> some View {
+        if case .seconds(let timeInterval) = type {
             self
                 .task {
                     try? await Task.sleep(seconds: timeInterval)

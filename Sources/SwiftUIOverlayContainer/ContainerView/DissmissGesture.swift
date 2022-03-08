@@ -43,7 +43,7 @@ extension ContainerViewDismissGesture {
     ///
     /// The dismiss Action not only includes the cancellation action of Overlay Container view,
     /// but also the dismiss closure specified by user
-    func generateGesture(with dismissAction: @escaping () -> Void) -> AnyGesture<Void>? {
+    func generateGesture(with dismissAction: @escaping DismissAction) -> AnyGesture<Void>? {
         switch self {
         case .tap:
             return TapGesture(count: 1).onEnded { _ in dismissAction() }.eraseToAnyGestureForDismiss()
@@ -143,10 +143,10 @@ extension View {
     ///         }
     ///
     ///     containerView
-    ///          .addDismissGesture(gestureType:gesture, dismissAction: some action)
+    ///          .dismissGesture(gestureType:gesture, dismissAction: some action)
     ///
     @ViewBuilder
-    func addDismissGesture(gestureType: ContainerViewDismissGesture, dismissAction: @escaping () -> Void) -> some View {
+    func dismissGesture(gestureType: ContainerViewDismissGesture, dismissAction: @escaping () -> Void) -> some View {
         if let gesture = gestureType.generateGesture(with: dismissAction) {
             self.gesture(gesture)
         } else { self }

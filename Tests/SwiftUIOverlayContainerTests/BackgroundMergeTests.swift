@@ -14,14 +14,18 @@ import Foundation
 import XCTest
 
 class BackgroundMergeTests: XCTestCase {
-    func testBackgroundMergeWhenBothNilAndContainerTypeIsX() throws {
+    func testBackgroundMergeWhenBothNilAndContainerViewDisplayTypeIsX() throws {
         // given
         let containerBackground: ContainerBackgroundStyle? = nil
         let viewBackground: ContainerBackgroundStyle? = nil
-        let containerType: ContainerType = .x
+        let containerViewDisplayType: ContainerViewDisplayType = .horizontal
 
         // when
-        let result = ContainerBackgroundStyle.merge(containerBackgroundStyle: containerBackground, viewBackgroundStyle: viewBackground, containerType: containerType)
+        let result = ContainerBackgroundStyle.merge(
+            containerBackgroundStyle: containerBackground,
+            viewBackgroundStyle: viewBackground,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -32,14 +36,18 @@ class BackgroundMergeTests: XCTestCase {
         }
     }
 
-    func testBackgroundMergeWhenBothNilAndContainerTypeIsZ() throws {
+    func testBackgroundMergeWhenBothNilAndContainerViewDisplayTypeIsZ() throws {
         // given
         let containerBackground: ContainerBackgroundStyle? = nil
         let viewBackground: ContainerBackgroundStyle? = nil
-        let containerType: ContainerType = .z
+        let containerViewDisplayType: ContainerViewDisplayType = .stacking
 
         // when
-        let result = ContainerBackgroundStyle.merge(containerBackgroundStyle: containerBackground, viewBackgroundStyle: viewBackground, containerType: containerType)
+        let result = ContainerBackgroundStyle.merge(
+            containerBackgroundStyle: containerBackground,
+            viewBackgroundStyle: viewBackground,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -50,14 +58,18 @@ class BackgroundMergeTests: XCTestCase {
         }
     }
 
-    func testBackgroundMergeWhenContainerIsNilAndContainerTypeIsX() throws {
+    func testBackgroundMergeWhenContainerIsNilAndContainerViewDisplayTypeIsX() throws {
         // given
         let containerBackground: ContainerBackgroundStyle? = nil
         let viewBackground: ContainerBackgroundStyle? = .blur(.regular)
-        let containerType: ContainerType = .x
+        let containerViewDisplayType: ContainerViewDisplayType = .horizontal
 
         // when
-        let result = ContainerBackgroundStyle.merge(containerBackgroundStyle: containerBackground, viewBackgroundStyle: viewBackground, containerType: containerType)
+        let result = ContainerBackgroundStyle.merge(
+            containerBackgroundStyle: containerBackground,
+            viewBackgroundStyle: viewBackground,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -68,14 +80,18 @@ class BackgroundMergeTests: XCTestCase {
         }
     }
 
-    func testBackgroundMergeWhenContainerIsNilAndContainerTypeIsZ() throws {
+    func testBackgroundMergeWhenContainerIsNilAndContainerViewDisplayTypeIsZ() throws {
         // given
         let containerBackground: ContainerBackgroundStyle? = nil
         let viewBackground: ContainerBackgroundStyle? = .blur(.regular)
-        let containerType: ContainerType = .z
+        let containerViewDisplayType: ContainerViewDisplayType = .stacking
 
         // when
-        let result = ContainerBackgroundStyle.merge(containerBackgroundStyle: containerBackground, viewBackgroundStyle: viewBackground, containerType: containerType)
+        let result = ContainerBackgroundStyle.merge(
+            containerBackgroundStyle: containerBackground,
+            viewBackgroundStyle: viewBackground,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -86,14 +102,18 @@ class BackgroundMergeTests: XCTestCase {
         }
     }
 
-    func testBackgroundMergeWhenContainerIsNilAndContainerTypeIsY() throws {
+    func testBackgroundMergeWhenContainerIsNilAndContainerViewDisplayTypeIsY() throws {
         // given
         let containerBackground: ContainerBackgroundStyle? = nil
         let viewBackground: ContainerBackgroundStyle? = .blur(.regular)
-        let containerType: ContainerType = .y
+        let containerViewDisplayType: ContainerViewDisplayType = .vertical
 
         // when
-        let result = ContainerBackgroundStyle.merge(containerBackgroundStyle: containerBackground, viewBackgroundStyle: viewBackground, containerType: containerType)
+        let result = ContainerBackgroundStyle.merge(
+            containerBackgroundStyle: containerBackground,
+            viewBackgroundStyle: viewBackground,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -104,14 +124,18 @@ class BackgroundMergeTests: XCTestCase {
         }
     }
 
-    func testBackgroundMergeWhenBothNotNilAndContainerTypeIsX() throws {
+    func testBackgroundMergeWhenBothNotNilAndContainerViewDisplayTypeIsX() throws {
         // given
         let containerBackground: ContainerBackgroundStyle? = .color(.red)
         let viewBackground: ContainerBackgroundStyle? = .blur(.regular)
-        let containerType: ContainerType = .x
+        let containerViewDisplayType: ContainerViewDisplayType = .horizontal
 
         // when
-        let result = ContainerBackgroundStyle.merge(containerBackgroundStyle: containerBackground, viewBackgroundStyle: viewBackground, containerType: containerType)
+        let result = ContainerBackgroundStyle.merge(
+            containerBackgroundStyle: containerBackground,
+            viewBackgroundStyle: viewBackground,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -122,14 +146,18 @@ class BackgroundMergeTests: XCTestCase {
         }
     }
 
-    func testBackgroundMergeWhenBothNotNilAndContainerTypeIsY() throws {
+    func testBackgroundMergeWhenBothNotNilAndContainerViewDisplayTypeIsY() throws {
         // given
         let containerBackground: ContainerBackgroundStyle? = .color(.red)
         let viewBackground: ContainerBackgroundStyle? = .blur(.regular)
-        let containerType: ContainerType = .y
+        let containerViewDisplayType: ContainerViewDisplayType = .vertical
 
         // when
-        let result = ContainerBackgroundStyle.merge(containerBackgroundStyle: containerBackground, viewBackgroundStyle: viewBackground, containerType: containerType)
+        let result = ContainerBackgroundStyle.merge(
+            containerBackgroundStyle: containerBackground,
+            viewBackgroundStyle: viewBackground,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -140,14 +168,18 @@ class BackgroundMergeTests: XCTestCase {
         }
     }
 
-    func testBackgroundMergeWhenBothNotNilAndContainerTypeIsZ() throws {
+    func testBackgroundMergeWhenBothNotNilAndContainerViewDisplayTypeIsZ() throws {
         // given
         let containerBackground: ContainerBackgroundStyle? = .color(.red)
         let viewBackground: ContainerBackgroundStyle? = .blur(.regular)
-        let containerType: ContainerType = .z
+        let containerViewDisplayType: ContainerViewDisplayType = .stacking
 
         // when
-        let result = ContainerBackgroundStyle.merge(containerBackgroundStyle: containerBackground, viewBackgroundStyle: viewBackground, containerType: containerType)
+        let result = ContainerBackgroundStyle.merge(
+            containerBackgroundStyle: containerBackground,
+            viewBackgroundStyle: viewBackground,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -158,14 +190,18 @@ class BackgroundMergeTests: XCTestCase {
         }
     }
 
-    func testBackgroundMergeWhenViewIsNoneAndContainerTypeIsZ() throws {
+    func testBackgroundMergeWhenViewIsNoneAndContainerViewDisplayTypeIsZ() throws {
         // given
         let containerBackground: ContainerBackgroundStyle? = .color(.red)
         let viewBackground: ContainerBackgroundStyle? = ContainerBackgroundStyle.none
-        let containerType: ContainerType = .z
+        let containerViewDisplayType: ContainerViewDisplayType = .stacking
 
         // when
-        let result = ContainerBackgroundStyle.merge(containerBackgroundStyle: containerBackground, viewBackgroundStyle: viewBackground, containerType: containerType)
+        let result = ContainerBackgroundStyle.merge(
+            containerBackgroundStyle: containerBackground,
+            viewBackgroundStyle: viewBackground,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -175,5 +211,4 @@ class BackgroundMergeTests: XCTestCase {
             XCTAssert(false)
         }
     }
-
 }

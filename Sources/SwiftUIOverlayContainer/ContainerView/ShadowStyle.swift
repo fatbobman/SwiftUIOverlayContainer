@@ -28,9 +28,9 @@ public enum ContainerViewShadowStyle {
 extension ContainerViewShadowStyle {
     /// merge shadow style between container and container View
     ///
-    /// When the type of Container is `Z-axis (z)`, each Container View can specify its own shadow style,
+    /// When the type of Container is **Stacking**, each Container View can specify its own shadow style,
     /// and the priority is higher than the shadow style of Container.
-    /// When Container type is `X-axis (x)` or `Y-axis (y)`, the shadow style of Container View will be ignored.
+    /// When Container type is  **Horizontal**  or **Vertical**, the shadow style of Container View will be ignored.
     ///
     ///     container       containerView       result
     ///     nil             nil                 none
@@ -38,11 +38,11 @@ extension ContainerViewShadowStyle {
     ///     none            radius(1.3)         radius(1.3)
     ///     radius(1.0)     custom(.red,1.2,2,2) custom(.red,1.2,2,2)
     ///
-    static func merge(containerShadow: Self?, viewShadow: Self?, containerType: ContainerType) -> Self {
-        switch containerType {
-        case .x, .y:
+    static func merge(containerShadow: Self?, viewShadow: Self?, containerViewDisplayType: ContainerViewDisplayType) -> Self {
+        switch containerViewDisplayType {
+        case .horizontal, .vertical:
             return containerShadow ?? .none
-        case .z:
+        case .stacking:
             guard let containerShadow = containerShadow else { return viewShadow ?? .none }
             return viewShadow ?? containerShadow
         }
@@ -53,14 +53,16 @@ extension View {
     /// add shadow to container view
     ///
     ///      var shadowStyle:ContainerViewShadowStyle {
-    ///          ContainerViewShadowStyle(containerShadow: containerShadow, viewShadow: viewShadow, containerType: containerType)
+    ///          ContainerViewShadowStyle(containerShadow: containerShadow,
+    ///                                   viewShadow: viewShadow,
+    ///                                   containerViewDisplayType: containerViewDisplayType)
     ///      }
     ///
     ///      containerView
-    ///          .addViewShadow(shadowStyle)
+    ///          .containerViewShadow(shadowStyle)
     ///
     @ViewBuilder
-    func addViewShadow(_ shadowStyle: ContainerViewShadowStyle) -> some View {
+    func containerViewShadow(_ shadowStyle: ContainerViewShadowStyle) -> some View {
         switch shadowStyle {
         case .radius(let radius):
             self

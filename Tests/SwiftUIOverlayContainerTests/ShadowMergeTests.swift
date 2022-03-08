@@ -13,14 +13,18 @@
 import XCTest
 
 class ShadowMergeTests: XCTestCase {
-    func testShadowMergeWhenContainerIsNilAndContainerTypeIsX() throws {
+    func testShadowMergeWhenContainerIsNilAndContainerViewDisplayTypeIsX() throws {
         // given
         let containerShadow: ContainerViewShadowStyle? = nil
         let viewShadow: ContainerViewShadowStyle? = .radius(10)
-        let containerType = ContainerType.x
+        let containerViewDisplayType = ContainerViewDisplayType.horizontal
 
         // when
-        let result = ContainerViewShadowStyle.merge(containerShadow: containerShadow, viewShadow: viewShadow, containerType: containerType)
+        let result = ContainerViewShadowStyle.merge(
+            containerShadow: containerShadow,
+            viewShadow: viewShadow,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -31,14 +35,18 @@ class ShadowMergeTests: XCTestCase {
         }
     }
 
-    func testShadowMergeWhenContainerIsNilAndContainerTypeIsZ() throws {
+    func testShadowMergeWhenContainerIsNilAndContainerViewDisplayTypeIsZ() throws {
         // given
         let containerShadow: ContainerViewShadowStyle? = nil
         let viewShadow: ContainerViewShadowStyle? = .radius(10)
-        let containerType = ContainerType.z
+        let containerViewDisplayType = ContainerViewDisplayType.stacking
 
         // when
-        let result = ContainerViewShadowStyle.merge(containerShadow: containerShadow, viewShadow: viewShadow, containerType: containerType)
+        let result = ContainerViewShadowStyle.merge(
+            containerShadow: containerShadow,
+            viewShadow: viewShadow,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -49,14 +57,18 @@ class ShadowMergeTests: XCTestCase {
         }
     }
 
-    func testShadowMergeWhenViewIsNoneAndContainerTypeIsY() throws {
+    func testShadowMergeWhenViewIsNoneAndContainerViewDisplayTypeIsY() throws {
         // given
         let containerShadow: ContainerViewShadowStyle? = .radius(20)
         let viewShadow: ContainerViewShadowStyle? = ContainerViewShadowStyle.none
-        let containerType = ContainerType.y
+        let containerViewDisplayType = ContainerViewDisplayType.vertical
 
         // when
-        let result = ContainerViewShadowStyle.merge(containerShadow: containerShadow, viewShadow: viewShadow, containerType: containerType)
+        let result = ContainerViewShadowStyle.merge(
+            containerShadow: containerShadow,
+            viewShadow: viewShadow,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -67,14 +79,18 @@ class ShadowMergeTests: XCTestCase {
         }
     }
 
-    func testShadowMergeWhenBothNotNilAndContainerTypeIsX() throws {
+    func testShadowMergeWhenBothNotNilAndContainerViewDisplayTypeIsX() throws {
         // given
         let containerShadow: ContainerViewShadowStyle? = .radius(20)
         let viewShadow: ContainerViewShadowStyle? = .radius(10)
-        let containerType = ContainerType.x
+        let containerViewDisplayType = ContainerViewDisplayType.horizontal
 
         // when
-        let result = ContainerViewShadowStyle.merge(containerShadow: containerShadow, viewShadow: viewShadow, containerType: containerType)
+        let result = ContainerViewShadowStyle.merge(
+            containerShadow: containerShadow,
+            viewShadow: viewShadow,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
@@ -85,14 +101,18 @@ class ShadowMergeTests: XCTestCase {
         }
     }
 
-    func testShadowMergeWhenBothNotNilAndContainerTypeIsZ() throws {
+    func testShadowMergeWhenBothNotNilAndContainerViewDisplayTypeIsZ() throws {
         // given
         let containerShadow: ContainerViewShadowStyle? = .radius(20)
         let viewShadow: ContainerViewShadowStyle? = .radius(10)
-        let containerType = ContainerType.z
+        let containerViewDisplayType = ContainerViewDisplayType.stacking
 
         // when
-        let result = ContainerViewShadowStyle.merge(containerShadow: containerShadow, viewShadow: viewShadow, containerType: containerType)
+        let result = ContainerViewShadowStyle.merge(
+            containerShadow: containerShadow,
+            viewShadow: viewShadow,
+            containerViewDisplayType: containerViewDisplayType
+        )
 
         // then
         switch result {
