@@ -12,11 +12,15 @@
 import Foundation
 
 protocol OverlayContainerManagerProtocol {
+    // - MARK: 针对 Container Controller
+
     /// 注册 Container
     func registerContainer(name: String)
 
     /// 撤销 Container
     func removeContainer(name: String)
+
+    // - MARK: 针对发送视图
 
     /// 在 Container 中显示View,by protocol，另外还应该包含与视图绑定的Binding值（通过值控制视图的退出）
 //    func show(view: OverlayContainerViewProtocol, in container: String)
