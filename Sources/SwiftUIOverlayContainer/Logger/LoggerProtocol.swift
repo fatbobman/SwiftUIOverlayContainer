@@ -16,7 +16,6 @@ public protocol SwiftUIOverlayContainerLoggerProtocol {
     func log(type: SwiftUIOverlayContainerLogType, message: String)
 }
 
-
 /// Log Type
 public enum SwiftUIOverlayContainerLogType: String {
     case debug, info, notice, error, fault

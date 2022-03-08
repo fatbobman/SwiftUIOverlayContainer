@@ -37,9 +37,9 @@ extension ContainerBackgroundStyle {
 
     /// Merge background style between container and container View
     ///
-    /// When the type of Container is `Z-axis (z)`, each Container View can specify its own background style,
+    /// When the type of Container is **Stacking**, each Container View can specify its own background style,
     /// and the priority is higher than the background style of Container.
-    /// When Container type is `X-axis (x)` or `Y-axis (y)`, the background style of Container View will be ignored.
+    /// When Container type is **Horizontal** or **Vertical**, the background style of Container View will be ignored.
     ///
     ///     container         containerView          result
     ///       nil                nil                  empty
@@ -50,11 +50,15 @@ extension ContainerBackgroundStyle {
     ///       color              blur                 blur
     ///       color(red)         color(blue)          color(blue)
     ///
-    static func merge(containerBackgroundStyle: Self?, viewBackgroundStyle: Self?, containerType: ContainerType) -> Self {
-        switch containerType {
-        case .x, .y:
+    static func merge(
+        containerBackgroundStyle: Self?,
+        viewBackgroundStyle: Self?,
+        containerViewDisplayType: ContainerViewDisplayType
+    ) -> Self {
+        switch containerViewDisplayType {
+        case .horizontal, .vertical:
             return containerBackgroundStyle ?? .none
-        case .z:
+        case .stacking:
             guard let containerBackgroundStyle = containerBackgroundStyle else { return viewBackgroundStyle ?? .none }
             return viewBackgroundStyle ?? containerBackgroundStyle
         }

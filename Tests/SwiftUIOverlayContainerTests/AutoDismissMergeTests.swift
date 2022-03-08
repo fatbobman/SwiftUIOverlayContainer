@@ -16,13 +16,13 @@ class MergeTests: XCTestCase {
     func testAutoDismissMergeWhenContainerIsNone() throws {
         // given
         let containerAutoDismiss: ContainerViewAutoDismiss? = ContainerViewAutoDismiss.none
-        let viewAutoDismiss: ContainerViewAutoDismiss? = ContainerViewAutoDismiss.timeInterval(10)
+        let viewAutoDismiss: ContainerViewAutoDismiss? = ContainerViewAutoDismiss.seconds(10)
 
         // when
         let result = ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss, viewAutoDismiss: viewAutoDismiss)
 
         // then
-        XCTAssertEqual(result, ContainerViewAutoDismiss.timeInterval(10))
+        XCTAssertEqual(result, ContainerViewAutoDismiss.seconds(10))
     }
 
     func testAutoDismissMergeWhenBothNil() throws {
@@ -40,13 +40,13 @@ class MergeTests: XCTestCase {
     func testAutoDismissMergeWhenContainerIsNil() throws {
         // given
         let containerAutoDismiss: ContainerViewAutoDismiss? = nil
-        let viewAutoDismiss: ContainerViewAutoDismiss? = .timeInterval(10)
+        let viewAutoDismiss: ContainerViewAutoDismiss? = .seconds(10)
 
         // when
         let result = ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss, viewAutoDismiss: viewAutoDismiss)
 
         // then
-        XCTAssertEqual(result, ContainerViewAutoDismiss.timeInterval(10))
+        XCTAssertEqual(result, ContainerViewAutoDismiss.seconds(10))
     }
 
     func testAutoDismissMergeWhenContainerIsNilAndViewIsNone() throws {
@@ -63,7 +63,7 @@ class MergeTests: XCTestCase {
 
     func testAutoDismissMergeWhenBothNotNil1() throws {
         // given
-        let containerAutoDismiss: ContainerViewAutoDismiss? = .timeInterval(10)
+        let containerAutoDismiss: ContainerViewAutoDismiss? = .seconds(10)
         let viewAutoDismiss: ContainerViewAutoDismiss? = ContainerViewAutoDismiss.none
 
         // when
@@ -75,25 +75,25 @@ class MergeTests: XCTestCase {
 
     func testAutoDismissMergeWhenBothNotNil2() throws {
         // given
-        let containerAutoDismiss: ContainerViewAutoDismiss? = .timeInterval(10)
-        let viewAutoDismiss: ContainerViewAutoDismiss? = .timeInterval(20)
+        let containerAutoDismiss: ContainerViewAutoDismiss? = .seconds(10)
+        let viewAutoDismiss: ContainerViewAutoDismiss? = .seconds(20)
 
         // when
         let result = ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss, viewAutoDismiss: viewAutoDismiss)
 
         // then
-        XCTAssertEqual(result, ContainerViewAutoDismiss.timeInterval(20))
+        XCTAssertEqual(result, ContainerViewAutoDismiss.seconds(20))
     }
 
     func testAutoDismissMergeWhenViewIsNil() throws {
         // given
-        let containerAutoDismiss: ContainerViewAutoDismiss? = .timeInterval(10)
+        let containerAutoDismiss: ContainerViewAutoDismiss? = .seconds(10)
         let viewAutoDismiss: ContainerViewAutoDismiss? = nil
 
         // when
         let result = ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss, viewAutoDismiss: viewAutoDismiss)
 
         // then
-        XCTAssertEqual(result, ContainerViewAutoDismiss.timeInterval(10))
+        XCTAssertEqual(result, ContainerViewAutoDismiss.seconds(10))
     }
 }
