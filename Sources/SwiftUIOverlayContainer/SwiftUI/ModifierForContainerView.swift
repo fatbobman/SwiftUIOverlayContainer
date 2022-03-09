@@ -37,6 +37,26 @@ struct ShowContainerViewModifier<V: View>: ViewModifier {
 }
 
 public extension View {
+    /// Sends a view to specific overlay container when the binding to the boolean you provide is true.
+    ///
+    ///     struct ContentView: View {
+    ///         @State var show = false
+    ///         var body: some View {
+    ///             VStack{
+    ///                 Button("push view by isPresented"){
+    ///                     show.toggle()
+    ///                 }
+    ///         }
+    ///         .containerView(in: "container1", configuration: CustomViewConfig(), isPresented: $show){
+    ///              RoundedRectangle(cornerRadius: 10)
+    ///                 .fill(.regularMaterial)
+    ///                 .frame(height:100)
+    ///                 .overlay(Text("Overlay Message"))
+    ///                 .padding()
+    ///             }
+    ///         }
+    ///     }
+    ///
     func containerView<Content: View>(
         in overlayContainer: String,
         configuration: ContainerViewConfiguration,
@@ -54,6 +74,19 @@ public extension View {
             )
     }
 
+    /// Sends a view to specific overlay container when the binding to the boolean you provide is true.
+    ///
+    ///     struct ContentView: View {
+    ///         @State var show = false
+    ///         var body: some View {
+    ///             VStack{
+    ///                 Button("push view by isPresented"){
+    ///                     show.toggle()
+    ///                 }
+    ///         }
+    ///         .containerView(in: "container1", isPresented: $show,content: MessageView())
+    ///     }
+    ///
     func containerView<Content: ContainerView>(
         in overlayContainer: String,
         isPresented: Binding<Bool>,
