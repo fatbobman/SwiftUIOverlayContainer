@@ -158,14 +158,14 @@
 			path = ContainerView;
 			sourceTree = "<group>";
 		};
-		OBJ_19 /* Cotainer */ = {
+		OBJ_19 /* Container */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_20 /* BackgroundStyle.swift */,
 				OBJ_21 /* Container.swift */,
 				OBJ_22 /* ContainerType.swift */,
 			);
-			path = Cotainer;
+			path = Container;
 			sourceTree = "<group>";
 		};
 		OBJ_23 /* Extensions */ = {
@@ -245,7 +245,7 @@
 				OBJ_9 /* Common */,
 				OBJ_11 /* ContainerManager */,
 				OBJ_13 /* ContainerView */,
-				OBJ_19 /* Cotainer */,
+				OBJ_19 /* Container */,
 				OBJ_23 /* Extensions */,
 				OBJ_26 /* Logger */,
 			);
