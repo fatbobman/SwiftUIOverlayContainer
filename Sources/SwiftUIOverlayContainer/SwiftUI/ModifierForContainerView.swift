@@ -41,7 +41,7 @@ public extension View {
         in overlayContainer: String,
         configuration: ContainerViewConfiguration,
         isPresented: Binding<Bool>,
-        content: @autoclosure () -> Content
+        @ViewBuilder content: () -> Content
     ) -> some View {
         self
             .modifier(
@@ -49,6 +49,22 @@ public extension View {
                     containerName: overlayContainer,
                     content: content(),
                     configuration: configuration,
+                    isPresented: isPresented
+                )
+            )
+    }
+
+    func containerView<Content: ContainerView>(
+        in overlayContainer: String,
+        isPresented: Binding<Bool>,
+        content: Content
+    ) -> some View {
+        self
+            .modifier(
+                ShowContainerViewModifier(
+                    containerName: overlayContainer,
+                    content: content,
+                    configuration: content,
                     isPresented: isPresented
                 )
             )
