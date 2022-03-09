@@ -37,7 +37,7 @@ struct ShowContainerViewModifier<V: View>: ViewModifier {
 }
 
 public extension View {
-    func pushView<Content: View>(
+    func containerView<Content: View>(
         in overlayContainer: String,
         configuration: ContainerViewConfiguration,
         isPresented: Binding<Bool>,
