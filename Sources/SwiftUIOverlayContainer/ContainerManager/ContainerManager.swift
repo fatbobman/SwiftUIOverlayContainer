@@ -19,8 +19,8 @@ public final class ContainerManager {
     private init() {}
 
     /// Controlled method of writing to the log
-    func sendMessage(type: SwiftUIOverlayContainerLogType, message: String) {
-        if Self.enableLog {
+    func sendMessage(type: SwiftUIOverlayContainerLogType, message: String, debugLevel: Int = 1) {
+        if Self.enableLog && debugLevel <= Self.debugLevel {
             Self.logger.log(type: type, message: message)
         }
     }
@@ -74,6 +74,36 @@ extension ContainerManager: ContainerViewManagement {
         }
         let identifiableContainerView = IdentifiableContainerView(view: view, viewConfiguration: configuration, isPresented: isPresented)
         publisher.upstream.send(identifiableContainerView)
+        sendMessage(type: .info, message: "send view `\(type(of: view))` to container: `\(containerName)`", debugLevel: 2)
+    }
+
+    func show<Content>(
+        containerView: Content,
+        in containerName: ContainerName,
+        isPresented: Binding<Bool>? = nil
+    ) where Content: ContainerView {
+        show(view: containerView, in: containerName, using: containerView, isPresented: isPresented)
+    }
+
+    /// push ContainerView to specific overlay container
+    ///
+    /// Interface for environment key
+    public func show<Content>(
+        view: Content,
+        in containerName: String,
+        using configuration: ContainerViewConfiguration
+    ) where Content: View {
+        show(view: view, in: containerName, using: configuration, isPresented: nil)
+    }
+
+    /// push ContainerView to specific overlay container
+    ///
+    /// Interface for environment key
+    public func show<Content>(
+        containerView: Content,
+        in containerName: String
+    ) where Content: ContainerView {
+        show(view: containerView, in: containerName, using: containerView, isPresented: nil)
     }
 }
 
@@ -82,6 +112,7 @@ extension ContainerManager: ContainerViewManagement {
 extension ContainerManager: ContainerManagerLogger {
     public static var logger: SwiftUIOverlayContainerLoggerProtocol = SwiftUIOverlayContainerDefaultLogger()
     public static var enableLog = true
+    public static var debugLevel = 1
 }
 
 // MARK: - shared

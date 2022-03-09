@@ -84,6 +84,7 @@ class ContainerManagerTests: XCTestCase {
         let expectation = XCTestExpectation(description: "get view from container")
         var cancellable: Set<AnyCancellable> = []
         var resultView: IdentifiableContainerView?
+        ContainerManager.debugLevel = 2
 
         // when
         publisher
