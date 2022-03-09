@@ -69,7 +69,10 @@ extension ContainerManager: ContainerViewManagement {
         isPresented: Binding<Bool>? = nil
     ) where Content: View {
         guard let publisher = getPublisher(for: containerName) else {
-            sendMessage(type: .error, message: "Can't get view publisher for `\(containerName)`")
+            sendMessage(
+                type: .error,
+                message: "Can't get view publisher for `\(containerName)`,The overlay container should be registered before push view."
+            )
             return
         }
         let identifiableContainerView = IdentifiableContainerView(view: view, viewConfiguration: configuration, isPresented: isPresented)
