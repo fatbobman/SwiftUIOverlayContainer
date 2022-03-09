@@ -9,21 +9,25 @@
 //  My Blog: https://www.fatbobman.com
 //
 
+import Combine
 import Foundation
 
-protocol OverlayContainerManagerProtocol {
+protocol ContainerManagement {
     // - MARK: 针对 Container Controller
 
-    /// 注册 Container
-    func registerContainer(name: String)
+    /// Register a container in the container manager
+    func registerContainer(for containerName: ContainerName) -> ContainerViewPublisher
 
-    /// 撤销 Container
-    func removeContainer(name: String)
+    /// Remove a container from the container manager
+    func removeContainer(for containerName: ContainerName)
 
-    // - MARK: 针对发送视图
+    /// The count of containers
+    var containerCount: Int { get }
 
-    /// 在 Container 中显示View,by protocol，另外还应该包含与视图绑定的Binding值（通过值控制视图的退出）
-//    func show(view: OverlayContainerViewProtocol, in container: String)
+    /// Get  container view publisher for specific container
+    func getPublisher(for containerName: ContainerName) -> ContainerViewPublisher?
+}
 
-    /// 在 Container 中显示 View， 通过 configuration
+protocol ContainerViewManagement {
+    // 发送 ContainerView
 }

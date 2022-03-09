@@ -21,6 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		76D8C95D27D81752009A86C6 /* IdentifiableContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8C95C27D81752009A86C6 /* IdentifiableContainerView.swift */; };
+		76D8C95F27D817F8009A86C6 /* ContainerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8C95E27D817F8009A86C6 /* ContainerManager.swift */; };
+		76D8C96127D833EB009A86C6 /* ContainerViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8C96027D833EB009A86C6 /* ContainerViewConfiguration.swift */; };
 		OBJ_46 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Global.swift */; };
 		OBJ_47 /* ContainerManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ContainerManagerProtocol.swift */; };
 		OBJ_48 /* Alignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Alignment.swift */; };
@@ -62,6 +65,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		76D8C95C27D81752009A86C6 /* IdentifiableContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableContainerView.swift; sourceTree = "<group>"; };
+		76D8C95E27D817F8009A86C6 /* ContainerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerManager.swift; sourceTree = "<group>"; };
+		76D8C96027D833EB009A86C6 /* ContainerViewConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewConfiguration.swift; sourceTree = "<group>"; };
 		OBJ_10 /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		OBJ_12 /* ContainerManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerManagerProtocol.swift; sourceTree = "<group>"; };
 		OBJ_14 /* Alignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alignment.swift; sourceTree = "<group>"; };
@@ -111,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_12 /* ContainerManagerProtocol.swift */,
+				76D8C95E27D817F8009A86C6 /* ContainerManager.swift */,
 			);
 			path = ContainerManager;
 			sourceTree = "<group>";
@@ -123,6 +130,8 @@
 				OBJ_16 /* DissmissGesture.swift */,
 				OBJ_17 /* ShadowStyle.swift */,
 				OBJ_18 /* TransitionAndAnimation.swift */,
+				76D8C95C27D81752009A86C6 /* IdentifiableContainerView.swift */,
+				76D8C96027D833EB009A86C6 /* ContainerViewConfiguration.swift */,
 			);
 			path = ContainerView;
 			sourceTree = "<group>";
@@ -185,7 +194,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -195,7 +204,6 @@
 				OBJ_39 /* Image */,
 				OBJ_40 /* README.md */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -295,7 +303,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_36 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -335,15 +343,18 @@
 			files = (
 				OBJ_46 /* Global.swift in Sources */,
 				OBJ_47 /* ContainerManagerProtocol.swift in Sources */,
+				76D8C96127D833EB009A86C6 /* ContainerViewConfiguration.swift in Sources */,
 				OBJ_48 /* Alignment.swift in Sources */,
 				OBJ_49 /* AutoDismiss.swift in Sources */,
 				OBJ_50 /* DissmissGesture.swift in Sources */,
+				76D8C95F27D817F8009A86C6 /* ContainerManager.swift in Sources */,
 				OBJ_51 /* ShadowStyle.swift in Sources */,
 				OBJ_52 /* TransitionAndAnimation.swift in Sources */,
 				OBJ_53 /* BackgroundStyle.swift in Sources */,
 				OBJ_54 /* Container.swift in Sources */,
 				OBJ_55 /* ContainerType.swift in Sources */,
 				OBJ_56 /* Foundation.swift in Sources */,
+				76D8C95D27D81752009A86C6 /* IdentifiableContainerView.swift in Sources */,
 				OBJ_57 /* SwiftUI.swift in Sources */,
 				OBJ_58 /* LoggerProtocol.swift in Sources */,
 			);
