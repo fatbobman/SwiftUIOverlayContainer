@@ -33,6 +33,11 @@ protocol ContainerViewManagement {
                              in containerName: ContainerName,
                              using configuration: ContainerViewConfiguration,
                              isPresented: Binding<Bool>?)
+
+    /// Show container view in specific container
+    func show<Content: ContainerView>(containerView: Content,
+                                      in containerName: ContainerName,
+                                      isPresented: Binding<Bool>?)
 }
 
 protocol ContainerManagerLogger {
@@ -41,4 +46,7 @@ protocol ContainerManagerLogger {
 
     /// A Instance of SwiftUIOverlayContainerLoggerProtocol for write log
     static var logger: SwiftUIOverlayContainerLoggerProtocol { get set }
+
+    /// Level for log output
+    static var debugLevel: Int { get set }
 }
