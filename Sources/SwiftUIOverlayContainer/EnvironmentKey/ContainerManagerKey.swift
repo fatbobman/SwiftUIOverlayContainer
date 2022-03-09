@@ -16,6 +16,6 @@ struct ContainerManagerKey: EnvironmentKey {
     static var defaultValue = ContainerManager.shared
 }
 
-extension EnvironmentValues {
+public extension EnvironmentValues {
     var containerManager: ContainerManager { self[ContainerManagerKey.self] }
 }
