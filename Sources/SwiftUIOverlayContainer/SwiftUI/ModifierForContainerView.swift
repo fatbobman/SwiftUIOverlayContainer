@@ -74,6 +74,23 @@ public extension View {
             )
     }
 
+    func containerView<Content: View>(
+        in overlayContainer: String,
+        configuration: ContainerViewConfigurationProtocol,
+        isPresented: Binding<Bool>,
+        content: Content
+    ) -> some View {
+        self
+            .modifier(
+                ShowContainerViewModifier(
+                    containerName: overlayContainer,
+                    content: content,
+                    configuration: configuration,
+                    isPresented: isPresented
+                )
+            )
+    }
+
     /// Sends a view to specific overlay container when the binding to the boolean you provide is true.
     ///
     ///     struct ContentView: View {
