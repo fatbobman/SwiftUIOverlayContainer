@@ -41,7 +41,7 @@ public extension View {
         in overlayContainer: String,
         configuration: ContainerViewConfiguration,
         isPresented: Binding<Bool>,
-        content: () -> Content
+        @ViewBuilder content: () -> Content
     ) -> some View {
         self
             .modifier(
