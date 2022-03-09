@@ -64,10 +64,3 @@ extension ContainerBackgroundStyle {
         }
     }
 }
-
-/// define the background style
-public extension ContainerBackgroundStyle {
-    static let regularBlur = ContainerBackgroundStyle.blur(.regular)
-        .view()
-        .eraseToAnyView()
-}

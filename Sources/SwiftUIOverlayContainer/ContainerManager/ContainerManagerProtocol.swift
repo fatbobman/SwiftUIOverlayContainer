@@ -11,10 +11,9 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 protocol ContainerManagement {
-    // - MARK: 针对 Container Controller
-
     /// Register a container in the container manager
     func registerContainer(for containerName: ContainerName) -> ContainerViewPublisher
 
@@ -29,5 +28,17 @@ protocol ContainerManagement {
 }
 
 protocol ContainerViewManagement {
-    // 发送 ContainerView
+    /// Show container view in specific container
+    func show<Content: View>(view: Content,
+                             in containerName: ContainerName,
+                             using configuration: ContainerViewConfiguration,
+                             isPresented: Binding<Bool>?)
+}
+
+protocol ContainerManagerLogger {
+    /// Weather allow to log output
+    static var enableLog: Bool { get set }
+
+    /// A Instance of SwiftUIOverlayContainerLoggerProtocol for writing log
+    static var logger: SwiftUIOverlayContainerLoggerProtocol { get set }
 }
