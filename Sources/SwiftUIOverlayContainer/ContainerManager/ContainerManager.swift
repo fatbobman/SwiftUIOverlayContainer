@@ -13,13 +13,17 @@ import Combine
 import Foundation
 import SwiftUI
 
-typealias ContainerViewPublisher = Publishers.Share<PassthroughSubject<IdentifiableContainerView, Never>>
-typealias ContainerName = String
-
 public final class ContainerManager {
     var publishers: [ContainerName: ContainerViewPublisher] = [:]
 
     private init() {}
+
+    /// Controlled method of writing to the log
+    func sendMessage(type: SwiftUIOverlayContainerLogType, message: String) {
+        if Self.enableLog {
+            Self.logger.log(type: type, message: message)
+        }
+    }
 }
 
 // MARK: - Container Management
@@ -78,13 +82,6 @@ extension ContainerManager: ContainerViewManagement {
 extension ContainerManager: ContainerManagerLogger {
     public static var logger: SwiftUIOverlayContainerLoggerProtocol = SwiftUIOverlayContainerDefaultLogger()
     public static var enableLog = true
-
-    /// Controlled method of writing to the log
-    func sendMessage(type: SwiftUIOverlayContainerLogType, message: String) {
-        if Self.enableLog {
-            Self.logger.log(type: type, message: message)
-        }
-    }
 }
 
 // MARK: - shared

@@ -39,6 +39,6 @@ protocol ContainerManagerLogger {
     /// Weather allow to log output
     static var enableLog: Bool { get set }
 
-    /// A Instance of SwiftUIOverlayContainerLoggerProtocol for writing log
+    /// A Instance of SwiftUIOverlayContainerLoggerProtocol for write log
     static var logger: SwiftUIOverlayContainerLoggerProtocol { get set }
 }
