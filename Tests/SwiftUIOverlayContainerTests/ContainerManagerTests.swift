@@ -23,6 +23,10 @@ class ContainerManagerTests: XCTestCase {
         manager.publishers.removeAll()
     }
 
+    override func tearDown() {
+        ContainerManager.logger = SwiftUIOverlayContainerDefaultLogger()
+    }
+
     func testRegisterContainer() throws {
         // given
         let containerName = "message"
@@ -81,7 +85,7 @@ class ContainerManagerTests: XCTestCase {
         let containerName = "message"
         let messageView = MessageView()
         let publisher = manager.registerContainer(for: containerName)
-        let expectation = XCTestExpectation(description: "get view from container")
+        let expectation = XCTestExpectation(description: "get view from container 1")
         var cancellable: Set<AnyCancellable> = []
         var resultView: IdentifiableContainerView?
         ContainerManager.debugLevel = 2
@@ -106,7 +110,7 @@ class ContainerManagerTests: XCTestCase {
         let containerName = "message"
         let messageView = MessageView()
         let _ = manager.registerContainer(for: containerName)
-        let expectation = XCTestExpectation(description: "get view from container")
+        let expectation = XCTestExpectation(description: "get view from container 2")
         var cancellable: Set<AnyCancellable> = []
         var resultView: IdentifiableContainerView?
 
