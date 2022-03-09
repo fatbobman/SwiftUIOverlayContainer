@@ -17,5 +17,18 @@ struct ContainerManagerKey: EnvironmentKey {
 }
 
 public extension EnvironmentValues {
+    /// A environment value for container manager, you can send a view to specific overlay container through it.
+    ///
+    ///     struct ContentView: View {
+    ///         @Environment(\.containerManager) var manager
+    ///         var body: some View {
+    ///             VStack{
+    ///                 Button("push view by manager"){
+    ///                     manager.show(view: Text("ab"), in: "container2", using: MessageView())
+    ///                 }
+    ///             }
+    ///         }
+    ///     }
+    ///
     var containerManager: ContainerManager { self[ContainerManagerKey.self] }
 }
