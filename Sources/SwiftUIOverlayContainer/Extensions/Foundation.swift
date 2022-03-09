@@ -18,6 +18,10 @@ extension Task where Success == Never, Failure == Never {
 }
 
 extension Bool {
+    /// merge tapToDismiss between container and view
+    ///
+    /// in stacking : view's priority is higher then container
+    /// in horizontal & vertical: view's tapToDismiss will be ignored
     static func merge(containerTapToDismiss: Self?, viewTapToDismiss: Self?, containerType: ContainerViewDisplayType) -> Self {
         if containerTapToDismiss == nil, viewTapToDismiss == nil { return false }
         switch containerType {

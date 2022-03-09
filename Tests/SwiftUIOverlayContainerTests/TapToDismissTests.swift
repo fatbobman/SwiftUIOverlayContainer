@@ -27,8 +27,122 @@ class TapToDismissTests: XCTestCase {
         let horizontalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: horizontalType)
 
         // then
-        XCTAssertNil(stackingResult)
-        XCTAssertNil(verticalResult)
-        XCTAssertNil(horizontalResult)
+        XCTAssertFalse(stackingResult)
+        XCTAssertFalse(verticalResult)
+        XCTAssertFalse(horizontalResult)
+    }
+
+    func testBothTrue() throws {
+        // given
+        let container: Bool? = true
+        let view: Bool? = true
+        let stackingType: ContainerViewDisplayType = .stacking
+        let verticalType: ContainerViewDisplayType = .vertical
+        let horizontalType: ContainerViewDisplayType = .horizontal
+
+        // when
+        let stackingResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: stackingType)
+        let verticalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: verticalType)
+        let horizontalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: horizontalType)
+
+        // then
+        XCTAssertTrue(stackingResult)
+        XCTAssertTrue(verticalResult)
+        XCTAssertTrue(horizontalResult)
+    }
+
+    func testBothFalse() throws {
+        // given
+        let container: Bool? = false
+        let view: Bool? = false
+        let stackingType: ContainerViewDisplayType = .stacking
+        let verticalType: ContainerViewDisplayType = .vertical
+        let horizontalType: ContainerViewDisplayType = .horizontal
+
+        // when
+        let stackingResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: stackingType)
+        let verticalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: verticalType)
+        let horizontalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: horizontalType)
+
+        // then
+        XCTAssertFalse(stackingResult)
+        XCTAssertFalse(verticalResult)
+        XCTAssertFalse(horizontalResult)
+    }
+
+    func testNilAndTrue() throws {
+        // given
+        let container: Bool? = nil
+        let view: Bool? = true
+        let stackingType: ContainerViewDisplayType = .stacking
+        let verticalType: ContainerViewDisplayType = .vertical
+        let horizontalType: ContainerViewDisplayType = .horizontal
+
+        // when
+        let stackingResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: stackingType)
+        let verticalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: verticalType)
+        let horizontalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: horizontalType)
+
+        // then
+        XCTAssertTrue(stackingResult)
+        XCTAssertFalse(verticalResult)
+        XCTAssertFalse(horizontalResult)
+    }
+
+    func testNilAndFalse() throws {
+        // given
+        let container: Bool? = nil
+        let view: Bool? = false
+        let stackingType: ContainerViewDisplayType = .stacking
+        let verticalType: ContainerViewDisplayType = .vertical
+        let horizontalType: ContainerViewDisplayType = .horizontal
+
+        // when
+        let stackingResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: stackingType)
+        let verticalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: verticalType)
+        let horizontalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: horizontalType)
+
+        // then
+        XCTAssertFalse(stackingResult)
+        XCTAssertFalse(verticalResult)
+        XCTAssertFalse(horizontalResult)
+    }
+
+    func testTrueAndFalse() throws {
+        // given
+        let container: Bool? = true
+        let view: Bool? = false
+        let stackingType: ContainerViewDisplayType = .stacking
+        let verticalType: ContainerViewDisplayType = .vertical
+        let horizontalType: ContainerViewDisplayType = .horizontal
+
+        // when
+        let stackingResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: stackingType)
+        let verticalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: verticalType)
+        let horizontalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: horizontalType)
+
+        // then
+        XCTAssertFalse(stackingResult)
+        XCTAssertTrue(verticalResult)
+        XCTAssertTrue(horizontalResult)
+    }
+
+    func testFalseAndTrue() throws {
+        // given
+        let container: Bool? = false
+        let view: Bool? = true
+        let stackingType: ContainerViewDisplayType = .stacking
+        let verticalType: ContainerViewDisplayType = .vertical
+        let horizontalType: ContainerViewDisplayType = .horizontal
+
+        // when
+        let stackingResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: stackingType)
+        let verticalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: verticalType)
+        let horizontalResult = Bool.merge(containerTapToDismiss: container, viewTapToDismiss: view, containerType: horizontalType)
+
+        // then
+        XCTAssertTrue(stackingResult)
+        XCTAssertFalse(verticalResult)
+        XCTAssertFalse(horizontalResult)
     }
 }
