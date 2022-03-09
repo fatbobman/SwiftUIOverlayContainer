@@ -164,7 +164,18 @@ struct MessageView: View {
     }
 }
 
-extension MessageView: ContainerViewConfiguration {}
+extension MessageView: ContainerViewConfigurationProtocol {
+    var transition: AnyTransition? { nil }
+    var autoDismiss: ContainerViewAutoDismiss? { nil }
+    var dismissGesture: ContainerViewDismissGesture? { nil }
+    var animation: Animation? { nil }
+    var disappearAction: (() -> Void)? {{}}
+    var appearAction: (() -> Void)? {{}}
+    var alignment: Alignment? { nil }
+    var tapToDismiss: Bool? { nil }
+    var backgroundStyle: ContainerBackgroundStyle? { nil }
+    var shadowStyle: ContainerViewShadowStyle? { nil }
+}
 
 class BindingSource {
     var isPresented = true

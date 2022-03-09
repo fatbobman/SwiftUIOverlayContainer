@@ -65,7 +65,7 @@ extension ContainerManager: ContainerViewManagement {
     func show<Content>(
         view: Content,
         in containerName: ContainerName,
-        using configuration: ContainerViewConfiguration,
+        using configuration: ContainerViewConfigurationProtocol,
         isPresented: Binding<Bool>? = nil
     ) where Content: View {
         guard let publisher = getPublisher(for: containerName) else {
@@ -94,7 +94,7 @@ extension ContainerManager: ContainerViewManagement {
     public func show<Content>(
         view: Content,
         in containerName: String,
-        using configuration: ContainerViewConfiguration
+        using configuration: ContainerViewConfigurationProtocol
     ) where Content: View {
         show(view: view, in: containerName, using: configuration, isPresented: nil)
     }

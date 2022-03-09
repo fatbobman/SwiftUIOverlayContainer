@@ -15,11 +15,11 @@ import SwiftUI
 struct ShowContainerViewModifier<V: View>: ViewModifier {
     let containerName: ContainerName
     var content: V
-    let configuration: ContainerViewConfiguration
+    let configuration: ContainerViewConfigurationProtocol
     @Binding var isPresented: Bool
     @Environment(\.overlayContainerManager) var containerManager
 
-    init(containerName: ContainerName, content: V, configuration: ContainerViewConfiguration, isPresented: Binding<Bool>) {
+    init(containerName: ContainerName, content: V, configuration: ContainerViewConfigurationProtocol, isPresented: Binding<Bool>) {
         self.containerName = containerName
         self.content = content
         self.configuration = configuration
@@ -59,7 +59,7 @@ public extension View {
     ///
     func containerView<Content: View>(
         in overlayContainer: String,
-        configuration: ContainerViewConfiguration,
+        configuration: ContainerViewConfigurationProtocol,
         isPresented: Binding<Bool>,
         @ViewBuilder content: () -> Content
     ) -> some View {
