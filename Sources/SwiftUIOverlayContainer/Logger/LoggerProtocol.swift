@@ -23,6 +23,9 @@ public enum SwiftUIOverlayContainerLogType: String {
 
 extension SwiftUIOverlayContainerLoggerProtocol {
     func log(type: SwiftUIOverlayContainerLogType, message: String) {
-        print("[\(type.rawValue)] : \(message)")
+        print("[\(type.rawValue.uppercased())] : \(message)")
     }
 }
+
+/// A default implement of SwiftUIOverlayContainerLoggerProtocol
+struct SwiftUIOverlayContainerDefaultLogger: SwiftUIOverlayContainerLoggerProtocol {}

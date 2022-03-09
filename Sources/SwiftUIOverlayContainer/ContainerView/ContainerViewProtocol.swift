@@ -10,5 +10,8 @@
 //
 
 import Foundation
+import SwiftUI
 
-protocol ContainerViewConfiguration {}
+public protocol ContainerViewConfiguration {}
+
+public typealias ContainerView = View & ContainerViewConfiguration

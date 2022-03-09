@@ -11,20 +11,22 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 typealias ContainerViewPublisher = Publishers.Share<PassthroughSubject<IdentifiableContainerView, Never>>
 typealias ContainerName = String
 
-final class ContainerManager {
-    var logger: SwiftUIOverlayContainerLoggerProtocol?
+public final class ContainerManager {
     var publishers: [ContainerName: ContainerViewPublisher] = [:]
+
+    private init() {}
 }
 
-// MARK: Container Management
+// MARK: - Container Management
 
 extension ContainerManager: ContainerManagement {
     func registerContainer(for containerName: ContainerName) -> ContainerViewPublisher {
-        checkContainer(for: containerName)
+        checkForExist(containerName: containerName)
         return createPublisher(for: containerName)
     }
 
@@ -40,10 +42,10 @@ extension ContainerManager: ContainerManagement {
         publishers.count
     }
 
-    private func checkContainer(for containerName: ContainerName) {
+    private func checkForExist(containerName: ContainerName) {
         guard publishers[containerName] != nil else { return }
         removeContainer(for: containerName)
-        logger?.log(type: .error, message: "Container `\(containerName)` already exists. The new container will replace the old one.")
+        sendMessage(type: .error, message: "Container `\(containerName)` already exists. The new container will replace the old one.")
     }
 
     private func createPublisher(for containerName: ContainerName) -> ContainerViewPublisher {
@@ -51,4 +53,42 @@ extension ContainerManager: ContainerManagement {
         publishers[containerName] = publisher
         return publisher
     }
+}
+
+// MARK: - Container View Management
+
+extension ContainerManager: ContainerViewManagement {
+    func show<Content>(
+        view: Content,
+        in containerName: ContainerName,
+        using configuration: ContainerViewConfiguration,
+        isPresented: Binding<Bool>? = nil
+    ) where Content: View {
+        guard let publisher = getPublisher(for: containerName) else {
+            sendMessage(type: .error, message: "Can't get view publisher for `\(containerName)`")
+            return
+        }
+        let identifiableContainerView = IdentifiableContainerView(view: view, viewConfiguration: configuration, isPresented: isPresented)
+        publisher.upstream.send(identifiableContainerView)
+    }
+}
+
+// MARK: - Logger
+
+extension ContainerManager: ContainerManagerLogger {
+    public static var logger: SwiftUIOverlayContainerLoggerProtocol = SwiftUIOverlayContainerDefaultLogger()
+    public static var enableLog = true
+
+    /// Controlled method of writing to the log
+    func sendMessage(type: SwiftUIOverlayContainerLogType, message: String) {
+        if Self.enableLog {
+            Self.logger.log(type: type, message: message)
+        }
+    }
+}
+
+// MARK: - shared
+
+public extension ContainerManager {
+    static let shared = ContainerManager()
 }
