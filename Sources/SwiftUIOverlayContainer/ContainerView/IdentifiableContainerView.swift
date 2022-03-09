@@ -15,7 +15,7 @@ import SwiftUI
 /// A struct that wraps container view with Identifier
 public struct IdentifiableContainerView: Identifiable {
     /// The identifier for container
-    public let id = UUID()
+    public let id: UUID
 
     /// View of Container View
     let view: AnyView
@@ -26,7 +26,13 @@ public struct IdentifiableContainerView: Identifiable {
     /// A switch that controls the display of the current container view
     let isPresented: Binding<Bool>?
 
-    public init<Context: View>(view: Context, viewConfiguration: ContainerViewConfigurationProtocol, isPresented: Binding<Bool>? = nil) {
+    public init<Context: View>(
+        id: UUID,
+        view: Context,
+        viewConfiguration: ContainerViewConfigurationProtocol,
+        isPresented: Binding<Bool>? = nil
+    ) {
+        self.id = id
         self.view = view.eraseToAnyView()
         self.configuration = viewConfiguration
         self.isPresented = isPresented

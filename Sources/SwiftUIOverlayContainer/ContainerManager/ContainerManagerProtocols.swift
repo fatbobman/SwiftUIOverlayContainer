@@ -29,15 +29,17 @@ protocol ContainerManagement {
 
 protocol ContainerViewManagement {
     /// Show container view in specific container
+    /// - Returns: container view ID
     func show<Content: View>(view: Content,
                              in containerName: ContainerName,
                              using configuration: ContainerViewConfigurationProtocol,
-                             isPresented: Binding<Bool>?)
+                             isPresented: Binding<Bool>?) -> UUID?
 
     /// Show container view in specific container
+    /// - Returns: container view ID
     func show<Content: ContainerView>(containerView: Content,
                                       in containerName: ContainerName,
-                                      isPresented: Binding<Bool>?)
+                                      isPresented: Binding<Bool>?) -> UUID?
 }
 
 protocol ContainerManagerLogger {

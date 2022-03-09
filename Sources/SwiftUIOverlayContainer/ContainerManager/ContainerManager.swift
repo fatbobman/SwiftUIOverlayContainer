@@ -53,7 +53,7 @@ extension ContainerManager: ContainerManagement {
     }
 
     private func createPublisher(for containerName: ContainerName) -> ContainerViewPublisher {
-        let publisher = PassthroughSubject<IdentifiableContainerView, Never>().share()
+        let publisher = PassthroughSubject<OverlayContainerAction, Never>().share()
         publishers[containerName] = publisher
         return publisher
     }
@@ -62,50 +62,63 @@ extension ContainerManager: ContainerManagement {
 // MARK: - Container View Management
 
 extension ContainerManager: ContainerViewManagement {
+    @discardableResult
     func show<Content>(
         view: Content,
         in containerName: ContainerName,
         using configuration: ContainerViewConfigurationProtocol,
         isPresented: Binding<Bool>? = nil
-    ) where Content: View {
+    ) -> UUID? where Content: View {
         guard let publisher = getPublisher(for: containerName) else {
             sendMessage(
                 type: .error,
                 message: "Can't get view publisher for `\(containerName)`,The overlay container should be registered before push view."
             )
-            return
+            return nil
         }
-        let identifiableContainerView = IdentifiableContainerView(view: view, viewConfiguration: configuration, isPresented: isPresented)
-        publisher.upstream.send(identifiableContainerView)
+        let viewID = UUID()
+        let identifiableContainerView = IdentifiableContainerView(
+            id: viewID,
+            view: view,
+            viewConfiguration: configuration,
+            isPresented: isPresented
+        )
+        publisher.upstream.send(.show(identifiableContainerView))
         sendMessage(type: .info, message: "send view `\(type(of: view))` to container: `\(containerName)`", debugLevel: 2)
+        return viewID
     }
 
+    @discardableResult
     func show<Content>(
         containerView: Content,
         in containerName: ContainerName,
         isPresented: Binding<Bool>? = nil
-    ) where Content: ContainerView {
+    ) -> UUID? where Content: ContainerView {
         show(view: containerView, in: containerName, using: containerView, isPresented: isPresented)
     }
 
     /// push ContainerView to specific overlay container
     ///
     /// Interface for environment key
+    /// - Returns: container view ID
+    @discardableResult
     public func show<Content>(
         view: Content,
         in containerName: String,
         using configuration: ContainerViewConfigurationProtocol
-    ) where Content: View {
+    ) -> UUID? where Content: View {
         show(view: view, in: containerName, using: configuration, isPresented: nil)
     }
 
     /// push ContainerView to specific overlay container
     ///
     /// Interface for environment key
+    /// - Returns: container view ID
+    @discardableResult
     public func show<Content>(
         containerView: Content,
         in containerName: String
-    ) where Content: ContainerView {
+    ) -> UUID? where Content: ContainerView {
         show(view: containerView, in: containerName, using: containerView, isPresented: nil)
     }
 }
