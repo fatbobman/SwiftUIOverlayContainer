@@ -31,7 +31,7 @@ protocol ContainerViewManagement {
     /// Show container view in specific container
     func show<Content: View>(view: Content,
                              in containerName: ContainerName,
-                             using configuration: ContainerViewConfiguration,
+                             using configuration: ContainerViewConfigurationProtocol,
                              isPresented: Binding<Bool>?)
 
     /// Show container view in specific container

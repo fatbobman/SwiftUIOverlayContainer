@@ -21,12 +21,12 @@ public struct IdentifiableContainerView: Identifiable {
     let view: AnyView
 
     /// configuration of Container View
-    let configuration: ContainerViewConfiguration
+    let configuration: ContainerViewConfigurationProtocol
 
     /// A switch that controls the display of the current container view
     let isPresented: Binding<Bool>?
 
-    public init<Context: View>(view: Context, viewConfiguration: ContainerViewConfiguration, isPresented: Binding<Bool>? = nil) {
+    public init<Context: View>(view: Context, viewConfiguration: ContainerViewConfigurationProtocol, isPresented: Binding<Bool>? = nil) {
         self.view = view.eraseToAnyView()
         self.configuration = viewConfiguration
         self.isPresented = isPresented

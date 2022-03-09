@@ -36,11 +36,13 @@ public struct ContainerEnvironment {
 
 public struct ContainerEnvironmentKey: EnvironmentKey {
     public static var defaultValue = ContainerEnvironment(
-        containerName: "Can only be used in container views",
+        containerName: "`ContainerEnvironmentKey` Can only be used in container views",
         containerSize: .zero,
         containerViewDisplayType: .stacking,
         containerViewQueueType: .multiple,
-        dismiss: {}
+        dismiss: {
+            print("[WARNING] : `ContainerEnvironmentKey` Can only be used in container views")
+        }
     )
 }
 
