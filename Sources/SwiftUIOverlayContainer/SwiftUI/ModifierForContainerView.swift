@@ -17,7 +17,7 @@ struct ShowContainerViewModifier<V: View>: ViewModifier {
     var content: V
     let configuration: ContainerViewConfiguration
     @Binding var isPresented: Bool
-    @Environment(\.containerManager) var containerManager
+    @Environment(\.overlayContainerManager) var containerManager
 
     init(containerName: ContainerName, content: V, configuration: ContainerViewConfiguration, isPresented: Binding<Bool>) {
         self.containerName = containerName
