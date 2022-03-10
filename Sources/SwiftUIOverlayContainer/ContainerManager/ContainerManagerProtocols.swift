@@ -15,16 +15,16 @@ import SwiftUI
 
 protocol ContainerManagement {
     /// Register a container in the container manager
-    func registerContainer(for containerName: ContainerName) -> ContainerViewPublisher
+    func registerContainer(for container: String) -> ContainerViewPublisher
 
     /// Remove a container from the container manager
-    func removeContainer(for containerName: ContainerName)
+    func removeContainer(for container: String)
 
     /// The count of containers
     var containerCount: Int { get }
 
     /// Get  container view publisher for specific container
-    func getPublisher(for containerName: ContainerName) -> ContainerViewPublisher?
+    func getPublisher(for container: String) -> ContainerViewPublisher?
 }
 
 /// The methods provider to ViewModifier
@@ -33,7 +33,7 @@ protocol ContainerViewManagementForViewModifier {
     /// - Returns: container view ID
     @discardableResult
     func show<Content: View>(view: Content,
-                             in containerName: ContainerName,
+                             in container: String,
                              using configuration: ContainerViewConfigurationProtocol,
                              isPresented: Binding<Bool>?) -> UUID?
 
@@ -41,7 +41,7 @@ protocol ContainerViewManagementForViewModifier {
     /// - Returns: container view ID
     @discardableResult
     func show<Content: ContainerView>(containerView: Content,
-                                      in containerName: ContainerName,
+                                      in container: String,
                                       isPresented: Binding<Bool>?) -> UUID?
 }
 
@@ -53,7 +53,7 @@ public protocol ContainerViewManagementForEnvironment {
     /// - Returns: container view ID
     func show<Content>(
         view: Content,
-        in containerName: String,
+        in container: String,
         using configuration: ContainerViewConfigurationProtocol
     ) -> UUID? where Content: View
 
@@ -63,7 +63,7 @@ public protocol ContainerViewManagementForEnvironment {
     /// - Returns: container view ID
     func show<Content>(
         containerView: Content,
-        in containerName: String
+        in container: String
     ) -> UUID? where Content: ContainerView
 
     /// Dismiss view of specific container

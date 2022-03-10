@@ -14,7 +14,7 @@ import Foundation
 import SwiftUI
 
 public final class ContainerManager {
-    var publishers: [ContainerName: ContainerViewPublisher] = [:]
+    var publishers: [String: ContainerViewPublisher] = [:]
 
     private init() {}
 
@@ -29,20 +29,21 @@ public final class ContainerManager {
 // MARK: - Container Management
 
 extension ContainerManager: ContainerManagement {
-    func registerContainer(for containerName: ContainerName) -> ContainerViewPublisher {
-        checkForExist(containerName: containerName)
-        return createPublisher(for: containerName)
+    func registerContainer(for container: String) -> ContainerViewPublisher {
+        checkForExist(container: container)
+        return createPublisher(for: container)
     }
 
-    func removeContainer(for containerName: ContainerName) {
-        publishers.removeValue(forKey: containerName)
+    func removeContainer(for container: String) {
+        publishers.removeValue(forKey: container)
+        sendMessage(type: .info, message: "`\(container)` has been removed from manager", debugLevel: 2)
     }
 
-    func getPublisher(for containerName: ContainerName) -> ContainerViewPublisher? {
-        guard let publisher = publishers[containerName] else {
+    func getPublisher(for container: String) -> ContainerViewPublisher? {
+        guard let publisher = publishers[container] else {
             sendMessage(
                 type: .error,
-                message: "Can't get view publisher for `\(containerName)`,The overlay container should be registered first."
+                message: "Can't get view publisher for `\(container)`,The overlay container should be registered first."
             )
             return nil
         }
@@ -53,15 +54,15 @@ extension ContainerManager: ContainerManagement {
         publishers.count
     }
 
-    private func checkForExist(containerName: ContainerName) {
-        guard publishers[containerName] != nil else { return }
-        removeContainer(for: containerName)
-        sendMessage(type: .error, message: "Container `\(containerName)` already exists. The new container will replace the old one.")
+    private func checkForExist(container: String) {
+        guard publishers[container] != nil else { return }
+        removeContainer(for: container)
+        sendMessage(type: .error, message: "Container `\(container)` already exists. The new container will replace the old one.")
     }
 
-    private func createPublisher(for containerName: ContainerName) -> ContainerViewPublisher {
+    private func createPublisher(for container: String) -> ContainerViewPublisher {
         let publisher = PassthroughSubject<OverlayContainerAction, Never>().share()
-        publishers[containerName] = publisher
+        publishers[container] = publisher
         return publisher
     }
 }
@@ -72,11 +73,11 @@ extension ContainerManager: ContainerViewManagementForViewModifier {
     @discardableResult
     func show<Content>(
         view: Content,
-        in containerName: ContainerName,
+        in container: String,
         using configuration: ContainerViewConfigurationProtocol,
         isPresented: Binding<Bool>? = nil
     ) -> UUID? where Content: View {
-        guard let publisher = getPublisher(for: containerName) else {
+        guard let publisher = getPublisher(for: container) else {
             return nil
         }
         let viewID = UUID()
@@ -87,17 +88,17 @@ extension ContainerManager: ContainerViewManagementForViewModifier {
             isPresented: isPresented
         )
         publisher.upstream.send(.show(identifiableContainerView))
-        sendMessage(type: .info, message: "send view `\(type(of: view))` to container: `\(containerName)`", debugLevel: 2)
+        sendMessage(type: .info, message: "send view `\(type(of: view))` to container: `\(container)`", debugLevel: 2)
         return viewID
     }
 
     @discardableResult
     func show<Content>(
         containerView: Content,
-        in containerName: ContainerName,
+        in container: String,
         isPresented: Binding<Bool>? = nil
     ) -> UUID? where Content: ContainerView {
-        show(view: containerView, in: containerName, using: containerView, isPresented: isPresented)
+        show(view: containerView, in: container, using: containerView, isPresented: isPresented)
     }
 }
 
@@ -109,10 +110,10 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
     @discardableResult
     public func show<Content>(
         view: Content,
-        in containerName: String,
+        in container: String,
         using configuration: ContainerViewConfigurationProtocol
     ) -> UUID? where Content: View {
-        show(view: view, in: containerName, using: configuration, isPresented: nil)
+        show(view: view, in: container, using: configuration, isPresented: nil)
     }
 
     /// push ContainerView to specific overlay container
@@ -122,13 +123,15 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
     @discardableResult
     public func show<Content>(
         containerView: Content,
-        in containerName: String
+        in container: String
     ) -> UUID? where Content: ContainerView {
-        show(view: containerView, in: containerName, using: containerView, isPresented: nil)
+        show(view: containerView, in: container, using: containerView, isPresented: nil)
     }
 
     public func dismiss(view id: UUID, in container: String, with animation: Animation?) {
-        guard let publisher = getPublisher(for: container) else { return }
+        guard let publisher = getPublisher(for: container) else {
+            return
+        }
         publisher.upstream.send(.dismiss(id, animation))
     }
 
