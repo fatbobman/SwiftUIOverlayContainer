@@ -39,7 +39,14 @@ extension ContainerManager: ContainerManagement {
     }
 
     func getPublisher(for containerName: ContainerName) -> ContainerViewPublisher? {
-        publishers[containerName]
+        guard let publisher = publishers[containerName] else {
+            sendMessage(
+                type: .error,
+                message: "Can't get view publisher for `\(containerName)`,The overlay container should be registered first."
+            )
+            return nil
+        }
+        return publisher
     }
 
     var containerCount: Int {
@@ -61,7 +68,7 @@ extension ContainerManager: ContainerManagement {
 
 // MARK: - Container View Management
 
-extension ContainerManager: ContainerViewManagement {
+extension ContainerManager: ContainerViewManagementForViewModifier {
     @discardableResult
     func show<Content>(
         view: Content,
@@ -70,10 +77,6 @@ extension ContainerManager: ContainerViewManagement {
         isPresented: Binding<Bool>? = nil
     ) -> UUID? where Content: View {
         guard let publisher = getPublisher(for: containerName) else {
-            sendMessage(
-                type: .error,
-                message: "Can't get view publisher for `\(containerName)`,The overlay container should be registered before push view."
-            )
             return nil
         }
         let viewID = UUID()
@@ -96,7 +99,9 @@ extension ContainerManager: ContainerViewManagement {
     ) -> UUID? where Content: ContainerView {
         show(view: containerView, in: containerName, using: containerView, isPresented: isPresented)
     }
+}
 
+extension ContainerManager: ContainerViewManagementForEnvironment {
     /// push ContainerView to specific overlay container
     ///
     /// Interface for environment key
@@ -120,6 +125,26 @@ extension ContainerManager: ContainerViewManagement {
         in containerName: String
     ) -> UUID? where Content: ContainerView {
         show(view: containerView, in: containerName, using: containerView, isPresented: nil)
+    }
+
+    public func dismiss(view id: UUID, in container: String, with animation: Animation?) {
+        guard let publisher = getPublisher(for: container) else { return }
+        publisher.upstream.send(.dismiss(id, animation))
+    }
+
+    public func dismissAllView(notInclude excludeContainers: [String], with animation: Animation?) {
+        let publishers = publishers.filter { !excludeContainers.contains($0.key) }.values
+        for publisher in publishers {
+            publisher.upstream.send(.dismissAll(animation))
+        }
+    }
+
+    public func dismissAllView(in containers: [String], with animation: Animation?) {
+        for container in containers {
+            if let publisher = getPublisher(for: container) {
+                publisher.upstream.send(.dismissAll(animation))
+            }
+        }
     }
 }
 
