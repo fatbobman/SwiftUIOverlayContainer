@@ -18,8 +18,8 @@ enum OverlayContainerAction {
     case show(IdentifiableContainerView)
     // dismiss the view from the container queue whether it is already displayed or not
     // when the animation is not nil, the new animation will overwrite the old setting
-    case dismiss(UUID, Animation?)
+    case dismiss(UUID, Bool)
     // dismiss all views from the container queue whether thats are already displayed or not
     // when the animation is not nil, the new animation will overwrite the old setting
-    case dismissAll(Animation?)
+    case dismissAll(Bool)
 }

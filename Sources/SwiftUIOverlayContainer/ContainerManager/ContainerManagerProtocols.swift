@@ -68,18 +68,25 @@ public protocol ContainerViewManagementForEnvironment {
 
     /// Dismiss view of specific container
     ///
-    /// If animation is not nil, the new animation will overwrite the old setting
-    func dismiss(view id: UUID, in container: String, with animation: Animation?)
+    /// - Parameters:
+    ///   - id: container view ID
+    ///   - container: overlay container name
+    ///   - flag: pass true to animate the transition
+    func dismiss(view id: UUID, in container: String, animated flag: Bool)
 
     /// Dismiss all views of containers, excluding specific containers
     ///
-    /// If animation is not nil, the new animation will overwrite the old setting
-    func dismissAllView(notInclude excludeContainers: [String], with animation: Animation?)
+    /// - Parameters:
+    ///   - excludeContainers: excluded container name
+    ///   - flag: pass true to animate the transition
+    func dismissAllView(notInclude excludeContainers: [String], animated flag: Bool)
 
     /// Dismiss all views of specific containers
     ///
-    /// If animation is not nil, the new animation will overwrite the old setting
-    func dismissAllView(in containers: [String], with animation: Animation?)
+    /// - Parameters:
+    ///   - containers: container names 
+    ///   - flag: pass true to animate the transition
+    func dismissAllView(in containers: [String], animated flag: Bool)
 }
 
 protocol ContainerManagerLogger {

@@ -10,6 +10,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension Task where Success == Never, Failure == Never {
     static func sleep(seconds: TimeInterval) async throws {
@@ -30,5 +31,23 @@ extension Bool {
         case .stacking:
             return viewTapToDismiss ?? containerTapToDismiss ?? false
         }
+    }
+}
+
+extension Array {
+    mutating func push(_ element: Element, with animation: Animation? = nil) {
+        withAnimation(animation) {
+            self.append(element)
+        }
+    }
+
+    @discardableResult
+    mutating func pop(with animation: Animation? = nil) -> Element? {
+        guard self.count > 0 else { return nil }
+        var result: Element?
+        withAnimation(animation) {
+            result = self.removeFirst()
+        }
+        return result
     }
 }
