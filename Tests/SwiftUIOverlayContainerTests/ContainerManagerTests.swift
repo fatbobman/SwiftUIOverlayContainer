@@ -167,13 +167,13 @@ class ContainerManagerTests: XCTestCase {
         var cancellable: Set<AnyCancellable> = []
 
         var dismissID: UUID?
-        var dismissAnimation: Animation?
+        var dismissAnimated = true
 
         publisher.sink(receiveValue: { action in
             switch action {
-            case .dismiss(let viewID, let animation):
+            case .dismiss(let viewID, let animated):
                 dismissID = viewID
-                dismissAnimation = animation
+                dismissAnimated = animated
                 expectationDismiss.fulfill()
             case .show:
                 expectationShow.fulfill()
@@ -186,12 +186,12 @@ class ContainerManagerTests: XCTestCase {
         // when
         let originalID = manager.show(view: messageView, in: containerName, using: messageView)
 
-        manager.dismiss(view: try XCTUnwrap(originalID), in: containerName, with: .default)
+        manager.dismiss(view: try XCTUnwrap(originalID), in: containerName, animated: false)
 
         // then
         wait(for: [expectationShow, expectationDismiss], timeout: 1)
         XCTAssertEqual(originalID, dismissID)
-        let _ = try XCTUnwrap(dismissAnimation)
+        XCTAssertFalse(dismissAnimated)
     }
 
     // test dismiss all view exclude specific container
@@ -212,8 +212,8 @@ class ContainerManagerTests: XCTestCase {
         publisher1
             .sink(receiveValue: { action in
                 switch action {
-                case .dismissAll(let animation):
-                    XCTAssertNotNil(animation)
+                case .dismissAll(let animated):
+                    XCTAssertTrue(animated)
                     expectation1.fulfill()
                 default:
                     fatalError()
@@ -224,8 +224,8 @@ class ContainerManagerTests: XCTestCase {
         publisher2
             .sink(receiveValue: { action in
                 switch action {
-                case .dismissAll(let animation):
-                    XCTAssertNotNil(animation)
+                case .dismissAll(let animated):
+                    XCTAssertTrue(animated)
                     expectation2.fulfill()
                 default:
                     fatalError()
@@ -245,7 +245,7 @@ class ContainerManagerTests: XCTestCase {
             .store(in: &cancellable)
 
         // when
-        manager.dismissAllView(notInclude: [container3], with: .easeIn)
+        manager.dismissAllView(notInclude: [container3], animated: true)
 
         // then
         wait(for: [expectation1, expectation2], timeout: 1)
@@ -268,8 +268,8 @@ class ContainerManagerTests: XCTestCase {
         publisher1
             .sink(receiveValue: { action in
                 switch action {
-                case .dismissAll(let animation):
-                    XCTAssertNotNil(animation)
+                case .dismissAll(let animated):
+                    XCTAssertFalse(animated)
                     expectation1.fulfill()
                 default:
                     fatalError()
@@ -280,8 +280,8 @@ class ContainerManagerTests: XCTestCase {
         publisher2
             .sink(receiveValue: { action in
                 switch action {
-                case .dismissAll(let animation):
-                    XCTAssertNotNil(animation)
+                case .dismissAll(let animated):
+                    XCTAssertFalse(animated)
                     expectation2.fulfill()
                 default:
                     fatalError()
@@ -301,7 +301,7 @@ class ContainerManagerTests: XCTestCase {
             .store(in: &cancellable)
 
         // when
-        manager.dismissAllView(in: [container1, container2], with: .linear)
+        manager.dismissAllView(in: [container1, container2], animated: false)
 
         // then
         wait(for: [expectation1, expectation2], timeout: 1)

@@ -128,24 +128,24 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
         show(view: containerView, in: container, using: containerView, isPresented: nil)
     }
 
-    public func dismiss(view id: UUID, in container: String, with animation: Animation?) {
+    public func dismiss(view id: UUID, in container: String, animated flag: Bool) {
         guard let publisher = getPublisher(for: container) else {
             return
         }
-        publisher.upstream.send(.dismiss(id, animation))
+        publisher.upstream.send(.dismiss(id, flag))
     }
 
-    public func dismissAllView(notInclude excludeContainers: [String], with animation: Animation?) {
+    public func dismissAllView(notInclude excludeContainers: [String], animated flag: Bool) {
         let publishers = publishers.filter { !excludeContainers.contains($0.key) }.values
         for publisher in publishers {
-            publisher.upstream.send(.dismissAll(animation))
+            publisher.upstream.send(.dismissAll(flag))
         }
     }
 
-    public func dismissAllView(in containers: [String], with animation: Animation?) {
+    public func dismissAllView(in containers: [String], animated flag: Bool) {
         for container in containers {
             if let publisher = getPublisher(for: container) {
-                publisher.upstream.send(.dismissAll(animation))
+                publisher.upstream.send(.dismissAll(flag))
             }
         }
     }
