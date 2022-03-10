@@ -13,14 +13,14 @@ import Foundation
 import SwiftUI
 
 struct ShowContainerViewModifier<V: View>: ViewModifier {
-    let containerName: ContainerName
+    let container: String
     var content: V
     let configuration: ContainerViewConfigurationProtocol
     @Binding var isPresented: Bool
     @Environment(\.overlayContainerManager) var containerManager
 
-    init(containerName: ContainerName, content: V, configuration: ContainerViewConfigurationProtocol, isPresented: Binding<Bool>) {
-        self.containerName = containerName
+    init(container: String, content: V, configuration: ContainerViewConfigurationProtocol, isPresented: Binding<Bool>) {
+        self.container = container
         self.content = content
         self.configuration = configuration
         self._isPresented = isPresented
@@ -30,7 +30,7 @@ struct ShowContainerViewModifier<V: View>: ViewModifier {
         content
             .onChange(of: isPresented) { _ in
                 if isPresented {
-                    containerManager.show(view: content, in: containerName, using: configuration, isPresented: $isPresented)
+                    containerManager.show(view: content, in: container, using: configuration, isPresented: $isPresented)
                 }
             }
     }
@@ -66,7 +66,7 @@ public extension View {
         self
             .modifier(
                 ShowContainerViewModifier(
-                    containerName: overlayContainer,
+                    container: overlayContainer,
                     content: content(),
                     configuration: configuration,
                     isPresented: isPresented
@@ -83,7 +83,7 @@ public extension View {
         self
             .modifier(
                 ShowContainerViewModifier(
-                    containerName: overlayContainer,
+                    container: overlayContainer,
                     content: content,
                     configuration: configuration,
                     isPresented: isPresented
@@ -112,7 +112,7 @@ public extension View {
         self
             .modifier(
                 ShowContainerViewModifier(
-                    containerName: overlayContainer,
+                    container: overlayContainer,
                     content: content,
                     configuration: content,
                     isPresented: isPresented

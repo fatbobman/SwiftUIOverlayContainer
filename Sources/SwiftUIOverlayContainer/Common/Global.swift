@@ -16,4 +16,3 @@ typealias DismissAction = () -> Void
 typealias AppearAction = () -> Void
 typealias DisappearAction = () -> Void
 typealias ContainerViewPublisher = Publishers.Share<PassthroughSubject<OverlayContainerAction, Never>>
-typealias ContainerName = String
