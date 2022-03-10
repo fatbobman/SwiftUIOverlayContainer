@@ -156,7 +156,156 @@ class ContainerManagerTests: XCTestCase {
         XCTAssertFalse(isPresented.wrappedValue)
     }
 
-    // test dismiss
+    // test dismiss view
+    func testDismissViewInSpecificContainer() throws {
+        // given
+        let expectationDismiss = XCTestExpectation(description: "dismiss view")
+        let expectationShow = XCTestExpectation(description: "show view")
+        let containerName = "pop message"
+        let publisher = manager.registerContainer(for: containerName)
+        let messageView = MessageView()
+        var cancellable: Set<AnyCancellable> = []
+
+        var dismissID: UUID?
+        var dismissAnimation: Animation?
+
+        publisher.sink(receiveValue: { action in
+            switch action {
+            case .dismiss(let viewID, let animation):
+                dismissID = viewID
+                dismissAnimation = animation
+                expectationDismiss.fulfill()
+            case .show:
+                expectationShow.fulfill()
+            default:
+                break
+            }
+        })
+        .store(in: &cancellable)
+
+        // when
+        let originalID = manager.show(view: messageView, in: containerName, using: messageView)
+
+        manager.dismiss(view: try XCTUnwrap(originalID), in: containerName, with: .default)
+
+        // then
+        wait(for: [expectationShow, expectationDismiss], timeout: 1)
+        XCTAssertEqual(originalID, dismissID)
+        let _ = try XCTUnwrap(dismissAnimation)
+    }
+
+    // test dismiss all view exclude specific container
+    func testDismissAllViewExcludeSpecificContainer() throws {
+        let container1 = "container1"
+        let container2 = "container2"
+        let container3 = "container3"
+
+        let expectation1 = XCTestExpectation(description: container1)
+        let expectation2 = XCTestExpectation(description: container2)
+
+        let publisher1 = manager.registerContainer(for: container1)
+        let publisher2 = manager.registerContainer(for: container2)
+        let publisher3 = manager.registerContainer(for: container3)
+
+        var cancellable: Set<AnyCancellable> = []
+
+        publisher1
+            .sink(receiveValue: { action in
+                switch action {
+                case .dismissAll(let animation):
+                    XCTAssertNotNil(animation)
+                    expectation1.fulfill()
+                default:
+                    fatalError()
+                }
+            })
+            .store(in: &cancellable)
+
+        publisher2
+            .sink(receiveValue: { action in
+                switch action {
+                case .dismissAll(let animation):
+                    XCTAssertNotNil(animation)
+                    expectation2.fulfill()
+                default:
+                    fatalError()
+                }
+            })
+            .store(in: &cancellable)
+
+        publisher3
+            .sink(receiveValue: { action in
+                switch action {
+                case .dismissAll:
+                    XCTAssert(false, "shouldn't get action")
+                default:
+                    break
+                }
+            })
+            .store(in: &cancellable)
+
+        // when
+        manager.dismissAllView(notInclude: [container3], with: .easeIn)
+
+        // then
+        wait(for: [expectation1, expectation2], timeout: 1)
+    }
+
+    func testDismissAllViewInSpecificContainers() throws {
+        let container1 = "container1"
+        let container2 = "container2"
+        let container3 = "container3"
+
+        let expectation1 = XCTestExpectation(description: container1)
+        let expectation2 = XCTestExpectation(description: container2)
+
+        let publisher1 = manager.registerContainer(for: container1)
+        let publisher2 = manager.registerContainer(for: container2)
+        let publisher3 = manager.registerContainer(for: container3)
+
+        var cancellable: Set<AnyCancellable> = []
+
+        publisher1
+            .sink(receiveValue: { action in
+                switch action {
+                case .dismissAll(let animation):
+                    XCTAssertNotNil(animation)
+                    expectation1.fulfill()
+                default:
+                    fatalError()
+                }
+            })
+            .store(in: &cancellable)
+
+        publisher2
+            .sink(receiveValue: { action in
+                switch action {
+                case .dismissAll(let animation):
+                    XCTAssertNotNil(animation)
+                    expectation2.fulfill()
+                default:
+                    fatalError()
+                }
+            })
+            .store(in: &cancellable)
+
+        publisher3
+            .sink(receiveValue: { action in
+                switch action {
+                case .dismissAll:
+                    XCTAssert(false, "shouldn't get action")
+                default:
+                    break
+                }
+            })
+            .store(in: &cancellable)
+
+        // when
+        manager.dismissAllView(in: [container1, container2], with: .linear)
+
+        // then
+        wait(for: [expectation1, expectation2], timeout: 1)
+    }
 }
 
 class LoggerSpy: SwiftUIOverlayContainerLoggerProtocol {
