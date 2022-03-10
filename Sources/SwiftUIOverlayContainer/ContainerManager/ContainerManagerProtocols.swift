@@ -27,9 +27,11 @@ protocol ContainerManagement {
     func getPublisher(for containerName: ContainerName) -> ContainerViewPublisher?
 }
 
-protocol ContainerViewManagement {
+/// The methods provider to ViewModifier
+protocol ContainerViewManagementForViewModifier {
     /// Show container view in specific container
     /// - Returns: container view ID
+    @discardableResult
     func show<Content: View>(view: Content,
                              in containerName: ContainerName,
                              using configuration: ContainerViewConfigurationProtocol,
@@ -37,9 +39,47 @@ protocol ContainerViewManagement {
 
     /// Show container view in specific container
     /// - Returns: container view ID
+    @discardableResult
     func show<Content: ContainerView>(containerView: Content,
                                       in containerName: ContainerName,
                                       isPresented: Binding<Bool>?) -> UUID?
+}
+
+/// The methods provider to Environment, can also be called by directly passing the share instance
+public protocol ContainerViewManagementForEnvironment {
+    /// push ContainerView to specific overlay container
+    ///
+    /// Interface for environment key
+    /// - Returns: container view ID
+    func show<Content>(
+        view: Content,
+        in containerName: String,
+        using configuration: ContainerViewConfigurationProtocol
+    ) -> UUID? where Content: View
+
+    /// push ContainerView to specific overlay container
+    ///
+    /// Interface for environment key
+    /// - Returns: container view ID
+    func show<Content>(
+        containerView: Content,
+        in containerName: String
+    ) -> UUID? where Content: ContainerView
+
+    /// Dismiss view of specific container
+    ///
+    /// If animation is not nil, the new animation will overwrite the old setting
+    func dismiss(view id: UUID, in container: String, with animation: Animation?)
+
+    /// Dismiss all views of containers, excluding specific containers
+    ///
+    /// If animation is not nil, the new animation will overwrite the old setting
+    func dismissAllView(notInclude excludeContainers: [String], with animation: Animation?)
+
+    /// Dismiss all views of specific containers
+    ///
+    /// If animation is not nil, the new animation will overwrite the old setting
+    func dismissAllView(in containers: [String], with animation: Animation?)
 }
 
 protocol ContainerManagerLogger {

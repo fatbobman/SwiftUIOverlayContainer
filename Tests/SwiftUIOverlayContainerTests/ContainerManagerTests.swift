@@ -87,22 +87,27 @@ class ContainerManagerTests: XCTestCase {
         let publisher = manager.registerContainer(for: containerName)
         let expectation = XCTestExpectation(description: "get view from container 1")
         var cancellable: Set<AnyCancellable> = []
-        var resultView: IdentifiableContainerView?
         ContainerManager.debugLevel = 2
+        var resultID: UUID?
 
         // when
         publisher
-            .sink(receiveValue: { containerView in
-                resultView = containerView
-                expectation.fulfill()
+            .sink(receiveValue: { action in
+                switch action {
+                case .show(let identifiableView):
+                    resultID = identifiableView.id
+                    expectation.fulfill()
+                default:
+                    break
+                }
             })
             .store(in: &cancellable)
 
-        manager.show(view: messageView, in: containerName, using: messageView)
+        let viewID = manager.show(view: messageView, in: containerName, using: messageView)
 
         // then
         wait(for: [expectation], timeout: 2)
-        XCTAssertNotNil(resultView)
+        XCTAssertEqual(resultID, viewID)
     }
 
     func testSendViewWithGetPublisher() throws {
@@ -112,22 +117,27 @@ class ContainerManagerTests: XCTestCase {
         let _ = manager.registerContainer(for: containerName)
         let expectation = XCTestExpectation(description: "get view from container 2")
         var cancellable: Set<AnyCancellable> = []
-        var resultView: IdentifiableContainerView?
+        var resultID: UUID?
 
         // when
         let publisher = manager.getPublisher(for: containerName)
         publisher?
-            .sink(receiveValue: { containerView in
-                resultView = containerView
-                expectation.fulfill()
+            .sink(receiveValue: { action in
+                switch action {
+                case .show(let identifiableView):
+                    resultID = identifiableView.id
+                    expectation.fulfill()
+                default:
+                    break
+                }
             })
             .store(in: &cancellable)
 
-        manager.show(view: messageView, in: containerName, using: messageView)
+        let viewID = manager.show(view: messageView, in: containerName, using: messageView)
 
         // then
         wait(for: [expectation], timeout: 2)
-        XCTAssertNotNil(resultView)
+        XCTAssertEqual(viewID, resultID)
     }
 
     func testIsPresent() throws {
@@ -135,7 +145,8 @@ class ContainerManagerTests: XCTestCase {
         let source = BindingSource()
         let view = MessageView()
         let binding = Binding<Bool>(get: { source.isPresented }, set: { source.isPresented = $0 })
-        let identifiableView = IdentifiableContainerView(view: view, viewConfiguration: view, isPresented: binding)
+        let viewID = UUID()
+        let identifiableView = IdentifiableContainerView(id: viewID, view: view, viewConfiguration: view, isPresented: binding)
 
         // when
         source.isPresented = false
@@ -144,6 +155,8 @@ class ContainerManagerTests: XCTestCase {
         // then
         XCTAssertFalse(isPresented.wrappedValue)
     }
+
+    // test dismiss
 }
 
 class LoggerSpy: SwiftUIOverlayContainerLoggerProtocol {
