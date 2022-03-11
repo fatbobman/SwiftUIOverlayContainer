@@ -18,7 +18,7 @@ extension View {
     }
 }
 
-/// Pass nil to run body with animation.
+/// Pass nil to run body method  without animation.
 public func disabledWithAnimation(_ animation: Animation? = .default, _ body: () -> Void) {
     if animation == nil {
         body()

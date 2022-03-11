@@ -34,6 +34,7 @@ public struct ContainerEnvironment {
     var dismiss: () -> Void
 }
 
+/// An Environment Key that provides some informations and methods about container in the container views.
 public struct ContainerEnvironmentKey: EnvironmentKey {
     public static var defaultValue = ContainerEnvironment(
         containerName: "`ContainerEnvironmentKey` Can only be used in container views",
@@ -47,5 +48,6 @@ public struct ContainerEnvironmentKey: EnvironmentKey {
 }
 
 public extension EnvironmentValues {
+    /// An Environment Value that provides some informations and methods about the container in the container views.
     var overlayContainer: ContainerEnvironment { self[ContainerEnvironmentKey.self] }
 }
