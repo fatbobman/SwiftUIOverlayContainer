@@ -33,6 +33,9 @@
 		76D8C95F27D817F8009A86C6 /* ContainerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8C95E27D817F8009A86C6 /* ContainerManager.swift */; };
 		76D8C96127D833EB009A86C6 /* ContainerViewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8C96027D833EB009A86C6 /* ContainerViewProtocols.swift */; };
 		76D8C96327D84F55009A86C6 /* ContainerManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8C96227D84F55009A86C6 /* ContainerManagerTests.swift */; };
+		76F817C827DB41BB00186338 /* QueueHandlerForMultipleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F817C727DB41BB00186338 /* QueueHandlerForMultipleTests.swift */; };
+		76F817CA27DB54BF00186338 /* QueueHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F817C927DB54BF00186338 /* QueueHandlerTests.swift */; };
+		76F817CC27DB5E8300186338 /* QueueHandlerForOneByOneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F817CB27DB5E8300186338 /* QueueHandlerForOneByOneTests.swift */; };
 		OBJ_46 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Global.swift */; };
 		OBJ_47 /* ContainerManagerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ContainerManagerProtocols.swift */; };
 		OBJ_48 /* Alignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Alignment.swift */; };
@@ -86,6 +89,9 @@
 		76D8C95E27D817F8009A86C6 /* ContainerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerManager.swift; sourceTree = "<group>"; };
 		76D8C96027D833EB009A86C6 /* ContainerViewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewProtocols.swift; sourceTree = "<group>"; };
 		76D8C96227D84F55009A86C6 /* ContainerManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerManagerTests.swift; sourceTree = "<group>"; };
+		76F817C727DB41BB00186338 /* QueueHandlerForMultipleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueHandlerForMultipleTests.swift; sourceTree = "<group>"; };
+		76F817C927DB54BF00186338 /* QueueHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueHandlerTests.swift; sourceTree = "<group>"; };
+		76F817CB27DB5E8300186338 /* QueueHandlerForOneByOneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueHandlerForOneByOneTests.swift; sourceTree = "<group>"; };
 		OBJ_10 /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		OBJ_12 /* ContainerManagerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerManagerProtocols.swift; sourceTree = "<group>"; };
 		OBJ_14 /* Alignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alignment.swift; sourceTree = "<group>"; };
@@ -221,6 +227,9 @@
 				76D8C96227D84F55009A86C6 /* ContainerManagerTests.swift */,
 				7612929F27D8BD48009A70A2 /* TapToDismissTests.swift */,
 				761E8DBC27D9CE91003C6D79 /* ExtensionTests.swift */,
+				76F817C727DB41BB00186338 /* QueueHandlerForMultipleTests.swift */,
+				76F817C927DB54BF00186338 /* QueueHandlerTests.swift */,
+				76F817CB27DB5E8300186338 /* QueueHandlerForOneByOneTests.swift */,
 			);
 			name = SwiftUIOverlayContainerTests;
 			path = Tests/SwiftUIOverlayContainerTests;
@@ -423,10 +432,13 @@
 			files = (
 				OBJ_76 /* AutoDismissMergeTests.swift in Sources */,
 				761292A027D8BD48009A70A2 /* TapToDismissTests.swift in Sources */,
+				76F817C827DB41BB00186338 /* QueueHandlerForMultipleTests.swift in Sources */,
 				OBJ_77 /* BackgroundMergeTests.swift in Sources */,
 				76D8C96327D84F55009A86C6 /* ContainerManagerTests.swift in Sources */,
+				76F817CC27DB5E8300186338 /* QueueHandlerForOneByOneTests.swift in Sources */,
 				OBJ_78 /* DismissGestureMergeTests.swift in Sources */,
 				OBJ_79 /* ShadowMergeTests.swift in Sources */,
+				76F817CA27DB54BF00186338 /* QueueHandlerTests.swift in Sources */,
 				761E8DBE27D9CF2B003C6D79 /* ExtensionTests.swift in Sources */,
 				OBJ_80 /* SwiftUIOverlayContainerTests.swift in Sources */,
 				OBJ_81 /* TransitionMergeTests.swift in Sources */,
