@@ -13,63 +13,57 @@ import Foundation
 import SwiftUI
 
 public protocol ContainerViewConfigurationProtocol {
-    // alignment
+    /// The alignment of view in container
     var alignment: Alignment? { get }
 
-    // background
+    /// Pass true , the view will be dismissed when the background is clicked
     var tapToDismiss: Bool? { get }
 
+    /// The background of container
     var backgroundStyle: ContainerBackgroundStyle? { get }
 
-    // shadow
+    /// The shadow of overlay view
     var shadowStyle: ContainerViewShadowStyle? { get }
 
-    // gesture
+    /// The gesture of dismiss
     var dismissGesture: ContainerViewDismissGesture? { get }
 
-    // transition
+    /// The transition of view display and dismiss
     var transition: AnyTransition? { get }
 
-    // autoDismiss
+    /// Pass .second(2) will dismiss the view after 2 seconds automaticlly
     var autoDismiss: ContainerViewAutoDismiss? { get }
 
-    // action
+    /// a method to call when the view is dismissed. Will not run if the view in the temp queue (oneByOneWaitFinish)
     var disappearAction: (() -> Void)? { get }
 
+    /// a method to call when the view is displayed. Will not run if the view in the temp queue (oneByOneWaitFinish)
     var appearAction: (() -> Void)? { get }
 
-    // animation
+    /// the animation that be used for transition
     var animation: Animation? { get }
 }
 
 public typealias ContainerView = View & ContainerViewConfigurationProtocol
 
 public extension ContainerViewConfigurationProtocol {
-    // alignment
     var alignment: Alignment? { nil }
 
-    // background
     var tapToDismiss: Bool? { nil }
 
     var backgroundStyle: ContainerBackgroundStyle? { nil }
 
-    // shadow
     var shadowStyle: ContainerViewShadowStyle? { nil }
 
-    // gesture
     var dismissGesture: ContainerViewDismissGesture? { nil }
 
-    // transition
     var transition: AnyTransition? { nil }
 
-    // autoDismiss
     var autoDismiss: ContainerViewAutoDismiss? { nil }
 
-    // action
     var disappearAction: (() -> Void)? { {} }
 
     var appearAction: (() -> Void)? { {} }
 
-    // animation
     var animation: Animation? { nil }
 }
