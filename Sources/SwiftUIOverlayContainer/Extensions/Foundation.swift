@@ -36,7 +36,7 @@ extension Bool {
 
 extension Array {
     mutating func push(_ element: Element, with animation: Animation? = nil) {
-        withAnimation(animation) {
+        disabledWithAnimation(animation) {
             self.append(element)
         }
     }
@@ -45,9 +45,18 @@ extension Array {
     mutating func pop(with animation: Animation? = nil) -> Element? {
         guard self.count > 0 else { return nil }
         var result: Element?
-        withAnimation(animation) {
+        disabledWithAnimation(animation) {
             result = self.removeFirst()
         }
         return result
+    }
+}
+
+extension Array where Element == IdentifiableContainerView {
+    mutating func remove(view id: UUID, with animation: Animation?) {
+        guard let index = self.firstIndex(where: { $0.id == id }) else { return }
+        disabledWithAnimation(animation) {
+            _ = self.remove(at: index)
+        }
     }
 }

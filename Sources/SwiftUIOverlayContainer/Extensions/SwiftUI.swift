@@ -17,3 +17,14 @@ extension View {
         AnyView(self)
     }
 }
+
+/// Pass nil to run body with animation.
+public func disabledWithAnimation(_ animation: Animation? = .default, _ body: () -> Void) {
+    if animation == nil {
+        body()
+    } else {
+        withAnimation(animation) {
+            body()
+        }
+    }
+}
