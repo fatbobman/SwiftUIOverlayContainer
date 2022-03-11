@@ -27,7 +27,7 @@
 		761292A027D8BD48009A70A2 /* TapToDismissTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7612929F27D8BD48009A70A2 /* TapToDismissTests.swift */; };
 		761292A227D8C1FE009A70A2 /* ContainerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761292A127D8C1FE009A70A2 /* ContainerProtocols.swift */; };
 		761E8DB927D97041003C6D79 /* ContainerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E8DB827D97041003C6D79 /* ContainerAction.swift */; };
-		761E8DBB27D99F92003C6D79 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E8DBA27D99F92003C6D79 /* ContainerController.swift */; };
+		761E8DBB27D99F92003C6D79 /* QueueHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E8DBA27D99F92003C6D79 /* QueueHandler.swift */; };
 		761E8DBE27D9CF2B003C6D79 /* ExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E8DBC27D9CE91003C6D79 /* ExtensionTests.swift */; };
 		76D8C95D27D81752009A86C6 /* IdentifiableContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8C95C27D81752009A86C6 /* IdentifiableContainerView.swift */; };
 		76D8C95F27D817F8009A86C6 /* ContainerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8C95E27D817F8009A86C6 /* ContainerManager.swift */; };
@@ -80,7 +80,7 @@
 		7612929F27D8BD48009A70A2 /* TapToDismissTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToDismissTests.swift; sourceTree = "<group>"; };
 		761292A127D8C1FE009A70A2 /* ContainerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerProtocols.swift; sourceTree = "<group>"; };
 		761E8DB827D97041003C6D79 /* ContainerAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerAction.swift; sourceTree = "<group>"; };
-		761E8DBA27D99F92003C6D79 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
+		761E8DBA27D99F92003C6D79 /* QueueHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueHandler.swift; sourceTree = "<group>"; };
 		761E8DBC27D9CE91003C6D79 /* ExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionTests.swift; sourceTree = "<group>"; };
 		76D8C95C27D81752009A86C6 /* IdentifiableContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableContainerView.swift; sourceTree = "<group>"; };
 		76D8C95E27D817F8009A86C6 /* ContainerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerManager.swift; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 				OBJ_21 /* Container.swift */,
 				OBJ_22 /* ContainerType.swift */,
 				761292A127D8C1FE009A70A2 /* ContainerProtocols.swift */,
-				761E8DBA27D99F92003C6D79 /* ContainerController.swift */,
+				761E8DBA27D99F92003C6D79 /* QueueHandler.swift */,
 			);
 			path = Container;
 			sourceTree = "<group>";
@@ -393,7 +393,7 @@
 				OBJ_49 /* AutoDismiss.swift in Sources */,
 				OBJ_50 /* DissmissGesture.swift in Sources */,
 				76D8C95F27D817F8009A86C6 /* ContainerManager.swift in Sources */,
-				761E8DBB27D99F92003C6D79 /* ContainerController.swift in Sources */,
+				761E8DBB27D99F92003C6D79 /* QueueHandler.swift in Sources */,
 				OBJ_51 /* ShadowStyle.swift in Sources */,
 				OBJ_52 /* TransitionAndAnimation.swift in Sources */,
 				OBJ_53 /* BackgroundStyle.swift in Sources */,

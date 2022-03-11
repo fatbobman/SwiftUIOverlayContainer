@@ -9,7 +9,10 @@
 //  My Blog: https://www.fatbobman.com
 //
 
+import Combine
 import Foundation
+import SwiftUI
+
 public protocol ContainerTypeConfigurationProtocol {
     // viewDisplayType
     var displayType: ContainerViewDisplayType { get }
@@ -18,4 +21,17 @@ public protocol ContainerTypeConfigurationProtocol {
     var queueType: ContainerViewQueueType { get }
 }
 
-public protocol ContainerConfigurationProtocol: ContainerViewConfigurationProtocol & ContainerTypeConfigurationProtocol {}
+public protocol ContainerCompositionProtocol {
+    var spacing: CGFloat? { get }
+
+    var insets: EdgeInsets { get }
+}
+
+extension ContainerCompositionProtocol {
+    var spacing: CGFloat? { nil }
+
+    var insets: EdgeInsets { .init() }
+}
+
+// swiftlint:disable:next line_length
+public protocol ContainerConfigurationProtocol: ContainerViewConfigurationProtocol & ContainerTypeConfigurationProtocol & ContainerCompositionProtocol {}
