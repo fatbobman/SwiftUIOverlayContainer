@@ -19,6 +19,14 @@ import XCTest
 class ContainerManagerTests: XCTestCase {
     let manager = ContainerManager.shared
 
+    override class func setUp() {
+        ContainerManager.shared.publishers.removeAll()
+    }
+
+    override class func tearDown() {
+        ContainerManager.shared.publishers.removeAll()
+    }
+
     override func setUp() {
         manager.publishers.removeAll()
     }
@@ -142,7 +150,7 @@ class ContainerManagerTests: XCTestCase {
 
     func testIsPresent() throws {
         // given
-        let source = BindingSource()
+        let source = BindingMock()
         let view = MessageView()
         let binding = Binding<Bool>(get: { source.isPresented }, set: { source.isPresented = $0 })
         let viewID = UUID()
@@ -343,6 +351,6 @@ extension MessageView: ContainerViewConfigurationProtocol {
     var shadowStyle: ContainerViewShadowStyle? { nil }
 }
 
-class BindingSource {
+class BindingMock {
     var isPresented = true
 }
