@@ -13,10 +13,10 @@ import Combine
 import Foundation
 import SwiftUI
 
+/// The core logic of Container queue. Exhibits different behaviors depends on the type of container queue.
 final class ContainerQueueHandler: ObservableObject {
-    @Published
     /// the main queue for IdentifiableView, used in SwiftUI ForEach
-    var mainQueue: [IdentifiableContainerView] = []
+    @Published var mainQueue: [IdentifiableContainerView] = []
 
     /// a temporary queue of IdentifiableContainerView. Use in OneByOneWaitFinish mode
     var tempQueue: [IdentifiableContainerView] = []
@@ -74,6 +74,7 @@ extension ContainerQueueHandler {
         guard let (identifiableView, queue) = getIdentifiableView(id: id) else {
             return
         }
+
         // setup animation
         var animation: Animation?
         if flag {
@@ -91,7 +92,7 @@ extension ContainerQueueHandler {
             tempQueue.remove(view: id, with: nil)
         }
 
-        // if has isPresented Binding Value
+        // Set it to false if the view has isPresented binding
         identifiableView.isPresented?.wrappedValue = false
     }
 
@@ -129,6 +130,7 @@ extension ContainerQueueHandler {
 // MARK: - Strategy
 
 extension ContainerQueueHandler {
+    /// Return a method for specific container queue type
     func handlerStrategy(for queueType: ContainerViewQueueType) -> (OverlayContainerAction) -> Void {
         switch queueType {
         case .oneByOne:
@@ -169,6 +171,10 @@ extension ContainerQueueHandler {
         }
     }
 
+    /// OneByOneWaitFinish strategy
+    ///
+    /// push the view in the main queue if main queue is empty , otherwise put it in the temp queue.
+    /// try to get a new view from the temp queue when the view in the main queue is dismissed
     func sinkForOneByOneWaitFinish(action: OverlayContainerAction) {
         switch action {
         case .show(let identifiableContainerView):
@@ -203,6 +209,7 @@ extension ContainerQueueHandler {
     }
 }
 
+/// Used to represent the main queue or teh temp queue
 enum QueueType {
     case main
     case temporary
