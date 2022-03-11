@@ -12,6 +12,7 @@
 import Foundation
 import SwiftUI
 
+/// Show the view in the specific overlay container when the binding value is true.
 struct ShowContainerViewModifier<V: View>: ViewModifier {
     let container: String
     var content: V
@@ -37,7 +38,7 @@ struct ShowContainerViewModifier<V: View>: ViewModifier {
 }
 
 public extension View {
-    /// Sends a view to specific overlay container when the binding to the boolean you provide is true.
+    /// Show the view in the specific overlay container when the binding value is true.
     ///
     ///     struct ContentView: View {
     ///         @State var show = false
@@ -91,7 +92,7 @@ public extension View {
             )
     }
 
-    /// Sends a view to specific overlay container when the binding to the boolean you provide is true.
+    /// Show the view in the specific overlay container when the binding value is true.
     ///
     ///     struct ContentView: View {
     ///         @State var show = false

@@ -17,7 +17,7 @@ struct ContainerManagerKey: EnvironmentKey {
 }
 
 public extension EnvironmentValues {
-    /// A environment value for container manager, you can send a view to specific overlay container through it.
+    /// An environment value that wraps the instance of container manager that you can use to show a view in the specific overlay container.
     ///
     ///     struct ContentView: View {
     ///         @Environment(\.overlayContainerManager) var manager

@@ -13,6 +13,7 @@ import Combine
 import Foundation
 import SwiftUI
 
+/// A protocol that overlay management type need to follow.
 protocol ContainerManagement {
     /// Register a container in the container manager
     func registerContainer(for container: String) -> ContainerViewPublisher
@@ -90,12 +91,12 @@ public protocol ContainerViewManagementForEnvironment {
 }
 
 protocol ContainerManagerLogger {
-    /// Weather allow to log output
+    /// Whether allow to log output
     static var enableLog: Bool { get set }
 
     /// A Instance of SwiftUIOverlayContainerLoggerProtocol for write log
     static var logger: SwiftUIOverlayContainerLoggerProtocol { get set }
 
-    /// Level for log output
+    /// Level for log output, set to zero means disable log output
     static var debugLevel: Int { get set }
 }

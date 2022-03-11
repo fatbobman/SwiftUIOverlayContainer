@@ -13,6 +13,7 @@ import Combine
 import Foundation
 import SwiftUI
 
+/// The manager of all overlay containers that provides a bridge between containers and SwiftUI views.
 public final class ContainerManager {
     var publishers: [String: ContainerViewPublisher] = [:]
 
