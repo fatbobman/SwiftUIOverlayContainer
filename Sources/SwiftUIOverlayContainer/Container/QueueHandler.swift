@@ -100,7 +100,10 @@ extension ContainerQueueHandler {
 
     /// Dismiss all views
     func dismissAll(animated flag: Bool) {
-        for identifiableView in mainQueue + tempQueue {
+        for identifiableView in mainQueue {
+            dismiss(id: identifiableView.id, animated: flag)
+        }
+        for identifiableView in tempQueue {
             dismiss(id: identifiableView.id, animated: flag)
         }
     }
