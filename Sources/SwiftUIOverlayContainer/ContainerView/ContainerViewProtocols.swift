@@ -22,7 +22,7 @@ public protocol ContainerViewConfigurationProtocol {
     /// Pass true , the view will be dismissed when the background is clicked
     ///
     /// Each view has own tapToDismiss when the container display type is stacking
-    /// All view use the one of container configuration's tapToDismiss when container display type is horizontal or vertical
+    /// tapToDismiss will ignored when the container display type is horizontal or vertical
     var tapToDismiss: Bool? { get }
 
     /// The background of container

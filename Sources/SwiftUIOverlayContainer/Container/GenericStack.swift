@@ -49,3 +49,93 @@ struct GenericStack<Content: View>: View {
         }
     }
 }
+
+extension Array {
+    /// Reorder elements based on container display type and alignment
+    func alignment(displayType: ContainerViewDisplayType, by alignment: Alignment) -> Self {
+        switch displayType {
+        case .horizontal:
+            if [Alignment.leading, .topLeading, .bottomLeading].contains(alignment) {
+                return self.lazy.reversed()
+            } else {
+                return self
+            }
+        case .vertical:
+            if [Alignment.top, .topLeading, .topTrailing].contains(alignment) {
+                return self.lazy.reversed()
+            } else {
+                return self
+            }
+        case .stacking:
+            return self
+        }
+    }
+}
+
+#if DEBUG
+struct GenericStackPreview: PreviewProvider {
+    static let items = (0...5).map { $0 }
+    static var previews: some View {
+        Group {
+            GenericStack(displayType: .stacking, alignment: .bottom) {
+                ForEach(items.alignment(displayType: .stacking, by: .bottom), id: \.self) { i in
+                    Text("layer \(i)")
+                        .foregroundColor(.blue)
+                        .offset(x: CGFloat(i) * 5, y: CGFloat(i) * 5)
+                }
+            }
+            .border(.red)
+            .previewLayout(.fixed(width: 200, height: 200))
+
+            GenericStack(displayType: .vertical, alignment: .top) {
+                ForEach(items.alignment(displayType: .vertical, by: .top), id: \.self) { i in
+                    Text("\(i)")
+                        .foregroundColor(.blue)
+                }
+            }
+            .border(.red)
+            .previewLayout(.fixed(width: 200, height: 200))
+
+            GenericStack(displayType: .vertical, alignment: .bottom) {
+                ForEach(items.alignment(displayType: .vertical, by: .bottom), id: \.self) { i in
+                    Text("\(i)")
+                        .foregroundColor(.blue)
+                }
+            }
+            .border(.red)
+            .previewLayout(.fixed(width: 200, height: 200))
+
+            GenericStack(displayType: .horizontal, alignment: .leading) {
+                ForEach(items.alignment(displayType: .horizontal, by: .leading), id: \.self) { i in
+                    Text("\(i)")
+                        .foregroundColor(.blue)
+                }
+            }
+            .border(.red)
+            .previewLayout(.fixed(width: 200, height: 200))
+
+            GenericStack(
+                displayType: .horizontal,
+                alignment: .trailing, spacing: 3,
+                insets: .init(top: 0, leading: 0, bottom: 0, trailing: 20)
+            ) {
+                ForEach(items.alignment(displayType: .horizontal, by: .trailing), id: \.self) { i in
+                    Text("\(i)")
+                        .foregroundColor(.blue)
+                }
+            }
+            .border(.red)
+            .previewLayout(.fixed(width: 200, height: 200))
+
+            GenericStack(displayType: .horizontal, alignment: .topLeading) {
+                ForEach(items.alignment(displayType: .horizontal, by: .topLeading), id: \.self) { i in
+                    Text("\(i)")
+                        .foregroundColor(.blue)
+                }
+            }
+            .border(.red)
+            .previewLayout(.fixed(width: 200, height: 200))
+        }
+    }
+}
+#endif
