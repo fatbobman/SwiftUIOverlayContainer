@@ -72,16 +72,16 @@ extension OverlayContainer {
         containerConfiguration: ContainerConfigurationProtocol,
         queueHandler: ContainerQueueHandler
     ) -> some View {
-        let view = identifiableView.view
+
         let shadowStyle = ContainerViewShadowStyle.merge(
             containerShadow: containerConfiguration.shadowStyle,
             viewShadow: identifiableView.configuration.shadowStyle,
             containerViewDisplayType: containerConfiguration.displayType
         )
         let dismissGesture = ContainerViewDismissGesture.merge(
-            containerGesture: containerConfiguration.dismissGesture,
-            viewGesture: identifiableView.configuration.dismissGesture
+            containerGesture: containerConfiguration.dismissGesture, viewGesture: identifiableView.configuration.dismissGesture
         )
+
         let transition = AnyTransition.merge(
             containerTransition: containerConfiguration.transition,
             viewTransition: identifiableView.configuration.transition,
@@ -90,16 +90,25 @@ extension OverlayContainer {
         let dismissAction = compositeDismissAction(
             for: identifiableView, containerConfiguration: containerConfiguration, queueHandler: queueHandler
         )
+
         let autoDismissStyle = ContainerViewAutoDismiss.merge(
             containerAutoDismiss: containerConfiguration.autoDismiss, viewAutoDismiss: identifiableView.configuration.autoDismiss
         )
 
-        let pureView = view
+        let environmentValue = compositeContainerEnvironmentValue(
+            containerName: containerName,
+            containerConfiguration: containerConfiguration,
+            containerFrame: containerFrame,
+            dismissAction: dismissAction
+        )
+
+        let pureView = identifiableView.view
             .containerViewShadow(shadowStyle)
             .dismissGesture(gestureType: dismissGesture, dismissAction: dismissAction)
             .transition(transition)
             .autoDismiss(autoDismissStyle, dismissAction: dismissAction)
             .dismissIfIsPresentedIfFalse(identifiableView.isPresented, preform: dismissAction)
+            .environment(\.overlayContainer, environmentValue)
 
         switch containerConfiguration.displayType {
         case .horizontal, .vertical:
@@ -111,11 +120,13 @@ extension OverlayContainer {
             let background = compositeBackgroundFor(
                 identifiableView: identifiableView, containerConfiguration: containerConfiguration, dismissAction: dismissAction
             )
+
             let alignment = Alignment.merge(
                 containerAlignment: containerConfiguration.alignment,
                 viewAlignment: identifiableView.configuration.alignment,
                 containerViewDisplayType: containerConfiguration.displayType
             )
+
             background
                 .overlay(alignment: alignment) {
                     pureView

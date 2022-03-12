@@ -37,7 +37,7 @@ struct OverlayContainer: View {
     let configuration: ContainerConfigurationProtocol
     let containerName: String
     @StateObject var queueHandler: ContainerQueueHandler
-    @State private var containerFrame: CGRect = .zero
+    @State var containerFrame: CGRect = .zero
 
     init(containerName: String, configuration: ContainerConfigurationProtocol, containerManager: ContainerManager) {
         self.containerName = containerName
@@ -81,6 +81,7 @@ struct OverlayContainer: View {
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             }
         }
+        .getCurrentViewFrameInfo(to: $containerFrame)
         .onAppear { queueHandler.connect() }
         .onDisappear { queueHandler.disconnect() }
     }
