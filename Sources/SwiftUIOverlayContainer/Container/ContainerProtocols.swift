@@ -24,7 +24,7 @@ public protocol ContainerTypeConfigurationProtocol {
     var emptyQueueAfterDisappear: Bool { get }
 }
 
-extension ContainerTypeConfigurationProtocol {
+public extension ContainerTypeConfigurationProtocol {
     var emptyQueueAfterDisappear: Bool { true }
 }
 
