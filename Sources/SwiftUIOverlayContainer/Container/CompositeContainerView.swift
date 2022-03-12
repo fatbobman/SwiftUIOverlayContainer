@@ -29,12 +29,27 @@ extension OverlayContainer {
         }
     }
 
+    func compositeDismissActionForAllViewIsShowing(
+        containerConfiguration: ContainerConfigurationProtocol,
+        queueHandler: ContainerQueueHandler
+    ) -> () -> Void {
+        {
+            for identifiableView in queueHandler.mainQueue {
+                queueHandler.dismiss(id: identifiableView.id, animated: true)
+                identifiableView.configuration.disappearAction?()
+            }
+            // disappear action for container
+            configuration.disappearAction?()
+        }
+    }
+
     @ViewBuilder
-    func compositeContainerBackground(containerConfiguration: ContainerConfigurationProtocol) -> some View {
+    func compositeContainerBackground(containerConfiguration: ContainerConfigurationProtocol, dismissAction: @escaping () -> Void) -> some View {
         let backgroundTransition = containerConfiguration.backgroundTransitionStyle
         if let backgroundStyle = containerConfiguration.backgroundStyle {
             backgroundStyle
                 .view()
+                .onTapGesture(perform: dismissAction)
                 .transition(backgroundTransition.transition)
         } else {
             Color.clear
@@ -72,7 +87,6 @@ extension OverlayContainer {
         containerConfiguration: ContainerConfigurationProtocol,
         queueHandler: ContainerQueueHandler
     ) -> some View {
-
         let shadowStyle = ContainerViewShadowStyle.merge(
             containerShadow: containerConfiguration.shadowStyle,
             viewShadow: identifiableView.configuration.shadowStyle,
@@ -102,10 +116,10 @@ extension OverlayContainer {
             dismissAction: dismissAction
         )
 
-        let pureView = identifiableView.view
+        let pureView = Rectangle().fill(.orange).frame(width: 200, height: 100) // identifiableView.view //
             .containerViewShadow(shadowStyle)
-            .dismissGesture(gestureType: dismissGesture, dismissAction: dismissAction)
             .transition(transition)
+            .dismissGesture(gestureType: dismissGesture, dismissAction: dismissAction)
             .autoDismiss(autoDismissStyle, dismissAction: dismissAction)
             .dismissIfIsPresentedIfFalse(identifiableView.isPresented, preform: dismissAction)
             .environment(\.overlayContainer, environmentValue)
@@ -128,10 +142,9 @@ extension OverlayContainer {
             )
 
             background
-                .overlay(alignment: alignment) {
-                    pureView
-                        .padding(containerConfiguration.insets) // add insets for each view
-                }
+            pureView
+                .padding(containerConfiguration.insets) // add insets for each view
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: alignment)
         }
     }
 }
