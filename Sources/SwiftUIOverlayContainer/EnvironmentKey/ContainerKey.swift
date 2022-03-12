@@ -15,20 +15,20 @@ import SwiftUI
 public struct ContainerEnvironment {
     public init(
         containerName: String,
-        containerSize: CGSize,
+        containerFrame: CGRect,
         containerViewDisplayType: ContainerViewDisplayType,
         containerViewQueueType: ContainerViewQueueType,
         dismiss: @escaping () -> Void
     ) {
         self.containerName = containerName
-        self.containerSize = containerSize
+        self.containerFrame = containerFrame
         self.containerViewDisplayType = containerViewDisplayType
         self.containerViewQueueType = containerViewQueueType
         self.dismiss = dismiss
     }
 
     let containerName: String
-    let containerSize: CGSize
+    let containerFrame: CGRect
     let containerViewDisplayType: ContainerViewDisplayType
     let containerViewQueueType: ContainerViewQueueType
     var dismiss: () -> Void
@@ -38,7 +38,7 @@ public struct ContainerEnvironment {
 public struct ContainerEnvironmentKey: EnvironmentKey {
     public static var defaultValue = ContainerEnvironment(
         containerName: "`ContainerEnvironmentKey` Can only be used in container views",
-        containerSize: .zero,
+        containerFrame: .zero,
         containerViewDisplayType: .stacking,
         containerViewQueueType: .multiple,
         dismiss: {
