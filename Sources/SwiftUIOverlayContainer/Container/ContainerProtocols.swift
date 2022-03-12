@@ -19,6 +19,13 @@ public protocol ContainerTypeConfigurationProtocol {
 
     // viewQueueType
     var queueType: ContainerViewQueueType { get }
+
+    // Pass true will empty all queue when container is disappeared
+    var emptyQueueAfterDisappear: Bool { get }
+}
+
+extension ContainerTypeConfigurationProtocol {
+    var emptyQueueAfterDisappear: Bool { true }
 }
 
 public protocol ContainerCompositionProtocol {

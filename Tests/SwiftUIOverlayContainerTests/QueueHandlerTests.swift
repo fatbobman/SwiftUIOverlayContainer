@@ -32,8 +32,7 @@ class QueueHandlerTests: XCTestCase {
         self.handler = ContainerQueueHandler(
             container: "testContainer",
             containerConfiguration: containerConfiguration,
-            containerManager: manager,
-            emptyQueueAfterDisappear: true
+            containerManager: manager
         )
     }
 
