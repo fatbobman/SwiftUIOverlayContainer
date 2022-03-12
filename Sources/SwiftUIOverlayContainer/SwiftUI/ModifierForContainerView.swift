@@ -19,6 +19,7 @@ struct ShowContainerViewModifier<V: View>: ViewModifier {
     let configuration: ContainerViewConfigurationProtocol
     @Binding var isPresented: Bool
     @Environment(\.overlayContainerManager) var containerManager
+    @State var identifiableViewID: UUID?
 
     init(container: String, content: V, configuration: ContainerViewConfigurationProtocol, isPresented: Binding<Bool>) {
         self.container = container
@@ -31,7 +32,11 @@ struct ShowContainerViewModifier<V: View>: ViewModifier {
         content
             .onChange(of: isPresented) { _ in
                 if isPresented {
-                    containerManager.show(view: content, in: container, using: configuration, isPresented: $isPresented)
+                    identifiableViewID = containerManager.show(view: content, in: container, using: configuration, isPresented: $isPresented)
+                } else {
+                    if let identifiableViewID = identifiableViewID {
+                        containerManager.dismiss(view: identifiableViewID, in: container, animated: true)
+                    }
                 }
             }
     }
