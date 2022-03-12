@@ -29,14 +29,15 @@ struct SwiftUIOverlayContainerModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .overlay(SwiftUIOverlayContainer(containerName: containerName, configuration: configuration, containerManager: manager))
+            .overlay(OverlayContainer(containerName: containerName, configuration: configuration, containerManager: manager))
     }
 }
 
-struct SwiftUIOverlayContainer: View {
+struct OverlayContainer: View {
     let configuration: ContainerConfigurationProtocol
     let containerName: String
     @StateObject var queueHandler: ContainerQueueHandler
+    @State private var containerFrame: CGRect = .zero
 
     init(containerName: String, configuration: ContainerConfigurationProtocol, containerManager: ContainerManager) {
         self.containerName = containerName
@@ -50,6 +51,11 @@ struct SwiftUIOverlayContainer: View {
     }
 
     var body: some View {
-        Text("")
+        switch configuration.displayType {
+            case .stacking:
+                EmptyView()
+            case .vertical,.horizontal:
+                EmptyView()
+        }
     }
 }

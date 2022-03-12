@@ -39,3 +39,22 @@ extension View {
         modifier(GetFrameInfoModifier(bindingValue: bindingValue))
     }
 }
+
+// CompositeContainerEnvironmentValue
+
+extension OverlayContainer {
+    func compositeContainerEnvironmentValue(
+        containerName: String,
+        containerConfiguration: ContainerConfigurationProtocol,
+        containerFrame: CGRect,
+        dismissAction: @escaping () -> Void
+    ) -> ContainerEnvironment {
+        ContainerEnvironment(
+            containerName: containerName,
+            containerFrame: containerFrame,
+            containerViewDisplayType: containerConfiguration.displayType,
+            containerViewQueueType: containerConfiguration.queueType,
+            dismiss: dismissAction
+        )
+    }
+}

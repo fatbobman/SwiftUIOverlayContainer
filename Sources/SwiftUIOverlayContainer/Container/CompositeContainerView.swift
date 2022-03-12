@@ -12,7 +12,7 @@
 import Foundation
 import SwiftUI
 
-extension SwiftUIOverlayContainer {
+extension OverlayContainer {
     /// composite dismiss action for specific identifiable view
     func compositeDismissAction(
         for identifiableView: IdentifiableContainerView,
@@ -115,7 +115,7 @@ extension SwiftUIOverlayContainer {
             pureView
 
         case .stacking:
-            // background + backgroundDismiss + view + gesture + shadow + transition + autoDismiss + isPresented + alignment
+            // background + backgroundDismiss + view + gesture + shadow + transition + autoDismiss + isPresented + alignment + inset
             let background = compositeBackgroundFor(
                 identifiableView: identifiableView, containerConfiguration: containerConfiguration, dismissAction: dismissAction
             )
@@ -127,6 +127,7 @@ extension SwiftUIOverlayContainer {
             background
                 .overlay(alignment: alignment) {
                     pureView
+                        .padding(containerConfiguration.insets) // add insets for each view
                 }
         }
     }
