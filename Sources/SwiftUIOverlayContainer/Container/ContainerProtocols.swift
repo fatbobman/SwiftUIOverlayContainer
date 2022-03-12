@@ -34,7 +34,7 @@ public protocol ContainerCompositionProtocol {
     var insets: EdgeInsets { get }
 }
 
-extension ContainerCompositionProtocol {
+public extension ContainerCompositionProtocol {
     var spacing: CGFloat? { nil }
 
     var insets: EdgeInsets { .init() }
