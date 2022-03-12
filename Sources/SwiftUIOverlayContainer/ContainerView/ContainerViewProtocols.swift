@@ -14,13 +14,22 @@ import SwiftUI
 
 public protocol ContainerViewConfigurationProtocol {
     /// The alignment of view in container
+    ///
+    /// Each view has own alignment when the container display type is stacking.
+    /// All views use same alignment when container display type is horizontal or vertical
     var alignment: Alignment? { get }
 
     /// Pass true , the view will be dismissed when the background is clicked
     var tapToDismiss: Bool? { get }
 
     /// The background of container
+    ///
+    /// Each view has own background when the container display type is stacking
+    /// There is only one background when the container display type is horizontal or vertical
     var backgroundStyle: ContainerBackgroundStyle? { get }
+
+    /// The transition of background of view.
+    var backgroundTransitionStyle: ContainerBackgroundTransitionStyle { get }
 
     /// The shadow of overlay view
     var shadowStyle: ContainerViewShadowStyle? { get }
@@ -52,6 +61,8 @@ public extension ContainerViewConfigurationProtocol {
     var tapToDismiss: Bool? { nil }
 
     var backgroundStyle: ContainerBackgroundStyle? { nil }
+
+    var backgroundTransitionStyle: ContainerBackgroundTransitionStyle { .opacity }
 
     var shadowStyle: ContainerViewShadowStyle? { nil }
 

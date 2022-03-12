@@ -33,24 +33,19 @@ final class ContainerQueueHandler: ObservableObject {
     /// Container Manager instance
     var manager: ContainerManager
 
-    /// Pass true will empty all queues after disappear
-    var emptyQueueAfterDisappear: Bool
-
     init(container: String,
          containerConfiguration: ContainerConfigurationProtocol,
-         containerManager: ContainerManager,
-         emptyQueueAfterDisappear: Bool) {
+         containerManager: ContainerManager) {
         self.container = container
         self.containerConfiguration = containerConfiguration
         self.manager = containerManager
-        self.emptyQueueAfterDisappear = emptyQueueAfterDisappear
     }
 
     /// Register the container in the container manager. Will be called when  onAppear
     func disconnect() {
         cancellable = nil
         manager.removeContainer(for: container)
-        if emptyQueueAfterDisappear {
+        if containerConfiguration.emptyQueueAfterDisappear {
             dismissAll(animated: false)
         }
     }
