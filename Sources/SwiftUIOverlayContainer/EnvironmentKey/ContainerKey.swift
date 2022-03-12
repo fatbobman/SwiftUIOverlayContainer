@@ -49,5 +49,8 @@ public struct ContainerEnvironmentKey: EnvironmentKey {
 
 public extension EnvironmentValues {
     /// An Environment Value that provides some informations and methods about the container in the container views.
-    var overlayContainer: ContainerEnvironment { self[ContainerEnvironmentKey.self] }
+    var overlayContainer: ContainerEnvironment {
+        get { self[ContainerEnvironmentKey.self] }
+        set { self[ContainerEnvironmentKey.self] = newValue }
+    }
 }
