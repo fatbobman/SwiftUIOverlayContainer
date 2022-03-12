@@ -63,7 +63,9 @@ struct OverlayContainer: View {
                 let alignment = Alignment.merge(
                     containerAlignment: configuration.alignment, viewAlignment: nil, containerViewDisplayType: configuration.displayType
                 )
-                let background = compositeContainerBackground(containerConfiguration: configuration)
+                let dismissAction = compositeDismissActionForAllViewIsShowing(containerConfiguration: configuration, queueHandler: queueHandler)
+                let background = compositeContainerBackground(containerConfiguration: configuration, dismissAction: dismissAction)
+                let insets = configuration.insets
 
                 ZStack(alignment: alignment) {
                     if !queueHandler.mainQueue.isEmpty {
@@ -75,6 +77,7 @@ struct OverlayContainer: View {
                             displayType: configuration.displayType, by: alignment
                         ), id: \.id) { identifiableView in
                             compositeContainerView(for: identifiableView, containerConfiguration: configuration, queueHandler: queueHandler)
+                                .padding(insets)
                         }
                     }
                 }
