@@ -31,7 +31,7 @@ extension ContainerBackgroundStyle {
         case .view(let view):
             view.allowsHitTesting(false) // disable interactivity of custom view
         case .none:
-            EmptyView()
+            Color.clear
         }
     }
 
@@ -61,6 +61,21 @@ extension ContainerBackgroundStyle {
         case .stacking:
             guard let containerBackgroundStyle = containerBackgroundStyle else { return viewBackgroundStyle ?? .none }
             return viewBackgroundStyle ?? containerBackgroundStyle
+        }
+    }
+}
+
+/// Transition of container view background
+public enum ContainerBackgroundTransitionStyle {
+    case identity
+    case opacity
+
+    var transition: AnyTransition {
+        switch self {
+        case .opacity:
+            return .opacity
+        case .identity:
+            return .identity
         }
     }
 }

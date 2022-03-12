@@ -41,7 +41,7 @@ extension View {
     /// add auto dismiss closure for container View
     ///
     ///      var autoDismiss: ContainerViewAutoDismiss {
-    ///           ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss, 
+    ///           ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss,
     ///                                          viewAutoDismiss: viewAutoDismiss)
     ///      }
     ///
