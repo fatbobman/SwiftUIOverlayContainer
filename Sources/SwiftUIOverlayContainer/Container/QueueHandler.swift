@@ -48,15 +48,22 @@ final class ContainerQueueHandler: ObservableObject {
         if containerConfiguration.emptyQueueAfterDisappear {
             dismissAll(animated: false)
         }
+        sendMessage(type: .info, message: "container `\(container)` disconnected", debugLevel: 2)
     }
 
     /// Remove the container from the container manager. Will be called when onDisappear
     func connect() {
         cancellable = manager.registerContainer(for: container)
             .sink { [weak self] action in
+                self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
                 guard let queueType = self?.containerConfiguration.queueType else { return }
                 self?.handlerStrategy(for: queueType)(action)
             }
+        sendMessage(type: .info, message: "container `\(container)` connected", debugLevel: 2)
+    }
+
+    func sendMessage(type: SwiftUIOverlayContainerLogType, message: String, debugLevel: Int) {
+        manager.sendMessage(type: type, message: message, debugLevel: debugLevel)
     }
 }
 
