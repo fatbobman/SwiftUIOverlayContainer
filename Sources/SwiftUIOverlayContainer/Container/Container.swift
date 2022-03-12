@@ -14,7 +14,7 @@ import SwiftUI
 
 public extension View {
     func overlayContainer(_ containerName: String, containerConfiguration: ContainerConfigurationProtocol) -> some View {
-        self
+        modifier(SwiftUIOverlayContainerModifier(containerName: containerName, configuration: containerConfiguration))
     }
 }
 
