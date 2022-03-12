@@ -27,11 +27,11 @@ public struct ContainerEnvironment {
         self.dismiss = dismiss
     }
 
-    let containerName: String
-    let containerFrame: CGRect
-    let containerViewDisplayType: ContainerViewDisplayType
-    let containerViewQueueType: ContainerViewQueueType
-    var dismiss: () -> Void
+    public let containerName: String
+    public let containerFrame: CGRect
+    public let containerViewDisplayType: ContainerViewDisplayType
+    public let containerViewQueueType: ContainerViewQueueType
+    public var dismiss: () -> Void
 }
 
 /// An Environment Key that provides some informations and methods about container in the container views.

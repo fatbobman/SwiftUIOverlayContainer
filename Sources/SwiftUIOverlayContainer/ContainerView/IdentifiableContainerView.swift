@@ -38,3 +38,24 @@ public struct IdentifiableContainerView: Identifiable {
         self.isPresented = isPresented
     }
 }
+
+#if DEBUG
+struct IdentifiableViewPreview: PreviewProvider {
+    static var previews: some View {
+        IdentifiableContainerView(id: UUID(), view: CellView(), viewConfiguration: CellView(), isPresented: nil)
+            .view
+    }
+}
+
+fileprivate struct CellView: View {
+    var body: some View {
+        RoundedRectangle(cornerRadius: 10)
+            .fill(Color.orange)
+            .padding(.horizontal, 20)
+            .frame(height: 50)
+            .overlay(Text("Hello world"))
+    }
+}
+
+extension CellView: ContainerViewConfigurationProtocol {}
+#endif
