@@ -55,7 +55,7 @@ extension Array {
 extension Array where Element == IdentifiableContainerView {
     mutating func remove(view id: UUID, with animation: Animation?) {
         guard let index = self.firstIndex(where: { $0.id == id }) else { return }
-        disabledWithAnimation(animation) {
+        withAnimation(animation) {
             _ = self.remove(at: index)
         }
     }

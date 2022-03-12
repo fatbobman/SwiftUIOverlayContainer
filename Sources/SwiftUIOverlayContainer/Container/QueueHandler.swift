@@ -78,7 +78,7 @@ extension ContainerQueueHandler {
         }
 
         // setup animation
-        var animation: Animation?
+        var animation = Animation.none
         if flag {
             animation = Animation.merge(
                 containerAnimation: containerConfiguration.animation,
@@ -89,9 +89,9 @@ extension ContainerQueueHandler {
         // remove view
         switch queue {
         case .main:
-            mainQueue.remove(view: id, with: animation)
+            remove(view: id, from: .main, animation: animation)
         case .temporary:
-            tempQueue.remove(view: id, with: nil)
+            remove(view: id, from: .temporary, animation: animation)
         }
 
         // Set it to false if the view has isPresented binding
@@ -105,6 +105,13 @@ extension ContainerQueueHandler {
         }
     }
 
+    /// Dismiss all view that are showing
+    func dismissMainQueue(animated flag: Bool) {
+        for identifiableView in mainQueue {
+            dismiss(id: identifiableView.id, animated: flag)
+        }
+    }
+
     /// Push view into specific queue, which queue depends on QueueType
     func pushViewIntoQueue(_ identifiableView: IdentifiableContainerView, queue: QueueType) {
         switch queue {
@@ -113,9 +120,11 @@ extension ContainerQueueHandler {
                 containerAnimation: containerConfiguration.animation,
                 viewAnimation: identifiableView.configuration.animation
             )
-            mainQueue.push(identifiableView, with: animation)
+            withAnimation(animation) {
+                mainQueue.append(identifiableView)
+            }
         case .temporary:
-            tempQueue.push(identifiableView, with: nil)
+            tempQueue.append(identifiableView)
         }
     }
 
@@ -126,6 +135,24 @@ extension ContainerQueueHandler {
             return (temporaryView, .temporary)
         }
         return nil
+    }
+
+    /// remove identifiable from queue
+    func remove(view id: UUID, from queue: QueueType, animation: Animation) {
+        switch queue {
+        case .main:
+            if let index = mainQueue.firstIndex(where: { $0.id == id }) {
+                withAnimation(animation) {
+                    mainQueue.remove(at: index)
+                }
+            }
+        case .temporary:
+            if let index = tempQueue.firstIndex(where: { $0.id == id }) {
+                withAnimation(animation) {
+                    tempQueue.remove(at: index)
+                }
+            }
+        }
     }
 }
 
@@ -206,7 +233,8 @@ extension ContainerQueueHandler {
     /// If the main queue is empty, try transfer the first view from temp queue to main queue.
     func transferNewViewFromTempQueueIfNeeded() {
         guard mainQueue.isEmpty else { return }
-        guard let view = tempQueue.pop(with: nil) else { return }
+        guard let view = tempQueue.first else { return }
+        tempQueue.removeFirst()
         pushViewIntoQueue(view, queue: .main)
     }
 }

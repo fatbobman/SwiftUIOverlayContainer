@@ -54,7 +54,7 @@ extension Animation {
     /// Merge Transition Animation between container and container view
     ///
     ///       container           view          result
-    ///         nil               nil           nil
+    ///         nil               nil           Animation.none
     ///         nil               easeIn        easeIn
     ///         default           easeIn        easeIn
     ///
@@ -73,7 +73,11 @@ extension Animation {
     static func merge(
         containerAnimation: Animation?,
         viewAnimation: Animation?
-    ) -> Animation? {
-        return viewAnimation ?? containerAnimation
+    ) -> Animation {
+        return viewAnimation ?? containerAnimation ?? Animation.none
+    }
+
+    static var none:Animation {
+        .easeIn(duration: 0)
     }
 }
