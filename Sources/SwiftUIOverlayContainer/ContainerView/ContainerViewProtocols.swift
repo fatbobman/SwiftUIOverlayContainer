@@ -16,10 +16,13 @@ public protocol ContainerViewConfigurationProtocol {
     /// The alignment of view in container
     ///
     /// Each view has own alignment when the container display type is stacking.
-    /// All views use same alignment when container display type is horizontal or vertical
+    /// All views use the one of container configuration's alignment when container display type is horizontal or vertical
     var alignment: Alignment? { get }
 
     /// Pass true , the view will be dismissed when the background is clicked
+    ///
+    /// Each view has own tapToDismiss when the container display type is stacking
+    /// All view use the one of container configuration's tapToDismiss when container display type is horizontal or vertical
     var tapToDismiss: Bool? { get }
 
     /// The background of container
