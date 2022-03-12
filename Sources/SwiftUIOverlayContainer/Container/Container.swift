@@ -51,11 +51,74 @@ struct OverlayContainer: View {
     }
 
     var body: some View {
-        switch configuration.displayType {
+        Group {
+            switch configuration.displayType {
             case .stacking:
-                EmptyView()
-            case .vertical,.horizontal:
-                EmptyView()
+                GenericStack(displayType: configuration.displayType, alignment: .center) {
+                    ForEach(queueHandler.mainQueue.alignment(displayType: .stacking, by: .center), id: \.id) { identifiableView in
+                        compositeContainerView(for: identifiableView, containerConfiguration: configuration, queueHandler: queueHandler)
+                    }
+                }
+            case .vertical, .horizontal:
+                let alignment = Alignment.merge(
+                    containerAlignment: configuration.alignment, viewAlignment: nil, containerViewDisplayType: configuration.displayType
+                )
+                let background = compositeContainerBackground(containerConfiguration: configuration)
+
+                ZStack(alignment: alignment) {
+                    if !queueHandler.mainQueue.isEmpty {
+                        background
+                    }
+
+                    GenericStack(displayType: configuration.displayType, alignment: alignment) {
+                        ForEach(queueHandler.mainQueue.alignment(
+                            displayType: configuration.displayType, by: alignment
+                        ), id: \.id) { identifiableView in
+                            compositeContainerView(for: identifiableView, containerConfiguration: configuration, queueHandler: queueHandler)
+                        }
+                    }
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+            }
         }
+        .onAppear { queueHandler.connect() }
+        .onDisappear { queueHandler.disconnect() }
     }
 }
+
+#if DEBUG
+struct ContainerPreview: PreviewProvider {
+    static var previews: some View {
+        RootView()
+            .previewLayout(.fixed(width: 400, height: 700))
+    }
+}
+
+struct RootView: View {
+    @State var show = false
+    var body: some View {
+        VStack {
+            Text("Hello")
+            Button("show view1") {
+                show.toggle()
+            }
+        }
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+        .overlayContainer("container1", containerConfiguration: ContainerConfiguration())
+        .containerView(in: "container1", isPresented: $show, content: MessageView())
+    }
+}
+
+struct MessageView: View {
+    var body: some View {
+        Text("abc")
+    }
+}
+
+extension MessageView: ContainerViewConfigurationProtocol {}
+
+struct ContainerConfiguration: ContainerConfigurationProtocol {
+    var displayType: ContainerViewDisplayType = .vertical
+    var queueType: ContainerViewQueueType = .oneByOne
+}
+#endif

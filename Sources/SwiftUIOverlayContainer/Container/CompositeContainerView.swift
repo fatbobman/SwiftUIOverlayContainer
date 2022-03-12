@@ -30,19 +30,11 @@ extension OverlayContainer {
     }
 
     @ViewBuilder
-    func compositeContainerBackground(
-        containerConfiguration: ContainerConfigurationProtocol, dismissAction: @escaping () -> Void
-    ) -> some View {
+    func compositeContainerBackground(containerConfiguration: ContainerConfigurationProtocol) -> some View {
         let backgroundTransition = containerConfiguration.backgroundTransitionStyle
-        let tapToDismiss = Bool.merge(
-            containerTapToDismiss: containerConfiguration.tapToDismiss,
-            viewTapToDismiss: nil,
-            containerType: containerConfiguration.displayType
-        )
         if let backgroundStyle = containerConfiguration.backgroundStyle {
             backgroundStyle
                 .view()
-                .if(tapToDismiss) { $0.onTapGesture(perform: dismissAction) }
                 .transition(backgroundTransition.transition)
         } else {
             Color.clear
