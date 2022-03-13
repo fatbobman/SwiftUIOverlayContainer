@@ -44,9 +44,16 @@ extension OverlayContainer {
     }
 
     @ViewBuilder
-    func compositeContainerBackground(containerConfiguration: ContainerConfigurationProtocol, dismissAction: @escaping () -> Void) -> some View {
+    func compositeContainerBackground(
+        containerConfiguration: ContainerConfigurationProtocol,
+        dismissAction: @escaping () -> Void
+    ) -> some View {
         let backgroundTransition = containerConfiguration.backgroundTransitionStyle
-        let tapToDismiss = Bool.merge(containerTapToDismiss: containerConfiguration.tapToDismiss, viewTapToDismiss: nil, containerType: containerConfiguration.displayType)
+        let tapToDismiss = Bool.merge(
+            containerTapToDismiss: containerConfiguration.tapToDismiss,
+            viewTapToDismiss: nil,
+            containerType: containerConfiguration.displayType
+        )
         if let backgroundStyle = containerConfiguration.backgroundStyle {
             backgroundStyle
                 .view()

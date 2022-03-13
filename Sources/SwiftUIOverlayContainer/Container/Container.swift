@@ -63,7 +63,9 @@ struct OverlayContainer: View {
                 let alignment = Alignment.merge(
                     containerAlignment: configuration.alignment, viewAlignment: nil, containerViewDisplayType: configuration.displayType
                 )
-                let dismissAction = compositeDismissActionForAllViewIsShowing(containerConfiguration: configuration, queueHandler: queueHandler)
+                let dismissAction = compositeDismissActionForAllViewIsShowing(
+                    containerConfiguration: configuration, queueHandler: queueHandler
+                )
                 let background = compositeContainerBackground(containerConfiguration: configuration, dismissAction: dismissAction)
                 let insets = configuration.insets
 

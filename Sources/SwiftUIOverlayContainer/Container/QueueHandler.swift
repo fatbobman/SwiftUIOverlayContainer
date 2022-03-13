@@ -144,12 +144,14 @@ extension ContainerQueueHandler {
         case .main:
             if let index = mainQueue.firstIndex(where: { $0.id == id }) {
                 withAnimation(animation) {
+                    // swiftlint:disable:next redundant_discardable_let
                     let _ = mainQueue.remove(at: index)
                 }
             }
         case .temporary:
             if let index = tempQueue.firstIndex(where: { $0.id == id }) {
                 withAnimation(animation) {
+                    // swiftlint:disable:next redundant_discardable_let
                     let _ = tempQueue.remove(at: index)
                 }
             }

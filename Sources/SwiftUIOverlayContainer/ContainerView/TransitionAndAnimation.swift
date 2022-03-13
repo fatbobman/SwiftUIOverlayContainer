@@ -77,7 +77,7 @@ extension Animation {
         return viewAnimation ?? containerAnimation ?? Animation.none
     }
 
-    static var none:Animation {
+    static var none: Animation {
         .easeIn(duration: 0)
     }
 }
