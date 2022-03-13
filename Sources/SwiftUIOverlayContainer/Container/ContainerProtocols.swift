@@ -20,17 +20,12 @@ public protocol ContainerTypeConfigurationProtocol {
     // viewQueueType
     var queueType: ContainerViewQueueType { get }
 
-    // Pass true will empty all queue when container is disappeared
-    var emptyQueueAfterDisappear: Bool { get }
-
     // Delay for oneByOneWaitFinish
-    var delayForShowingNext:TimeInterval { get }
+    var delayForShowingNext: TimeInterval { get }
 }
 
 public extension ContainerTypeConfigurationProtocol {
-    var emptyQueueAfterDisappear: Bool { false }
-
-    var delayForShowingNext:TimeInterval { 0.5 }
+    var delayForShowingNext: TimeInterval { 0.5 }
 }
 
 public protocol ContainerCompositionProtocol {
@@ -48,12 +43,13 @@ public extension ContainerCompositionProtocol {
 // swiftlint:disable:next line_length
 public protocol ContainerConfigurationProtocol: ContainerViewConfigurationProtocol & ContainerTypeConfigurationProtocol & ContainerCompositionProtocol {}
 
-struct ContainerConfigurationForTestVertical:ContainerConfigurationProtocol {
+struct ContainerConfigurationForTestVertical: ContainerConfigurationProtocol {
     var displayType: ContainerViewDisplayType = .vertical
     var queueType: ContainerViewQueueType = .oneByOne
 }
+
 extension ContainerConfigurationProtocol where Self == ContainerConfigurationForTestVertical {
-     static var testVertical:ContainerConfigurationForTestVertical {
+    static var testVertical: ContainerConfigurationForTestVertical {
         ContainerConfigurationForTestVertical()
     }
 }
