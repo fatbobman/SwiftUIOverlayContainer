@@ -21,7 +21,7 @@ public final class ContainerManager {
 
     /// Controlled method of writing to the log
     func sendMessage(type: SwiftUIOverlayContainerLogType, message: String, debugLevel: Int = 1) {
-        if Self.enableLog && debugLevel <= Self.debugLevel {
+        if debugLevel <= Self.debugLevel {
             Self.logger.log(type: type, message: message)
         }
     }
@@ -164,8 +164,8 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
 
 extension ContainerManager: ContainerManagerLogger {
     public static var logger: SwiftUIOverlayContainerLoggerProtocol = SwiftUIOverlayContainerDefaultLogger()
-    public static var enableLog = true
-    public static var debugLevel = 1
+    /// Debug Level for log output. 0 disable 1 basic 2 more detail
+    public static var debugLevel = 0
 }
 
 // MARK: - shared

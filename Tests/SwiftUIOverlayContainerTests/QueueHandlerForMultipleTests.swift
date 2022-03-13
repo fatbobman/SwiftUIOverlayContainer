@@ -28,7 +28,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
 
     override func setUp() {
         self.containerConfiguration = ContainerConfiguration(
-            displayType: .stacking, queueType: .multiple,delayForShowingNext: 0
+            displayType: .stacking, queueType: .multiple, delayForShowingNext: 0
         )
         self.handler = ContainerQueueHandler(
             container: "testContainer",

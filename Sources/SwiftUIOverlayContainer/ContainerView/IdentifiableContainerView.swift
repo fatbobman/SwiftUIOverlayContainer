@@ -47,7 +47,7 @@ struct IdentifiableViewPreview: PreviewProvider {
     }
 }
 
-fileprivate struct CellView: View {
+struct CellView: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
             .fill(Color.orange)
