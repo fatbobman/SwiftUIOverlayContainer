@@ -56,7 +56,20 @@ struct OverlayContainer: View {
             case .stacking:
                 GenericStack(displayType: configuration.displayType, alignment: .center) {
                     ForEach(queueHandler.mainQueue.alignment(displayType: .stacking, by: .center), id: \.id) { identifiableView in
+
+                        let appearAction: () -> Void = {
+                            identifiableView.configuration.appearAction?()
+                            configuration.appearAction?()
+                        }
+
+                        let disappearAction: () -> Void = {
+                            identifiableView.configuration.disappearAction?()
+                            configuration.disappearAction?()
+                        }
+
                         compositeContainerView(for: identifiableView, containerConfiguration: configuration, queueHandler: queueHandler)
+                            .onAppear(perform: appearAction)
+                            .onDisappear(perform: disappearAction)
                     }
                 }
             case .vertical, .horizontal:
@@ -78,7 +91,20 @@ struct OverlayContainer: View {
                         ForEach(queueHandler.mainQueue.alignment(
                             displayType: configuration.displayType, by: alignment
                         ), id: \.id) { identifiableView in
+
+                            let appearAction: () -> Void = {
+                                identifiableView.configuration.appearAction?()
+                                configuration.appearAction?()
+                            }
+
+                            let disappearAction: () -> Void = {
+                                identifiableView.configuration.disappearAction?()
+                                configuration.disappearAction?()
+                            }
+
                             compositeContainerView(for: identifiableView, containerConfiguration: configuration, queueHandler: queueHandler)
+                                .onAppear(perform: appearAction)
+                                .onDisappear(perform: disappearAction)
                         }
                     }
                     .padding(insets)
@@ -92,39 +118,39 @@ struct OverlayContainer: View {
     }
 }
 
-#if DEBUG
-struct ContainerPreview: PreviewProvider {
-    static var previews: some View {
-        RootView()
-            .previewLayout(.fixed(width: 400, height: 700))
-    }
-}
-
-struct RootView: View {
-    @State var show = false
-    var body: some View {
-        VStack {
-            Text("Hello")
-            Button("show view1") {
-                show.toggle()
-            }
-        }
-        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-        .overlayContainer("container1", containerConfiguration: ContainerConfiguration())
-        .containerView(in: "container1", isPresented: $show, content: MessageView())
-    }
-}
-
-struct MessageView: View {
-    var body: some View {
-        Text("abc")
-    }
-}
-
-extension MessageView: ContainerViewConfigurationProtocol {}
-
-struct ContainerConfiguration: ContainerConfigurationProtocol {
-    var displayType: ContainerViewDisplayType = .vertical
-    var queueType: ContainerViewQueueType = .oneByOne
-}
-#endif
+// #if DEBUG
+// struct ContainerPreview: PreviewProvider {
+//    static var previews: some View {
+//        RootView()
+//            .previewLayout(.fixed(width: 400, height: 700))
+//    }
+// }
+//
+// struct RootView: View {
+//    @State var show = false
+//    var body: some View {
+//        VStack {
+//            Text("Hello")
+//            Button("show view1") {
+//                show.toggle()
+//            }
+//        }
+//        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+//        .overlayContainer("container1", containerConfiguration: ContainerConfiguration())
+//        .containerView(in: "container1", isPresented: $show, content: MessageView())
+//    }
+// }
+//
+// struct MessageView: View {
+//    var body: some View {
+//        Text("abc")
+//    }
+// }
+//
+// extension MessageView: ContainerViewConfigurationProtocol {}
+//
+// struct ContainerConfiguration: ContainerConfigurationProtocol {
+//    var displayType: ContainerViewDisplayType = .vertical
+//    var queueType: ContainerViewQueueType = .oneByOne
+// }
+// #endif
