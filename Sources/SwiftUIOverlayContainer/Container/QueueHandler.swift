@@ -144,13 +144,13 @@ extension ContainerQueueHandler {
         case .main:
             if let index = mainQueue.firstIndex(where: { $0.id == id }) {
                 withAnimation(animation) {
-                    _ = mainQueue.remove(at: index)
+                    let _ = mainQueue.remove(at: index)
                 }
             }
         case .temporary:
             if let index = tempQueue.firstIndex(where: { $0.id == id }) {
                 withAnimation(animation) {
-                    _ = tempQueue.remove(at: index)
+                    let _ = tempQueue.remove(at: index)
                 }
             }
         }

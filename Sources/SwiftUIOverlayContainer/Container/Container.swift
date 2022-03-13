@@ -77,9 +77,9 @@ struct OverlayContainer: View {
                             displayType: configuration.displayType, by: alignment
                         ), id: \.id) { identifiableView in
                             compositeContainerView(for: identifiableView, containerConfiguration: configuration, queueHandler: queueHandler)
-                                .padding(insets)
                         }
                     }
+                    .padding(insets)
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             }
