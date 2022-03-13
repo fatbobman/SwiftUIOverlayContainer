@@ -29,7 +29,7 @@ extension ContainerBackgroundStyle {
         case .blur(let material):
             Rectangle().fill(material)
         case .view(let view):
-            view.allowsHitTesting(false) // disable interactivity of custom view
+            view
         case .none:
             Color.clear
         }
