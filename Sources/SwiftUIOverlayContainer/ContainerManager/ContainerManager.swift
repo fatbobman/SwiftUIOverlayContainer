@@ -14,6 +14,21 @@ import Foundation
 import SwiftUI
 
 /// The manager of all overlay containers that provides a bridge between containers and SwiftUI views.
+///
+/// In the SwiftUI view, it is better to call the Container Manager by accessing the environment value
+///
+///     struct ContentView: View {
+///         @Environment(\.overlayContainerManager) var manager
+///         var body: some View {
+///             VStack{
+///                 Button("push view by manager"){
+///                     manager.show(view: Text("ab"), in: "container2", using: MessageView())
+///                 }
+///             }
+///         }
+///     }
+///
+/// Because the Container Manager adopts the singleton pattern, you can directly call public methods such as show and dismiss through code even if you are not in the SwiftUI view.
 public final class ContainerManager {
     var publishers: [String: ContainerViewPublisher] = [:]
 
@@ -30,16 +45,23 @@ public final class ContainerManager {
 // MARK: - Container Management
 
 extension ContainerManager: ContainerManagement {
+    /// Register a container in the container manager
+    ///
+    /// Overlay containers will register themselves when they appear ( onAppear ), called by container
     func registerContainer(for container: String) -> ContainerViewPublisher {
         checkForExist(container: container)
         return createPublisher(for: container)
     }
 
+    /// Remove a container from the container manager, called by container
+    ///
+    /// Overlay containers will remove themselves from manager when the disappear ( onDisappear ).
     func removeContainer(for container: String) {
         publishers.removeValue(forKey: container)
         sendMessage(type: .info, message: "`\(container)` has been removed from manager", debugLevel: 2)
     }
 
+    /// Get  publisher of container action  for specific container from manager, called by container
     func getPublisher(for container: String) -> ContainerViewPublisher? {
         guard let publisher = publishers[container] else {
             sendMessage(
@@ -55,13 +77,16 @@ extension ContainerManager: ContainerManagement {
         publishers.count
     }
 
+    /// Check if the container has registered
     private func checkForExist(container: String) {
         guard publishers[container] != nil else { return }
         removeContainer(for: container)
         sendMessage(type: .error, message: "Container `\(container)` already exists. The new container will replace the old one.")
     }
 
+    /// Create a publisher of action for specific container.
     private func createPublisher(for container: String) -> ContainerViewPublisher {
+        // Convert to reference type to support dumping
         let publisher = PassthroughSubject<OverlayContainerAction, Never>().share()
         publishers[container] = publisher
         return publisher
@@ -71,6 +96,8 @@ extension ContainerManager: ContainerManagement {
 // MARK: - Container View Management
 
 extension ContainerManager: ContainerViewManagementForViewModifier {
+    /// Show a view in specific container.
+    /// - Returns: the ID of view. you can use this ID to dismiss the view by code
     @discardableResult
     func show<Content>(
         view: Content,
@@ -104,7 +131,7 @@ extension ContainerManager: ContainerViewManagementForViewModifier {
 }
 
 extension ContainerManager: ContainerViewManagementForEnvironment {
-    /// push ContainerView to specific overlay container
+    /// Push ContainerView to specific overlay container
     ///
     /// Interface for environment key
     /// - Returns: container view ID
@@ -117,7 +144,7 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
         show(view: view, in: container, using: configuration, isPresented: nil)
     }
 
-    /// push ContainerView to specific overlay container
+    /// Push ContainerView to specific overlay container
     ///
     /// Interface for environment key
     /// - Returns: container view ID
@@ -129,6 +156,11 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
         show(view: containerView, in: container, using: containerView, isPresented: nil)
     }
 
+    /// Dismiss a specific view in a specific container
+    /// - Parameters:
+    ///   - id: ID of the view ( IdentifiableView , the result of show method)
+    ///   - container: The container to which the view has been pushed
+    ///   - flag: Pass false, no animation when dismiss the view
     public func dismiss(view id: UUID, in container: String, animated flag: Bool) {
         guard let publisher = getPublisher(for: container) else {
             return
@@ -136,6 +168,11 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
         publisher.upstream.send(.dismiss(id, flag))
     }
 
+    /// Dismiss all views of all containers that has registered exclude  containers in the excludeContainers list.
+    /// - Parameters:
+    ///   - excludeContainers: Containers in excludeContainers list will not get dismiss action.
+    ///   - onlyShowing: Only dismiss the view that is be displaying (in mainQueue). Applies only to oneByOneWaitFinish mode. after dismiss, the view in the tempQueue will be displayed.
+    ///   - flag: Pass false, no animation when dismiss the view
     public func dismissAllView(notInclude excludeContainers: [String], onlyShowing: Bool = false, animated flag: Bool) {
         let publishers = publishers.filter { !excludeContainers.contains($0.key) }.values
         for publisher in publishers {
@@ -147,6 +184,11 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
         }
     }
 
+    /// Dismiss all view of the containers in containers list.
+    /// - Parameters:
+    ///   - containers: Dismissed only the views of the containers in the list.
+    ///   - onlyShowing: Only dismiss the view that is be displaying (in mainQueue). Applies only to oneByOneWaitFinish mode. after dismiss, the view in the tempQueue will be displayed.
+    ///   - flag: Pass false, no animation when dismiss the view
     public func dismissAllView(in containers: [String], onlyShowing: Bool = false, animated flag: Bool) {
         for container in containers {
             if let publisher = getPublisher(for: container) {
