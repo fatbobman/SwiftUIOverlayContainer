@@ -59,13 +59,14 @@ class ContainerManagerTests: XCTestCase {
         XCTAssertEqual(manager.containerCount, 2)
     }
 
-    func testRegisterContainerUsingSameName() throws {
+    func testRegisterContainerUsingTheSameName() throws {
         // given
 
         let containerName = "message"
         let expectation = expectation(description: "same name error")
         let logger = LoggerSpy(expectation: expectation)
         ContainerManager.logger = logger
+        ContainerManager.debugLevel = 2
 
         // when
         let _ = manager.registerContainer(for: containerName)
@@ -74,6 +75,9 @@ class ContainerManagerTests: XCTestCase {
         wait(for: [expectation], timeout: 1)
         XCTAssertEqual(logger.type, .error)
         XCTAssertEqual(manager.containerCount, 1)
+        addTeardownBlock {
+            ContainerManager.debugLevel = 1
+        }
     }
 
     func testRemoveContainer() throws {
@@ -328,7 +332,9 @@ class LoggerSpy: SwiftUIOverlayContainerLoggerProtocol {
         self.type = type
         self.message = message
         print("[\(type.rawValue)] \(message)")
-        expectation.fulfill()
+        if case .error = type {
+            expectation.fulfill()
+        }
     }
 }
 
