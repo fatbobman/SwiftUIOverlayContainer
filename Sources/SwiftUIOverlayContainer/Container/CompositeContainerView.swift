@@ -116,7 +116,7 @@ extension OverlayContainer {
             dismissAction: dismissAction
         )
 
-        let pureView = Rectangle().fill(.orange).frame(width: 200, height: 100) // identifiableView.view //
+        let pureView = identifiableView.view
             .containerViewShadow(shadowStyle)
             .transition(transition)
             .dismissGesture(gestureType: dismissGesture, dismissAction: dismissAction)

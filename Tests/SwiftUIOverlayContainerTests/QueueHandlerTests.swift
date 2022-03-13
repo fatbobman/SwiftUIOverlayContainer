@@ -27,7 +27,7 @@ class QueueHandlerTests: XCTestCase {
 
     override func setUp() {
         self.containerConfiguration = ContainerConfiguration(
-            displayType: .stacking, queueType: .multiple
+            displayType: .stacking, queueType: .multiple, delayForShowingNext: 0
         )
         self.handler = ContainerQueueHandler(
             container: "testContainer",
@@ -119,7 +119,7 @@ class QueueHandlerTests: XCTestCase {
         handler.pushViewIntoQueue(identifiableView1, queue: .temporary)
 
         // when
-        handler.transferNewViewFromTempQueueIfNeeded()
+        handler.transferNewViewFromTempQueueIfNeeded(delay: 0)
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
