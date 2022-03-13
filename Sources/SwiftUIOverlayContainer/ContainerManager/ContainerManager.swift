@@ -136,17 +136,25 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
         publisher.upstream.send(.dismiss(id, flag))
     }
 
-    public func dismissAllView(notInclude excludeContainers: [String], animated flag: Bool) {
+    public func dismissAllView(notInclude excludeContainers: [String], onlyShowing: Bool = false, animated flag: Bool) {
         let publishers = publishers.filter { !excludeContainers.contains($0.key) }.values
         for publisher in publishers {
-            publisher.upstream.send(.dismissAll(flag))
+            if onlyShowing {
+                publisher.upstream.send(.dismissShowing(flag))
+            } else {
+                publisher.upstream.send(.dismissAll(flag))
+            }
         }
     }
 
-    public func dismissAllView(in containers: [String], animated flag: Bool) {
+    public func dismissAllView(in containers: [String], onlyShowing: Bool = false, animated flag: Bool) {
         for container in containers {
             if let publisher = getPublisher(for: container) {
-                publisher.upstream.send(.dismissAll(flag))
+                if onlyShowing {
+                    publisher.upstream.send(.dismissShowing(flag))
+                } else {
+                    publisher.upstream.send(.dismissAll(flag))
+                }
             }
         }
     }

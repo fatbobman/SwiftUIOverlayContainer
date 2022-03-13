@@ -80,14 +80,14 @@ public protocol ContainerViewManagementForEnvironment {
     /// - Parameters:
     ///   - excludeContainers: excluded container name
     ///   - flag: pass true to animate the transition
-    func dismissAllView(notInclude excludeContainers: [String], animated flag: Bool)
+    func dismissAllView(notInclude excludeContainers: [String], onlyShowing: Bool, animated flag: Bool)
 
     /// Dismiss all views of specific containers
     ///
     /// - Parameters:
-    ///   - containers: container names 
+    ///   - containers: container names
     ///   - flag: pass true to animate the transition
-    func dismissAllView(in containers: [String], animated flag: Bool)
+    func dismissAllView(in containers: [String], onlyShowing: Bool, animated flag: Bool)
 }
 
 protocol ContainerManagerLogger {
