@@ -45,9 +45,7 @@ final class ContainerQueueHandler: ObservableObject {
     func disconnect() {
         cancellable = nil
         manager.removeContainer(for: container)
-        if containerConfiguration.emptyQueueAfterDisappear {
-            dismissAll(animated: false)
-        }
+        dismissAll(animated: false)
         sendMessage(type: .info, message: "container `\(container)` disconnected", debugLevel: 2)
     }
 
