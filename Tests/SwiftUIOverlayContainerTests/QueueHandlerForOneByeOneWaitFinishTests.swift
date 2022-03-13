@@ -28,7 +28,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
 
     override func setUp() {
         self.containerConfiguration = ContainerConfiguration(
-            displayType: .stacking, queueType: .oneByOneWaitFinish
+            displayType: .stacking, queueType: .oneByOneWaitFinish,delayForShowingNext: 0
         )
         self.handler = ContainerQueueHandler(
             container: "testContainer",
@@ -146,6 +146,36 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         // then
         XCTAssertEqual(handler.mainQueue.count, 0)
         XCTAssertEqual(handler.tempQueue.count, 0)
+    }
+
+    func testDismissShowingView() throws {
+        // given
+        let view = MessageView()
+        let identifiableView1 = IdentifiableContainerView(
+            id: UUID(), view: view, viewConfiguration: view, isPresented: nil
+        )
+        let id2 = UUID()
+        let identifiableView2 = IdentifiableContainerView(
+            id: id2, view: view, viewConfiguration: view, isPresented: nil
+        )
+
+        let perform = handler.handlerStrategy(for: .oneByOneWaitFinish)
+
+        // when
+        perform(.show(identifiableView1))
+        perform(.show(identifiableView2))
+
+        // then
+        XCTAssertEqual(handler.mainQueue.count, 1)
+        XCTAssertEqual(handler.tempQueue.count, 1)
+
+        // when
+        perform(.dismissShowing(true))
+
+        // then
+        XCTAssertEqual(handler.mainQueue.count, 1)
+        XCTAssertEqual(handler.tempQueue.count, 0)
+        XCTAssertEqual(try XCTUnwrap(handler.mainQueue.first?.id), id2)
     }
 
     func testShowViewAfterConnect() throws {

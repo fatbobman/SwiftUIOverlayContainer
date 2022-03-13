@@ -28,7 +28,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
 
     override func setUp() {
         self.containerConfiguration = ContainerConfiguration(
-            displayType: .stacking, queueType: .oneByOne
+            displayType: .stacking, queueType: .oneByOne,delayForShowingNext: 0
         )
         self.handler = ContainerQueueHandler(
             container: "testContainer",

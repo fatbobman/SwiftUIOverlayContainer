@@ -146,13 +146,13 @@ extension ContainerQueueHandler {
         case .main:
             if let index = mainQueue.firstIndex(where: { $0.id == id }) {
                 withAnimation(animation) {
-                    mainQueue.remove(at: index)
+                    _ = mainQueue.remove(at: index)
                 }
             }
         case .temporary:
             if let index = tempQueue.firstIndex(where: { $0.id == id }) {
                 withAnimation(animation) {
-                    tempQueue.remove(at: index)
+                    _ = tempQueue.remove(at: index)
                 }
             }
         }
@@ -185,6 +185,8 @@ extension ContainerQueueHandler {
             dismiss(id: id, animated: animated)
         case .dismissAll(let animated):
             dismissAll(animated: animated)
+        case .dismissShowing(let animated):
+            dismissMainQueue(animated: animated)
         }
     }
 
@@ -200,6 +202,8 @@ extension ContainerQueueHandler {
             dismiss(id: id, animated: animated)
         case .dismissAll(let animated):
             dismissAll(animated: animated)
+        case .dismissShowing(let animated):
+            dismissMainQueue(animated: animated)
         }
     }
 
@@ -217,9 +221,12 @@ extension ContainerQueueHandler {
             }
         case .dismiss(let id, let animated):
             dismiss(id: id, animated: animated)
-            transferNewViewFromTempQueueIfNeeded()
+            transferNewViewFromTempQueueIfNeeded(delay: containerConfiguration.delayForShowingNext)
         case .dismissAll(let animated):
             dismissAll(animated: animated)
+        case .dismissShowing(let animated):
+            dismissMainQueue(animated: animated)
+            transferNewViewFromTempQueueIfNeeded(delay: containerConfiguration.delayForShowingNext)
         }
     }
 
@@ -234,11 +241,13 @@ extension ContainerQueueHandler {
     /// A method for oneByOneWaitFinish strategy
     ///
     /// If the main queue is empty, try transfer the first view from temp queue to main queue.
-    func transferNewViewFromTempQueueIfNeeded() {
+    func transferNewViewFromTempQueueIfNeeded(delay seconds: TimeInterval = 0.5) {
         guard mainQueue.isEmpty else { return }
         guard let view = tempQueue.first else { return }
         tempQueue.removeFirst()
-        pushViewIntoQueue(view, queue: .main)
+        delayToRun(seconds: seconds) {
+            self.pushViewIntoQueue(view, queue: .main)
+        }
     }
 }
 

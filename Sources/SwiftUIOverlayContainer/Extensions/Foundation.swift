@@ -36,18 +36,14 @@ extension Bool {
 
 extension Array {
     mutating func push(_ element: Element, with animation: Animation? = nil) {
-        disabledWithAnimation(animation) {
             self.append(element)
-        }
     }
 
     @discardableResult
     mutating func pop(with animation: Animation? = nil) -> Element? {
         guard self.count > 0 else { return nil }
         var result: Element?
-        disabledWithAnimation(animation) {
-            result = self.removeFirst()
-        }
+        result = self.removeFirst()
         return result
     }
 }
@@ -58,5 +54,15 @@ extension Array where Element == IdentifiableContainerView {
         withAnimation(animation) {
             _ = self.remove(at: index)
         }
+    }
+}
+
+func delayToRun(seconds: TimeInterval, perform action: @escaping () -> Void) {
+    guard seconds > 0 else {
+        action()
+        return
+    }
+    DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+        action()
     }
 }
