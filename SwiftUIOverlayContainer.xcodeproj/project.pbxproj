@@ -154,14 +154,6 @@
 			path = EnvironmentKey;
 			sourceTree = "<group>";
 		};
-		7612926127D881C5009A70A2 /* SwiftUI */ = {
-			isa = PBXGroup;
-			children = (
-				7612926227D881FF009A70A2 /* ModifierForContainerView.swift */,
-			);
-			path = SwiftUI;
-			sourceTree = "<group>";
-		};
 		OBJ_11 /* ContainerManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +167,7 @@
 		OBJ_13 /* ContainerView */ = {
 			isa = PBXGroup;
 			children = (
+				7612926227D881FF009A70A2 /* ModifierForContainerView.swift */,
 				OBJ_14 /* Alignment.swift */,
 				OBJ_15 /* AutoDismiss.swift */,
 				OBJ_16 /* DissmissGesture.swift */,
@@ -279,7 +272,6 @@
 		OBJ_8 /* SwiftUIOverlayContainer */ = {
 			isa = PBXGroup;
 			children = (
-				7612926127D881C5009A70A2 /* SwiftUI */,
 				7612925E27D87F22009A70A2 /* EnvironmentKey */,
 				OBJ_9 /* Common */,
 				OBJ_11 /* ContainerManager */,
