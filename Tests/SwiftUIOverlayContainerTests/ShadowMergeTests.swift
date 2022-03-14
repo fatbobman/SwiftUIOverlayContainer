@@ -28,7 +28,7 @@ class ShadowMergeTests: XCTestCase {
 
         // then
         switch result {
-        case .none:
+        case .disable:
             XCTAssert(true)
         default:
             XCTAssert(false)
@@ -60,7 +60,7 @@ class ShadowMergeTests: XCTestCase {
     func testShadowMergeWhenViewIsNoneAndContainerViewDisplayTypeIsY() throws {
         // given
         let containerShadow: ContainerViewShadowStyle? = .radius(20)
-        let viewShadow: ContainerViewShadowStyle? = ContainerViewShadowStyle.none
+        let viewShadow: ContainerViewShadowStyle? = ContainerViewShadowStyle.disable
         let containerViewDisplayType = ContainerViewDisplayType.vertical
 
         // when

@@ -29,7 +29,7 @@ class BackgroundMergeTests: XCTestCase {
 
         // then
         switch result {
-        case .none:
+        case .disable:
             XCTAssert(true)
         default:
             XCTAssert(false)
@@ -51,7 +51,7 @@ class BackgroundMergeTests: XCTestCase {
 
         // then
         switch result {
-        case .none:
+        case .disable:
             XCTAssert(true)
         default:
             XCTAssert(false)
@@ -73,7 +73,7 @@ class BackgroundMergeTests: XCTestCase {
 
         // then
         switch result {
-        case .none:
+        case .disable:
             XCTAssert(true)
         default:
             XCTAssert(false)
@@ -117,7 +117,7 @@ class BackgroundMergeTests: XCTestCase {
 
         // then
         switch result {
-        case .none:
+        case .disable:
             XCTAssert(true)
         default:
             XCTAssert(false)
@@ -193,7 +193,7 @@ class BackgroundMergeTests: XCTestCase {
     func testBackgroundMergeWhenViewIsNoneAndContainerViewDisplayTypeIsZ() throws {
         // given
         let containerBackground: ContainerBackgroundStyle? = .color(.red)
-        let viewBackground: ContainerBackgroundStyle? = ContainerBackgroundStyle.none
+        let viewBackground: ContainerBackgroundStyle? = ContainerBackgroundStyle.disable
         let containerViewDisplayType: ContainerViewDisplayType = .stacking
 
         // when
@@ -205,7 +205,7 @@ class BackgroundMergeTests: XCTestCase {
 
         // then
         switch result {
-        case .none:
+        case .disable:
             XCTAssert(true)
         default:
             XCTAssert(false)

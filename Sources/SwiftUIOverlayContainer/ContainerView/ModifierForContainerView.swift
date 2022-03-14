@@ -12,7 +12,7 @@
 import Foundation
 import SwiftUI
 
-/// Show the view in the specific overlay container when the binding value is true.
+/// Show the view in the specific overlay container when the bind value is true.
 struct ShowContainerViewModifier<V: View>: ViewModifier {
     let container: String
     var view: V
@@ -63,6 +63,7 @@ public extension View {
     ///         }
     ///     }
     ///
+    /// When the view is dismissed by any means, the bind value will be set to false
     func containerView<Content: View>(
         in overlayContainer: String,
         configuration: ContainerViewConfigurationProtocol,
@@ -80,6 +81,9 @@ public extension View {
             )
     }
 
+    /// Show the view in the specific overlay container when the bind value is true.
+    ///
+    /// When the view is dismissed by any means, the bind value will be set to false
     func containerView<Content: View>(
         in overlayContainer: String,
         configuration: ContainerViewConfigurationProtocol,
@@ -97,7 +101,7 @@ public extension View {
             )
     }
 
-    /// Show the view in the specific overlay container when the binding value is true.
+    /// Show the view in the specific overlay container when the bind value is true.
     ///
     ///     struct ContentView: View {
     ///         @State var show = false
@@ -110,6 +114,7 @@ public extension View {
     ///         .containerView(in: "container1", isPresented: $show,content: MessageView())
     ///     }
     ///
+    /// When the view is dismissed by any means, the bind value will be set to false
     func containerView<Content: ContainerView>(
         in overlayContainer: String,
         isPresented: Binding<Bool>,

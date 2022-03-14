@@ -13,7 +13,7 @@ import Foundation
 import SwiftUI
 
 extension OverlayContainer {
-    /// composite dismiss action for specific identifiable view
+    /// Composite dismiss action for specific identifiable view
     func compositeDismissAction(
         for identifiableView: IdentifiableContainerView,
         containerConfiguration: ContainerConfigurationProtocol,
@@ -22,13 +22,10 @@ extension OverlayContainer {
         {
             // dismiss view
             queueHandler.dismiss(id: identifiableView.id, animated: true)
-            // disappear action for view
-            identifiableView.configuration.disappearAction?()
-            // disappear action for container
-            configuration.disappearAction?()
         }
     }
 
+    /// Composite dismiss action for tapped background to dismiss all view in vertical type or horizontal type
     func compositeDismissActionForAllViewIsShowing(
         containerConfiguration: ContainerConfigurationProtocol,
         queueHandler: ContainerQueueHandler
@@ -36,13 +33,14 @@ extension OverlayContainer {
         {
             for identifiableView in queueHandler.mainQueue {
                 queueHandler.dismiss(id: identifiableView.id, animated: true)
-                identifiableView.configuration.disappearAction?()
             }
-            // disappear action for container
-            configuration.disappearAction?()
         }
     }
 
+
+    /// Composite background view for vertical mode or horizontal mode.
+    ///
+    /// Including transition of background and dismiss action ( tapToDismiss is true )
     @ViewBuilder
     func compositeContainerBackground(
         containerConfiguration: ContainerConfigurationProtocol,
@@ -66,6 +64,10 @@ extension OverlayContainer {
         }
     }
 
+
+    /// Composite background view of identifiable view in stacking mode
+    ///
+    /// Including transition of background and dismiss action ( tapToDismiss is true )
     @ViewBuilder
     func compositeBackgroundFor(
         identifiableView: IdentifiableContainerView,
@@ -77,7 +79,6 @@ extension OverlayContainer {
             viewBackgroundStyle: identifiableView.configuration.backgroundStyle,
             containerViewDisplayType: containerConfiguration.displayType
         )
-
         let backgroundTransition = identifiableView.configuration.backgroundTransitionStyle
         let tapToDismiss = Bool.merge(
             containerTapToDismiss: containerConfiguration.tapToDismiss,

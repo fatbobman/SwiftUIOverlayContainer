@@ -12,45 +12,44 @@
 import Foundation
 import SwiftUI
 
-/// The shadow style of Container View
-///
-///
-/// custom shadow's parameters:
-///
-///     .custom(color:Color, radius:CGFloat, x:CGFloat, y:CGFloat)
-///
+/// The shadow style of container view
 public enum ContainerViewShadowStyle {
+    /// This option corresponds to `.shadow(radius:CGFloat)` modifier
     case radius(CGFloat)
+    /// This option corresponds to `.shadow(color: color, radius: radius, x: x, y: y)` modifier
     case custom(Color, CGFloat, CGFloat, CGFloat)
-    case none
+    /// No shadow style
+    case disable
 }
 
 extension ContainerViewShadowStyle {
-    /// merge shadow style between container and container View
+    /// Provides the correct shadow style based on container configuration and container view configuration
     ///
-    /// When the type of Container is **Stacking**, each Container View can specify its own shadow style,
-    /// and the priority is higher than the shadow style of Container.
-    /// When Container type is  **Horizontal**  or **Vertical**, the shadow style of Container View will be ignored.
+    /// When the display type of container is stacking, each container view can specify its own shadow style, and the shadow style has higher priority than the shadow style of container configuration.
+    /// When the container display type is  horizontal  or vertical, the shadow style of container view configuration will be ignored.
+    ///
+    ///     In stacking mode:
     ///
     ///     container       containerView       result
-    ///     nil             nil                 none
-    ///     nil             none                none
-    ///     none            radius(1.3)         radius(1.3)
+    ///
+    ///     nil             nil                 disable
+    ///     nil             disable             disable
+    ///     disable         radius(1.3)         radius(1.3)
     ///     radius(1.0)     custom(.red,1.2,2,2) custom(.red,1.2,2,2)
     ///
     static func merge(containerShadow: Self?, viewShadow: Self?, containerViewDisplayType: ContainerViewDisplayType) -> Self {
         switch containerViewDisplayType {
         case .horizontal, .vertical:
-            return containerShadow ?? .none
+            return containerShadow ?? .disable
         case .stacking:
-            guard let containerShadow = containerShadow else { return viewShadow ?? .none }
+            guard let containerShadow = containerShadow else { return viewShadow ?? .disable }
             return viewShadow ?? containerShadow
         }
     }
 }
 
 extension View {
-    /// add shadow to container view
+    /// Add shadow to container view
     ///
     ///      var shadowStyle:ContainerViewShadowStyle {
     ///          ContainerViewShadowStyle(containerShadow: containerShadow,
@@ -72,7 +71,7 @@ extension View {
             self
                 .compositingGroup()
                 .shadow(color: color, radius: radius, x: x, y: y)
-        case .none:
+        case .disable:
             self
         }
     }

@@ -12,11 +12,24 @@
 import Foundation
 import SwiftUI
 
+/// A generic stack , that behaves differently depending on the display type of container
+///
+/// `horizontal` is based on HStack, and  set spacing, alignment and insets on it
+///
+/// `vertical` is based on VStack, and can set spacing, alignment and insets on it
+///
+/// `stacking` is based on ZStack, and will ignore spacing setting, alignment and insets will be set during the view composition phase and not here.
+///
 struct GenericStack<Content: View>: View {
+    /// alignment for horizontal type and vertical type
     let alignment: Alignment
+    /// the display type of container
     let displayType: ContainerViewDisplayType
+    /// spacing  for horizontal type and vertical type
     let spacing: CGFloat
+    /// insets for horizontal type and vertical type
     let insets: EdgeInsets
+    /// A view builder that creates the content of this stack.
     var content: () -> Content
 
     init(
@@ -38,6 +51,7 @@ struct GenericStack<Content: View>: View {
         case .horizontal:
             HStack(spacing: spacing, content: content)
                 .padding(insets)
+                // all stack types will use all available space
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: alignment)
         case .vertical:
             VStack(spacing: spacing, content: content)
@@ -51,7 +65,7 @@ struct GenericStack<Content: View>: View {
 }
 
 extension Array {
-    /// Reorder elements based on container display type and alignment
+    /// Reorder all elements based on container display type and alignment
     func alignment(displayType: ContainerViewDisplayType, by alignment: Alignment) -> Self {
         switch displayType {
         case .horizontal:

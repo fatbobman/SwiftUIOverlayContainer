@@ -76,7 +76,7 @@ extension ContainerQueueHandler {
         }
 
         // setup animation
-        var animation = Animation.none
+        var animation = Animation.disable
         if flag {
             animation = Animation.merge(
                 containerAnimation: containerConfiguration.animation,

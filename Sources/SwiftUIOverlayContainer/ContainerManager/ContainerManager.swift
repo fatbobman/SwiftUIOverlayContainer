@@ -73,6 +73,7 @@ extension ContainerManager: ContainerManagement {
         return publisher
     }
 
+    /// The count of registered containers
     var containerCount: Int {
         publishers.count
     }

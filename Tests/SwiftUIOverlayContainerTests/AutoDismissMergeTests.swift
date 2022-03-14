@@ -15,7 +15,7 @@ import XCTest
 class MergeTests: XCTestCase {
     func testAutoDismissMergeWhenContainerIsNone() throws {
         // given
-        let containerAutoDismiss: ContainerViewAutoDismiss? = ContainerViewAutoDismiss.none
+        let containerAutoDismiss: ContainerViewAutoDismiss? = ContainerViewAutoDismiss.disable
         let viewAutoDismiss: ContainerViewAutoDismiss? = ContainerViewAutoDismiss.seconds(10)
 
         // when
@@ -34,7 +34,7 @@ class MergeTests: XCTestCase {
         let result = ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss, viewAutoDismiss: viewAutoDismiss)
 
         // then
-        XCTAssertEqual(result, ContainerViewAutoDismiss.none)
+        XCTAssertEqual(result, ContainerViewAutoDismiss.disable)
     }
 
     func testAutoDismissMergeWhenContainerIsNil() throws {
@@ -52,25 +52,25 @@ class MergeTests: XCTestCase {
     func testAutoDismissMergeWhenContainerIsNilAndViewIsNone() throws {
         // given
         let containerAutoDismiss: ContainerViewAutoDismiss? = nil
-        let viewAutoDismiss: ContainerViewAutoDismiss? = ContainerViewAutoDismiss.none
+        let viewAutoDismiss: ContainerViewAutoDismiss? = ContainerViewAutoDismiss.disable
 
         // when
         let result = ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss, viewAutoDismiss: viewAutoDismiss)
 
         // then
-        XCTAssertEqual(result, ContainerViewAutoDismiss.none)
+        XCTAssertEqual(result, ContainerViewAutoDismiss.disable)
     }
 
     func testAutoDismissMergeWhenBothNotNil1() throws {
         // given
         let containerAutoDismiss: ContainerViewAutoDismiss? = .seconds(10)
-        let viewAutoDismiss: ContainerViewAutoDismiss? = ContainerViewAutoDismiss.none
+        let viewAutoDismiss: ContainerViewAutoDismiss? = ContainerViewAutoDismiss.disable
 
         // when
         let result = ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss, viewAutoDismiss: viewAutoDismiss)
 
         // then
-        XCTAssertEqual(result, ContainerViewAutoDismiss.none)
+        XCTAssertEqual(result, ContainerViewAutoDismiss.disable)
     }
 
     func testAutoDismissMergeWhenBothNotNil2() throws {

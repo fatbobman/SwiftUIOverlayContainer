@@ -13,17 +13,17 @@ import Foundation
 import SwiftUI
 
 extension Alignment {
-    /// Merge Alignment between container and container view.
+    /// Provides the correct alignment based on the container view display type.
     ///
-    /// When the type of Container is **Stacking**, each Container View can specify its own alignment,
-    /// and the priority is higher than the shadow style of Container.
-    /// When Container type is **Horizontal** or **Vertical**, the shadow style of Container View will be ignored.
+    /// When the display type of container is **Stacking**, each container view can specify its own alignment in container view configuration, which has higher priority than the alignment setting in container configuration.
     ///
-    /// Horizontal's default alignment is **leading**
+    /// When the container display type is **Horizontal** or **Vertical**, the container view's alignment setting will be ignored.
     ///
-    /// Vertical's default alignment is **bottom**
+    /// The default alignment for **Horizontal mode** is **leading**, If both view configuration and container configuration are nil. The behavior of container is to pop view from leading side.
     ///
-    /// Stacking's default alignment is **center**
+    /// The default alignment for **Vertical mode** is **bottom**, If both view configuration and container configuration are nil. The behavior of container is to pop view from bottom side.
+    ///
+    /// The default alignment for **Stacking mode**  is **center**, if both view configuration and container configuration are nil. The behavior of container is to show view from center of screen.
     ///
     static func merge(containerAlignment: Self?, viewAlignment: Self?, containerViewDisplayType: ContainerViewDisplayType) -> Alignment {
         switch containerViewDisplayType {
