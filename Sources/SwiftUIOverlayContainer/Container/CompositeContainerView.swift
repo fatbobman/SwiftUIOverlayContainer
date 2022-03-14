@@ -37,20 +37,22 @@ extension OverlayContainer {
         }
     }
 
-
-    /// Composite background view for vertical mode or horizontal mode.
+    /// Composite background view for vertical mode or horizontal mode, used in OverlayContainer
     ///
     /// Including transition of background and dismiss action ( tapToDismiss is true )
     @ViewBuilder
     func compositeContainerBackground(
         containerConfiguration: ContainerConfigurationProtocol,
-        dismissAction: @escaping () -> Void
+        queueHandler: ContainerQueueHandler
     ) -> some View {
         let backgroundTransition = containerConfiguration.backgroundTransitionStyle
         let tapToDismiss = Bool.merge(
             containerTapToDismiss: containerConfiguration.tapToDismiss,
             viewTapToDismiss: nil,
             containerType: containerConfiguration.displayType
+        )
+        let dismissAction = compositeDismissActionForAllViewIsShowing(
+            containerConfiguration: containerConfiguration, queueHandler: queueHandler
         )
         if let backgroundStyle = containerConfiguration.backgroundStyle {
             backgroundStyle
@@ -64,8 +66,7 @@ extension OverlayContainer {
         }
     }
 
-
-    /// Composite background view of identifiable view in stacking mode
+    /// Composite background view of identifiable view in stacking mode, used in compositeContainerView method
     ///
     /// Including transition of background and dismiss action ( tapToDismiss is true )
     @ViewBuilder

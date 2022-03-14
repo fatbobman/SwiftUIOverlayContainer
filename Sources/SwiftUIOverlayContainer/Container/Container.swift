@@ -91,10 +91,7 @@ struct OverlayContainer: View {
                 let alignment = Alignment.merge(
                     containerAlignment: configuration.alignment, viewAlignment: nil, containerViewDisplayType: configuration.displayType
                 )
-                let dismissAction = compositeDismissActionForAllViewIsShowing(
-                    containerConfiguration: configuration, queueHandler: queueHandler
-                )
-                let background = compositeContainerBackground(containerConfiguration: configuration, dismissAction: dismissAction)
+                let background = compositeContainerBackground(containerConfiguration: configuration, queueHandler: queueHandler)
                 let insets = configuration.insets
 
                 ZStack(alignment: alignment) {
