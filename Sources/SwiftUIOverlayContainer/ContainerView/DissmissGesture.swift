@@ -34,6 +34,7 @@ public enum ContainerViewDismissGesture {
     case swipeRight
     case swipeUp
     case swipeDown
+    case longPress(Double)
     case customGesture(AnyGesture<Void>)
     case disable
 }
@@ -44,11 +45,21 @@ extension ContainerViewDismissGesture {
     /// The dismiss Action not only includes the cancellation action of Overlay Container view,
     /// but also the dismiss closure specified by user
     func generateGesture(with dismissAction: @escaping DismissAction) -> AnyGesture<Void>? {
+        #if os(tvOS)
+        switch self {
+        case .longPress(let seconds):
+            return LongPressGesture(minimumDuration: seconds).onEnded { _ in dismissAction() }.eraseToAnyGestureForDismiss()
+        default:
+            return nil
+        }
+        #else
         switch self {
         case .tap:
             return TapGesture(count: 1).onEnded { _ in dismissAction() }.eraseToAnyGestureForDismiss()
         case .doubleTap:
             return TapGesture(count: 2).onEnded { _ in dismissAction() }.eraseToAnyGestureForDismiss()
+        case .longPress(let seconds):
+            return LongPressGesture(minimumDuration: seconds).onEnded { _ in dismissAction() }.eraseToAnyGestureForDismiss()
         case .customGesture(let gesture):
             return gesture.onEnded { _ in dismissAction() }.eraseToAnyGestureForDismiss()
         case .disable:
@@ -71,6 +82,7 @@ extension ContainerViewDismissGesture {
                 }
                 .eraseToAnyGestureForDismiss()
         }
+        #endif
     }
 
     /// Provides the correct gesture of dismiss based on the container configuration and the container view configuration.
@@ -78,7 +90,7 @@ extension ContainerViewDismissGesture {
     /// Container view configuration's dismiss gesture has higher priority than the one of container configuration
     ///
     ///     container             view                    result
-    ///     
+    ///
     ///         nil               nil                     disable
     ///         disable           disable                 disable
     ///         tap               nil                     tap
@@ -106,6 +118,7 @@ public extension Gesture {
     }
 }
 
+#if !os(tvOS)
 /// Swipe Gesture
 ///
 /// Read my blog [post](https://fatbobman.com/posts/swiftuiGesture/) to learn how to customize gesture in SwiftUI.
@@ -140,6 +153,7 @@ struct SwipeGesture: Gesture {
         )
     }
 }
+#endif
 
 extension View {
     /// Add dismiss gesture to container view
