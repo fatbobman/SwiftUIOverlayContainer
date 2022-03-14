@@ -48,7 +48,10 @@ public enum BlurMaterial {
 extension BlurMaterial {
     @ViewBuilder
     func getBlurView() -> some View {
-        if #available(iOS 15, macOS 12, tvOS 15,*) {
+        if #available(iOS 15, macOS 12, tvOS 15, *) {
+            #if os(watchOS)
+            Color.clear
+            #else
             switch self {
             case .regular:
                 Rectangle().fill(.regularMaterial)
@@ -61,6 +64,7 @@ extension BlurMaterial {
             case .ultraThick:
                 Rectangle().fill(.ultraThickMaterial)
             }
+            #endif
         } else {
             Rectangle()
                 .fill(.gray)
