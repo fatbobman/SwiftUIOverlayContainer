@@ -48,7 +48,7 @@ public enum BlurMaterial {
 extension BlurMaterial {
     @ViewBuilder
     func getBlurView() -> some View {
-        if #available(iOS 15, macOS 12,*) {
+        if #available(iOS 15, macOS 12, tvOS 15,*) {
             switch self {
             case .regular:
                 Rectangle().fill(.regularMaterial)

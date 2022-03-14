@@ -46,6 +46,7 @@ extension OverlayContainer {
         queueHandler: ContainerQueueHandler
     ) -> some View {
         let backgroundTransition = containerConfiguration.backgroundTransitionStyle
+        #if !os(tvOS)
         let tapToDismiss = Bool.merge(
             containerTapToDismiss: containerConfiguration.tapToDismiss,
             viewTapToDismiss: nil,
@@ -54,12 +55,15 @@ extension OverlayContainer {
         let dismissAction = compositeDismissActionForAllViewIsShowing(
             containerConfiguration: containerConfiguration, queueHandler: queueHandler
         )
+        #endif
         if let backgroundStyle = containerConfiguration.backgroundStyle {
             backgroundStyle
                 .view()
+            #if !os(tvOS)
                 .if(tapToDismiss) {
                     $0.onTapGesture(perform: dismissAction)
                 }
+            #endif
                 .transition(backgroundTransition.transition)
         } else {
             Color.clear
@@ -81,15 +85,18 @@ extension OverlayContainer {
             containerViewDisplayType: containerConfiguration.displayType
         )
         let backgroundTransition = identifiableView.configuration.backgroundTransitionStyle
+        #if !os(tvOS)
         let tapToDismiss = Bool.merge(
             containerTapToDismiss: containerConfiguration.tapToDismiss,
             viewTapToDismiss: identifiableView.configuration.tapToDismiss,
             containerType: containerConfiguration.displayType
         )
-
+        #endif
         backgroundStyle
             .view()
+        #if !os(tvOS)
             .if(tapToDismiss) { $0.onTapGesture(perform: dismissAction) }
+        #endif
             .transition(backgroundTransition.transition)
     }
 
