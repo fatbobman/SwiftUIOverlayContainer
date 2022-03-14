@@ -116,20 +116,22 @@ extension ContainerQueueHandler {
 
     /// Push view into specific queue
     func pushViewIntoQueue(_ identifiableView: IdentifiableContainerView, queue: QueueType, animated flag: Bool = true) {
-        switch queue {
-        case .main:
-            var animation: Animation = .disable
-            if flag {
-                animation = Animation.merge(
-                    containerAnimation: containerConfiguration.animation,
-                    viewAnimation: identifiableView.configuration.animation
-                )
+        DispatchQueue.main.async {
+            switch queue {
+            case .main:
+                var animation: Animation = .disable
+                if flag {
+                    animation = Animation.merge(
+                        containerAnimation: self.containerConfiguration.animation,
+                        viewAnimation: identifiableView.configuration.animation
+                    )
+                }
+                withAnimation(animation) {
+                    self.mainQueue.append(identifiableView)
+                }
+            case .temporary:
+                self.tempQueue.append(identifiableView)
             }
-            withAnimation(animation) {
-                mainQueue.append(identifiableView)
-            }
-        case .temporary:
-            tempQueue.append(identifiableView)
         }
     }
 
@@ -147,19 +149,21 @@ extension ContainerQueueHandler {
 
     /// Remove a identifiable view from specific queue
     func remove(view id: UUID, from queue: QueueType, animation: Animation) {
-        switch queue {
-        case .main:
-            if let index = mainQueue.firstIndex(where: { $0.id == id }) {
-                withAnimation(animation) {
-                    // swiftlint:disable:next redundant_discardable_let
-                    let _ = mainQueue.remove(at: index)
+        DispatchQueue.main.async {
+            switch queue {
+            case .main:
+                if let index = self.mainQueue.firstIndex(where: { $0.id == id }) {
+                    withAnimation(animation) {
+                        // swiftlint:disable:next redundant_discardable_let
+                        let _ = self.mainQueue.remove(at: index)
+                    }
                 }
-            }
-        case .temporary:
-            if let index = tempQueue.firstIndex(where: { $0.id == id }) {
-                withAnimation(animation) {
-                    // swiftlint:disable:next redundant_discardable_let
-                    let _ = tempQueue.remove(at: index)
+            case .temporary:
+                if let index = self.tempQueue.firstIndex(where: { $0.id == id }) {
+                    withAnimation(animation) {
+                        // swiftlint:disable:next redundant_discardable_let
+                        let _ = self.tempQueue.remove(at: index)
+                    }
                 }
             }
         }

@@ -38,8 +38,7 @@ struct ShowContainerViewModifier<V: View>: ViewModifier {
                         view: view,
                         in: container,
                         using: configuration,
-                        isPresented: $isPresented,
-                        animated: animated
+                        isPresented: $isPresented
                     )
                 } else {
                     if let identifiableViewID = identifiableViewID {
