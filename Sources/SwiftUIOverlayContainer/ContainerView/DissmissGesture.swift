@@ -8,7 +8,7 @@
 //  Follow me on Twitter: @fatbobman
 //  My Blog: https://www.fatbobman.com
 //
-
+// swiftlint:disable cyclomatic_complexity
 import Foundation
 import SwiftUI
 
@@ -45,6 +45,7 @@ extension ContainerViewDismissGesture {
     /// The dismiss Action not only includes the cancellation action of Overlay Container view,
     /// but also the dismiss closure specified by user
     func generateGesture(with dismissAction: @escaping DismissAction) -> AnyGesture<Void>? {
+        // only support longPress in tvOS
         #if os(tvOS)
         switch self {
         case .longPress(let seconds):
