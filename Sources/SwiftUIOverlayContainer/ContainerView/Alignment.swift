@@ -17,13 +17,13 @@ extension Alignment {
     ///
     /// When the display type of container is **Stacking**, each container view can specify its own alignment in container view configuration, which has higher priority than the alignment setting in container configuration.
     ///
-    /// When the container display type is **Horizontal** or **Vertical**, the container view's alignment setting will be ignored.
+    /// When the container display type is horizontal or vertical, the container view's alignment setting will be ignored.
     ///
-    /// The default alignment for **Horizontal mode** is **leading**, If both view configuration and container configuration are nil. The behavior of container is to pop view from leading side.
+    /// The default alignment for horizontal mode is leading, If both view configuration and container configuration are nil. The behavior of container is to pop view from leading side.
     ///
-    /// The default alignment for **Vertical mode** is **bottom**, If both view configuration and container configuration are nil. The behavior of container is to pop view from bottom side.
+    /// The default alignment for vertical mode is bottom, If both view configuration and container configuration are nil. The behavior of container is to pop view from bottom side.
     ///
-    /// The default alignment for **Stacking mode**  is **center**, if both view configuration and container configuration are nil. The behavior of container is to show view from center of screen.
+    /// The default alignment for stacking mode  is center, if both view configuration and container configuration are nil. The behavior of container is to show view from center of screen.
     ///
     static func merge(containerAlignment: Self?, viewAlignment: Self?, containerViewDisplayType: ContainerViewDisplayType) -> Alignment {
         switch containerViewDisplayType {

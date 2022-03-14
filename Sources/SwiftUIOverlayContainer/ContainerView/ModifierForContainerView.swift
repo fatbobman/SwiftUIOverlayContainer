@@ -16,26 +16,34 @@ import SwiftUI
 struct ShowContainerViewModifier<V: View>: ViewModifier {
     let container: String
     var view: V
+    let animated: Bool
     let configuration: ContainerViewConfigurationProtocol
     @Binding var isPresented: Bool
     @Environment(\.overlayContainerManager) var containerManager
     @State var identifiableViewID: UUID?
 
-    init(container: String, view: V, configuration: ContainerViewConfigurationProtocol, isPresented: Binding<Bool>) {
+    init(container: String, view: V, configuration: ContainerViewConfigurationProtocol, isPresented: Binding<Bool>, animated: Bool) {
         self.container = container
         self.view = view
         self.configuration = configuration
         self._isPresented = isPresented
+        self.animated = animated
     }
 
     func body(content: Content) -> some View {
         content
             .onChange(of: isPresented) { _ in
                 if isPresented {
-                    identifiableViewID = containerManager._show(view: view, in: container, using: configuration, isPresented: $isPresented)
+                    identifiableViewID = containerManager._show(
+                        view: view,
+                        in: container,
+                        using: configuration,
+                        isPresented: $isPresented,
+                        animated: animated
+                    )
                 } else {
                     if let identifiableViewID = identifiableViewID {
-                        containerManager.dismiss(view: identifiableViewID, in: container, animated: true)
+                        containerManager.dismiss(view: identifiableViewID, in: container, animated: animated)
                     }
                 }
             }
@@ -68,6 +76,7 @@ public extension View {
         in overlayContainer: String,
         configuration: ContainerViewConfigurationProtocol,
         isPresented: Binding<Bool>,
+        animated: Bool = true,
         @ViewBuilder content: () -> Content
     ) -> some View {
         self
@@ -76,7 +85,8 @@ public extension View {
                     container: overlayContainer,
                     view: content(),
                     configuration: configuration,
-                    isPresented: isPresented
+                    isPresented: isPresented,
+                    animated: animated
                 )
             )
     }
@@ -88,6 +98,7 @@ public extension View {
         in overlayContainer: String,
         configuration: ContainerViewConfigurationProtocol,
         isPresented: Binding<Bool>,
+        animated: Bool = true,
         content: Content
     ) -> some View {
         self
@@ -96,7 +107,8 @@ public extension View {
                     container: overlayContainer,
                     view: content,
                     configuration: configuration,
-                    isPresented: isPresented
+                    isPresented: isPresented,
+                    animated: animated
                 )
             )
     }
@@ -118,6 +130,7 @@ public extension View {
     func containerView<Content: ContainerView>(
         in overlayContainer: String,
         isPresented: Binding<Bool>,
+        animated: Bool = true,
         content: Content
     ) -> some View {
         self
@@ -126,7 +139,8 @@ public extension View {
                     container: overlayContainer,
                     view: content,
                     configuration: content,
-                    isPresented: isPresented
+                    isPresented: isPresented,
+                    animated: animated
                 )
             )
     }

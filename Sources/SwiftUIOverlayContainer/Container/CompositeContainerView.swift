@@ -106,8 +106,8 @@ extension OverlayContainer {
         for identifiableView: IdentifiableContainerView,
         containerConfiguration: ContainerConfigurationProtocol,
         queueHandler: ContainerQueueHandler,
-        containerName:String,
-        containerFrame:CGRect
+        containerName: String,
+        containerFrame: CGRect
     ) -> some View {
         let shadowStyle = ContainerViewShadowStyle.merge(
             containerShadow: containerConfiguration.shadowStyle,
@@ -174,7 +174,6 @@ extension OverlayContainer {
 }
 
 extension View {
-
     /// preform action when the optional bind value set to false
     @ViewBuilder
     func dismissViewWhenIsPresentedIsFalse(_ isPresented: Binding<Bool>?, preform dismissAction: @escaping () -> Void) -> some View {

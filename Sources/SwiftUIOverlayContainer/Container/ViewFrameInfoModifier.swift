@@ -41,8 +41,6 @@ extension View {
     }
 }
 
-
-
 extension OverlayContainer {
     /// Composite container environment value
     func compositeContainerEnvironmentValue(
