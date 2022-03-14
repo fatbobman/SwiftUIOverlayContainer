@@ -15,7 +15,7 @@ import SwiftUI
 /// The background Style for Container
 public enum ContainerBackgroundStyle {
     case color(Color)
-    case blur(Material)
+    case blur(BlurMaterial)
     case view(AnyView)
     case disable
 }
@@ -28,14 +28,67 @@ extension ContainerBackgroundStyle {
         case .color(let color):
             color
         case .blur(let material):
-            Rectangle().fill(material)
+            material.getBlurView()
         case .view(let view):
             view
         case .disable:
             Color.clear
         }
     }
+}
 
+public enum BlurMaterial {
+    case regular
+    case thick
+    case thin
+    case ultraThin
+    case ultraThick
+}
+
+extension BlurMaterial {
+    @ViewBuilder
+    func getBlurView() -> some View {
+        if #available(iOS 15, macOS 12,*) {
+            switch self {
+            case .regular:
+                Rectangle().fill(.regularMaterial)
+            case .thick:
+                Rectangle().fill(.thickMaterial)
+            case .thin:
+                Rectangle().fill(.thinMaterial)
+            case .ultraThin:
+                Rectangle().fill(.ultraThinMaterial)
+            case .ultraThick:
+                Rectangle().fill(.ultraThickMaterial)
+            }
+        } else {
+            Rectangle()
+                .fill(.gray)
+                .overlay(
+                    VStack {
+                        Text("Warning!")
+                            .font(.title)
+                            .foregroundColor(.red)
+                            .padding(.bottom, 20)
+                        Text(blueMessage)
+                            .lineLimit(10)
+                            .font(.body)
+                            .padding(.horizontal, 30)
+                    }
+                )
+        }
+    }
+
+    var blueMessage: String {
+        """
+        Blur backgrounds are only supported on iOS 15+ and macOS 12+. If you want to set a blur background, use the `.view(some blur view)`.
+
+        There are a lot of blur solutions on the internet that support lower versions, for example: https://github.com/twostraws/VisualEffects
+        """
+    }
+}
+
+extension ContainerBackgroundStyle {
     /// Provides the correct background style base on container configuration and container view configuration
     ///
     /// When the display type of container is stacking, each container view can specify its own background style, and that has higher priority than the background style of container configuration.
