@@ -17,7 +17,7 @@ enum OverlayContainerAction {
     /// Push view in container queue, the container will push the view to the correct queue bases on its queue type.
     ///
     /// Pass false to disable animation regardless of the animation setting in container configuration or container view configuration
-    case show(IdentifiableContainerView,Bool)
+    case show(IdentifiableContainerView, Bool)
     /// Dismiss the view from the container queue whether or not it is already displayed.
     ///
     /// Pass false to disable animation of transition
@@ -27,7 +27,7 @@ enum OverlayContainerAction {
     /// Pass false to disable animation of transition
     case dismissAll(Bool)
     /// Dismiss the view being displayed in the container, after which the first view in the temp queue is displayed (OneByOneWaitFinish mode).
-    /// 
+    ///
     /// Pass false to disable animation of transition
     case dismissShowing(Bool)
 }

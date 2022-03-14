@@ -17,6 +17,7 @@ struct ViewFrameKey: PreferenceKey {
     static func reduce(value: inout CGRect, nextValue: () -> CGRect) {}
 }
 
+/// A view modifier to get frame information of attache view
 struct GetFrameInfoModifier: ViewModifier {
     @Binding var bindingValue: CGRect
     func body(content: Content) -> some View {
@@ -40,9 +41,10 @@ extension View {
     }
 }
 
-// CompositeContainerEnvironmentValue
+
 
 extension OverlayContainer {
+    /// Composite container environment value
     func compositeContainerEnvironmentValue(
         containerName: String,
         containerConfiguration: ContainerConfigurationProtocol,
