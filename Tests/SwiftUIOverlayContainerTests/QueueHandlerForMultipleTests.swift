@@ -51,7 +51,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
             id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
         )
 
-        let perform = handler.handlerStrategy(for: .multiple)
+        let perform = handler.getStrategyHandler(for: .multiple)
 
         // when
         perform(.show(view1))
@@ -71,7 +71,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
             id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
         )
 
-        let perform = handler.handlerStrategy(for: .multiple)
+        let perform = handler.getStrategyHandler(for: .multiple)
 
         // when
         perform(.show(view1))
@@ -93,7 +93,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
             id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
         )
 
-        let perform = handler.handlerStrategy(for: .multiple)
+        let perform = handler.getStrategyHandler(for: .multiple)
 
         // when
         perform(.show(view1))
@@ -181,7 +181,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         let binding = Binding<Bool>(get: { source.isPresented }, set: { source.isPresented = $0 })
         let view = MessageView()
         let identifiableView = IdentifiableContainerView(id: UUID(), view: view, viewConfiguration: view, isPresented: binding)
-        let perform = handler.handlerStrategy(for: .multiple)
+        let perform = handler.getStrategyHandler(for: .multiple)
 
         // when
         perform(.show(identifiableView))

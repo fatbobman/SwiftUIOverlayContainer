@@ -93,17 +93,28 @@ extension OverlayContainer {
             .transition(backgroundTransition.transition)
     }
 
+    /// Composite the view displayed in the container.
+    ///
+    /// Views have different modifiers and behaviors depending on the display type of container
+    ///
+    /// composite view, gesture, shadow, transition, autoDismiss, isPresented ( handle bind value) for the container of horizontal type or vertical type
+    ///
+    /// composite background, backgroundDismiss, view, gesture, shadow, transition, autoDismiss, isPresented, alignment, inset for the stacking container
+    ///
     @ViewBuilder
     func compositeContainerView(
         for identifiableView: IdentifiableContainerView,
         containerConfiguration: ContainerConfigurationProtocol,
-        queueHandler: ContainerQueueHandler
+        queueHandler: ContainerQueueHandler,
+        containerName:String,
+        containerFrame:CGRect
     ) -> some View {
         let shadowStyle = ContainerViewShadowStyle.merge(
             containerShadow: containerConfiguration.shadowStyle,
             viewShadow: identifiableView.configuration.shadowStyle,
             containerViewDisplayType: containerConfiguration.displayType
         )
+
         let dismissGesture = ContainerViewDismissGesture.merge(
             containerGesture: containerConfiguration.dismissGesture, viewGesture: identifiableView.configuration.dismissGesture
         )
@@ -113,6 +124,7 @@ extension OverlayContainer {
             viewTransition: identifiableView.configuration.transition,
             containerViewDisplayType: containerConfiguration.displayType
         )
+
         let dismissAction = compositeDismissAction(
             for: identifiableView, containerConfiguration: containerConfiguration, queueHandler: queueHandler
         )
@@ -128,22 +140,22 @@ extension OverlayContainer {
             dismissAction: dismissAction
         )
 
-        let pureView = identifiableView.view
+        let compositingView = identifiableView.view
             .containerViewShadow(shadowStyle)
             .transition(transition)
             .dismissGesture(gestureType: dismissGesture, dismissAction: dismissAction)
             .autoDismiss(autoDismissStyle, dismissAction: dismissAction)
-            .dismissIfIsPresentedIfFalse(identifiableView.isPresented, preform: dismissAction)
+            .dismissViewWhenIsPresentedIsFalse(identifiableView.isPresented, preform: dismissAction)
             .environment(\.overlayContainer, environmentValue)
 
         switch containerConfiguration.displayType {
         case .horizontal, .vertical:
             // view + gesture + shadow + transition + autoDismiss + isPresented
-            pureView
+            compositingView
 
         case .stacking:
             // background + backgroundDismiss + view + gesture + shadow + transition + autoDismiss + isPresented + alignment + inset
-            let background = compositeBackgroundFor(
+            let backgroundOfIdentifiableView = compositeBackgroundFor(
                 identifiableView: identifiableView, containerConfiguration: containerConfiguration, dismissAction: dismissAction
             )
 
@@ -152,9 +164,9 @@ extension OverlayContainer {
                 viewAlignment: identifiableView.configuration.alignment,
                 containerViewDisplayType: containerConfiguration.displayType
             )
-
-            background
-            pureView
+            // the current context of view is ZStack (GenericStack)
+            backgroundOfIdentifiableView
+            compositingView
                 .padding(containerConfiguration.insets) // add insets for each view
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: alignment)
         }
@@ -162,8 +174,10 @@ extension OverlayContainer {
 }
 
 extension View {
+
+    /// preform action when the optional bind value set to false
     @ViewBuilder
-    func dismissIfIsPresentedIfFalse(_ isPresented: Binding<Bool>?, preform dismissAction: @escaping () -> Void) -> some View {
+    func dismissViewWhenIsPresentedIsFalse(_ isPresented: Binding<Bool>?, preform dismissAction: @escaping () -> Void) -> some View {
         ifNotNil(isPresented?.wrappedValue) { view, isPresented in
             view.onChange(of: isPresented, perform: { _ in
                 if !isPresented {

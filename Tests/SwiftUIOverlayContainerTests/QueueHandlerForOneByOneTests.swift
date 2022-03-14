@@ -48,7 +48,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         let identifiableView = IdentifiableContainerView(
             id: UUID(), view: view, viewConfiguration: view, isPresented: nil
         )
-        let perform = handler.handlerStrategy(for: .oneByOne)
+        let perform = handler.getStrategyHandler(for: .oneByOne)
 
         // when
         perform(.show(identifiableView))
@@ -67,7 +67,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
             id: UUID(), view: view, viewConfiguration: view, isPresented: nil
         )
 
-        let perform = handler.handlerStrategy(for: .oneByOne)
+        let perform = handler.getStrategyHandler(for: .oneByOne)
 
         // when
         perform(.show(identifiableView1))
@@ -90,7 +90,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         let identifiableView = IdentifiableContainerView(
             id: UUID(), view: view, viewConfiguration: view, isPresented: nil
         )
-        let perform = handler.handlerStrategy(for: .oneByOne)
+        let perform = handler.getStrategyHandler(for: .oneByOne)
 
         // when
         perform(.show(identifiableView))
@@ -110,7 +110,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
             id: UUID(), view: view, viewConfiguration: view, isPresented: nil
         )
 
-        let perform = handler.handlerStrategy(for: .oneByOne)
+        let perform = handler.getStrategyHandler(for: .oneByOne)
 
         // when
         perform(.show(identifiableView1))
