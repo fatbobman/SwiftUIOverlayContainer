@@ -54,8 +54,8 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .multiple)
 
         // when
-        perform(.show(view1))
-        perform(.show(view2))
+        perform(.show(view1, false))
+        perform(.show(view2, false))
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 2)
@@ -74,8 +74,8 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .multiple)
 
         // when
-        perform(.show(view1))
-        perform(.show(view2))
+        perform(.show(view1, false))
+        perform(.show(view2, false))
 
         // dismiss view
         perform(.dismiss(view1.id, true))
@@ -96,8 +96,8 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .multiple)
 
         // when
-        perform(.show(view1))
-        perform(.show(view2))
+        perform(.show(view1, false))
+        perform(.show(view2, false))
 
         // dismiss view
         perform(.dismissAll(false))
@@ -184,7 +184,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .multiple)
 
         // when
-        perform(.show(identifiableView))
+        perform(.show(identifiableView, false))
         perform(.dismissAll(true))
 
         // then

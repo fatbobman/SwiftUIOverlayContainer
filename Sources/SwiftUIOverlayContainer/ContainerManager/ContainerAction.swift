@@ -15,7 +15,9 @@ import SwiftUI
 /// Actions sent from the container manager to a container
 enum OverlayContainerAction {
     /// Push view in container queue, the container will push the view to the correct queue bases on its queue type.
-    case show(IdentifiableContainerView)
+    ///
+    /// Pass false to disable animation regardless of the animation setting in container configuration or container view configuration
+    case show(IdentifiableContainerView,Bool)
     /// Dismiss the view from the container queue whether or not it is already displayed.
     ///
     /// Pass false to disable animation of transition

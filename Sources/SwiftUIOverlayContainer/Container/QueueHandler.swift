@@ -115,13 +115,16 @@ extension ContainerQueueHandler {
     }
 
     /// Push view into specific queue
-    func pushViewIntoQueue(_ identifiableView: IdentifiableContainerView, queue: QueueType) {
+    func pushViewIntoQueue(_ identifiableView: IdentifiableContainerView, queue: QueueType, animated flag: Bool = true) {
         switch queue {
         case .main:
-            let animation = Animation.merge(
-                containerAnimation: containerConfiguration.animation,
-                viewAnimation: identifiableView.configuration.animation
-            )
+            var animation: Animation = .disable
+            if flag {
+                animation = Animation.merge(
+                    containerAnimation: containerConfiguration.animation,
+                    viewAnimation: identifiableView.configuration.animation
+                )
+            }
             withAnimation(animation) {
                 mainQueue.append(identifiableView)
             }
@@ -183,8 +186,8 @@ extension ContainerQueueHandler {
     /// Push all views into the main queue directly whether or not the main queue is empty
     func sinkForMultiple(action: OverlayContainerAction) {
         switch action {
-        case .show(let identifiableContainerView):
-            pushViewIntoQueue(identifiableContainerView, queue: .main)
+        case .show(let identifiableContainerView, let animated):
+            pushViewIntoQueue(identifiableContainerView, queue: .main, animated: animated)
         case .dismiss(let id, let animated):
             dismiss(id: id, animated: animated)
         case .dismissAll(let animated):
@@ -199,9 +202,9 @@ extension ContainerQueueHandler {
     /// If there is a view in the main queue when the show action is fetched, dismiss it first
     func sinkForOneByOne(action: OverlayContainerAction) {
         switch action {
-        case .show(let identifiableContainerView):
+        case .show(let identifiableContainerView, let animated):
             dismissIfNeeded()
-            pushViewIntoQueue(identifiableContainerView, queue: .main)
+            pushViewIntoQueue(identifiableContainerView, queue: .main, animated: animated)
         case .dismiss(let id, let animated):
             dismiss(id: id, animated: animated)
         case .dismissAll(let animated):
@@ -217,11 +220,11 @@ extension ContainerQueueHandler {
     /// Try to get a new view from the temporary queue when the view in the main queue is dismissed
     func sinkForOneByOneWaitFinish(action: OverlayContainerAction) {
         switch action {
-        case .show(let identifiableContainerView):
+        case .show(let identifiableContainerView, let animated):
             if mainQueue.isEmpty {
-                pushViewIntoQueue(identifiableContainerView, queue: .main)
+                pushViewIntoQueue(identifiableContainerView, queue: .main, animated: animated)
             } else {
-                pushViewIntoQueue(identifiableContainerView, queue: .temporary)
+                pushViewIntoQueue(identifiableContainerView, queue: .temporary, animated: false)
             }
         case .dismiss(let id, let animated):
             dismiss(id: id, animated: animated)

@@ -100,11 +100,12 @@ extension ContainerManager: ContainerViewManagementForViewModifier {
     /// Show a view in specific container.
     /// - Returns: the ID of view. you can use this ID to dismiss the view by code
     @discardableResult
-    func show<Content>(
+    func _show<Content>(
         view: Content,
         in container: String,
         using configuration: ContainerViewConfigurationProtocol,
-        isPresented: Binding<Bool>? = nil
+        isPresented: Binding<Bool>? = nil,
+        animated: Bool = true
     ) -> UUID? where Content: View {
         guard let publisher = getPublisher(for: container) else {
             return nil
@@ -116,18 +117,18 @@ extension ContainerManager: ContainerViewManagementForViewModifier {
             viewConfiguration: configuration,
             isPresented: isPresented
         )
-        publisher.upstream.send(.show(identifiableContainerView))
+        publisher.upstream.send(.show(identifiableContainerView, animated))
         sendMessage(type: .info, message: "send view `\(type(of: view))` to container: `\(container)`", debugLevel: 2)
         return viewID
     }
 
     @discardableResult
-    func show<Content>(
+    func _show<Content>(
         containerView: Content,
         in container: String,
         isPresented: Binding<Bool>? = nil
     ) -> UUID? where Content: ContainerView {
-        show(view: containerView, in: container, using: containerView, isPresented: isPresented)
+        _show(view: containerView, in: container, using: containerView, isPresented: isPresented)
     }
 }
 
@@ -140,9 +141,10 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
     public func show<Content>(
         view: Content,
         in container: String,
-        using configuration: ContainerViewConfigurationProtocol
+        using configuration: ContainerViewConfigurationProtocol,
+        animated: Bool = true
     ) -> UUID? where Content: View {
-        show(view: view, in: container, using: configuration, isPresented: nil)
+        _show(view: view, in: container, using: configuration, isPresented: nil, animated: animated)
     }
 
     /// Push ContainerView to specific overlay container
@@ -152,9 +154,10 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
     @discardableResult
     public func show<Content>(
         containerView: Content,
-        in container: String
+        in container: String,
+        animated: Bool = true
     ) -> UUID? where Content: ContainerView {
-        show(view: containerView, in: container, using: containerView, isPresented: nil)
+        _show(view: containerView, in: container, using: containerView, isPresented: nil, animated: animated)
     }
 
     /// Dismiss a specific view in a specific container

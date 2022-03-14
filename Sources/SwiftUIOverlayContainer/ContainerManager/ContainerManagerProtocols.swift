@@ -35,15 +35,16 @@ protocol ContainerViewManagementForViewModifier {
     /// Show container view in specific container
     /// - Returns: container view ID
     @discardableResult
-    func show<Content: View>(view: Content,
+    func _show<Content: View>(view: Content,
                              in container: String,
                              using configuration: ContainerViewConfigurationProtocol,
-                             isPresented: Binding<Bool>?) -> UUID?
+                             isPresented: Binding<Bool>?,
+                             animated: Bool) -> UUID?
 
     /// Show container view in specific container
     /// - Returns: container view ID
     @discardableResult
-    func show<Content: ContainerView>(containerView: Content,
+    func _show<Content: ContainerView>(containerView: Content,
                                       in container: String,
                                       isPresented: Binding<Bool>?) -> UUID?
 }
@@ -57,7 +58,8 @@ public protocol ContainerViewManagementForEnvironment {
     func show<Content>(
         view: Content,
         in container: String,
-        using configuration: ContainerViewConfigurationProtocol
+        using configuration: ContainerViewConfigurationProtocol,
+        animated: Bool
     ) -> UUID? where Content: View
 
     /// push ContainerView to specific overlay container
@@ -66,7 +68,8 @@ public protocol ContainerViewManagementForEnvironment {
     /// - Returns: container view ID
     func show<Content>(
         containerView: Content,
-        in container: String
+        in container: String,
+        animated: Bool
     ) -> UUID? where Content: ContainerView
 
     /// Dismiss view of specific container
