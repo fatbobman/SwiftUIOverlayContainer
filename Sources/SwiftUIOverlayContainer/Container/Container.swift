@@ -82,9 +82,15 @@ struct OverlayContainer: View {
                             configuration.disappearAction?()
                         }
 
-                        compositeContainerView(for: identifiableView, containerConfiguration: configuration, queueHandler: queueHandler)
-                            .onAppear(perform: appearAction)
-                            .onDisappear(perform: disappearAction)
+                        compositeContainerView(
+                            for: identifiableView,
+                            containerConfiguration: configuration,
+                            queueHandler: queueHandler,
+                            containerName: containerName,
+                            containerFrame: containerFrame
+                        )
+                        .onAppear(perform: appearAction)
+                        .onDisappear(perform: disappearAction)
                     }
                 }
             case .vertical, .horizontal:
@@ -114,9 +120,15 @@ struct OverlayContainer: View {
                                 configuration.disappearAction?()
                             }
 
-                            compositeContainerView(for: identifiableView, containerConfiguration: configuration, queueHandler: queueHandler)
-                                .onAppear(perform: appearAction)
-                                .onDisappear(perform: disappearAction)
+                            compositeContainerView(
+                                for: identifiableView,
+                                containerConfiguration: configuration,
+                                queueHandler: queueHandler,
+                                containerName: containerName,
+                                containerFrame: containerFrame
+                            )
+                            .onAppear(perform: appearAction)
+                            .onDisappear(perform: disappearAction)
                         }
                     }
                     .padding(insets)

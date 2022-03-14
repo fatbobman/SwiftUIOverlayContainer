@@ -24,13 +24,13 @@ final class ContainerQueueHandler: ObservableObject {
     /// Publisher storage
     var cancellable: AnyCancellable?
 
-    /// Current container Name
+    /// The name of container
     var container: String
 
     /// Container Configurations
     var containerConfiguration: ContainerConfigurationProtocol
 
-    /// Container Manager instance
+    /// Container Manager
     var manager: ContainerManager
 
     init(container: String,
@@ -41,7 +41,7 @@ final class ContainerQueueHandler: ObservableObject {
         self.manager = containerManager
     }
 
-    /// Register the container in the container manager. Will be called when  onAppear
+    /// Register the container in the container manager. This method will be called when  the container appear ( not in container view init ).
     func disconnect() {
         cancellable = nil
         manager.removeContainer(for: container)
@@ -49,17 +49,18 @@ final class ContainerQueueHandler: ObservableObject {
         sendMessage(type: .info, message: "container `\(container)` disconnected", debugLevel: 2)
     }
 
-    /// Remove the container from the container manager. Will be called when onDisappear
+    /// Remove the container from the container manager. This method Will be called when container disappear
     func connect() {
         cancellable = manager.registerContainer(for: container)
             .sink { [weak self] action in
                 self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
                 guard let queueType = self?.containerConfiguration.queueType else { return }
-                self?.handlerStrategy(for: queueType)(action)
+                self?.getStrategyHandler(for: queueType)(action)
             }
         sendMessage(type: .info, message: "container `\(container)` connected", debugLevel: 2)
     }
 
+    /// Send message with debug level to container manager logger
     func sendMessage(type: SwiftUIOverlayContainerLogType, message: String, debugLevel: Int) {
         manager.sendMessage(type: type, message: message, debugLevel: debugLevel)
     }
@@ -89,31 +90,31 @@ extension ContainerQueueHandler {
         case .main:
             remove(view: id, from: .main, animation: animation)
         case .temporary:
-            remove(view: id, from: .temporary, animation: animation)
+            remove(view: id, from: .temporary, animation: .disable)
         }
 
-        // Set it to false if the view has isPresented binding
+        // Set bind value (isPresented) to false
         identifiableView.isPresented?.wrappedValue = false
     }
 
-    /// Dismiss all views
+    /// Dismiss all views in both main queue and temporary queue
     func dismissAll(animated flag: Bool) {
         for identifiableView in mainQueue {
             dismiss(id: identifiableView.id, animated: flag)
         }
         for identifiableView in tempQueue {
-            dismiss(id: identifiableView.id, animated: flag)
+            dismiss(id: identifiableView.id, animated: false)
         }
     }
 
-    /// Dismiss all view that are showing
+    /// Dismiss the view being displayed
     func dismissMainQueue(animated flag: Bool) {
         for identifiableView in mainQueue {
             dismiss(id: identifiableView.id, animated: flag)
         }
     }
 
-    /// Push view into specific queue, which queue depends on QueueType
+    /// Push view into specific queue
     func pushViewIntoQueue(_ identifiableView: IdentifiableContainerView, queue: QueueType) {
         switch queue {
         case .main:
@@ -129,6 +130,9 @@ extension ContainerQueueHandler {
         }
     }
 
+    /// Get a specific identifiable view from all queues
+    /// - Parameter id: identifier of view
+    /// - Returns: A tuple with identifiable view and queue source
     func getIdentifiableView(id: UUID) -> (view: IdentifiableContainerView, queue: QueueType)? {
         if let mainView = mainQueue.filter({ $0.id == id }).first {
             return (mainView, .main)
@@ -138,7 +142,7 @@ extension ContainerQueueHandler {
         return nil
     }
 
-    /// remove identifiable from queue
+    /// Remove a identifiable view from specific queue
     func remove(view id: UUID, from queue: QueueType, animation: Animation) {
         switch queue {
         case .main:
@@ -162,8 +166,8 @@ extension ContainerQueueHandler {
 // MARK: - Strategy
 
 extension ContainerQueueHandler {
-    /// Return a method for specific container queue type
-    func handlerStrategy(for queueType: ContainerViewQueueType) -> (OverlayContainerAction) -> Void {
+    /// Get a method  based on queue type to handler he actions received from container manager
+    func getStrategyHandler(for queueType: ContainerViewQueueType) -> (OverlayContainerAction) -> Void {
         switch queueType {
         case .oneByOne:
             return sinkForOneByOne
@@ -174,9 +178,9 @@ extension ContainerQueueHandler {
         }
     }
 
-    /// Multiple strategy
+    /// Method of handling actions in multiple mode
     ///
-    /// push view in the main queue directly.
+    /// Push all views into the main queue directly whether or not the main queue is empty
     func sinkForMultiple(action: OverlayContainerAction) {
         switch action {
         case .show(let identifiableContainerView):
@@ -190,9 +194,9 @@ extension ContainerQueueHandler {
         }
     }
 
-    /// OneByOne strategy
+    /// Method of handling actions in OneByOne mode
     ///
-    /// If there is a view in the main queue when the show action is fetched, close it first
+    /// If there is a view in the main queue when the show action is fetched, dismiss it first
     func sinkForOneByOne(action: OverlayContainerAction) {
         switch action {
         case .show(let identifiableContainerView):
@@ -207,10 +211,10 @@ extension ContainerQueueHandler {
         }
     }
 
-    /// OneByOneWaitFinish strategy
+    /// Method of handling actions in OneByOneWithFinish
     ///
-    /// push the view in the main queue if main queue is empty , otherwise put it in the temp queue.
-    /// try to get a new view from the temp queue when the view in the main queue is dismissed
+    /// Push view into the main queue if main queue is empty , otherwise put it in the temporary queue.
+    /// Try to get a new view from the temporary queue when the view in the main queue is dismissed
     func sinkForOneByOneWaitFinish(action: OverlayContainerAction) {
         switch action {
         case .show(let identifiableContainerView):
@@ -230,9 +234,7 @@ extension ContainerQueueHandler {
         }
     }
 
-    /// A method for oneByOne strategy.
-    ///
-    /// If there is a view in the main queue, dismiss it.
+    /// If there is a view in the main queue, dismiss it. only used in OneByOne mode
     func dismissIfNeeded() {
         guard let identifiableView = mainQueue.first else { return }
         dismiss(id: identifiableView.id, animated: true)
