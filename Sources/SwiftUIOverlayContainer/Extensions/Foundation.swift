@@ -19,7 +19,7 @@ extension Task where Success == Never, Failure == Never {
 }
 
 extension Bool {
-    /// merge tapToDismiss between container and view
+    /// Merge tapToDismiss between the configuration of container and the configuration of container view
     ///
     /// in stacking : view's priority is higher then container
     /// in horizontal & vertical: view's tapToDismiss will be ignored
@@ -34,35 +34,13 @@ extension Bool {
     }
 }
 
-extension Array {
-    mutating func push(_ element: Element, with animation: Animation? = nil) {
-            self.append(element)
-    }
-
-    @discardableResult
-    mutating func pop(with animation: Animation? = nil) -> Element? {
-        guard self.count > 0 else { return nil }
-        var result: Element?
-        result = self.removeFirst()
-        return result
-    }
-}
-
-extension Array where Element == IdentifiableContainerView {
-    mutating func remove(view id: UUID, with animation: Animation?) {
-        guard let index = self.firstIndex(where: { $0.id == id }) else { return }
-        withAnimation(animation) {
-            _ = self.remove(at: index)
-        }
-    }
-}
-
-func delayToRun(seconds: TimeInterval, perform action: @escaping () -> Void) {
+/// Delay execution of closure on a specified dispatch queue
+func delayToRun(seconds: TimeInterval, in dispatchQueue: DispatchQueue = .main, perform action: @escaping () -> Void) {
     guard seconds > 0 else {
         action()
         return
     }
-    DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+    dispatchQueue.asyncAfter(deadline: .now() + seconds) {
         action()
     }
 }

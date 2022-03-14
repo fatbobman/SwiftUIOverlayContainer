@@ -256,7 +256,7 @@ extension ContainerQueueHandler {
     }
 }
 
-/// Used to represent the main queue or teh temp queue
+/// Used to represent the main queue or the temp queue
 enum QueueType {
     case main
     case temporary

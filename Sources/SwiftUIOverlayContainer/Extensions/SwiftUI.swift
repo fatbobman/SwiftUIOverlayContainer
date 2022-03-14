@@ -18,17 +18,6 @@ extension View {
     }
 }
 
-/// Pass nil to run body method  without animation.
-public func disabledWithAnimation(_ animation: Animation? = .default, _ body: () -> Void) {
-    if animation == nil {
-        body()
-    } else {
-        withAnimation(animation) {
-            body()
-        }
-    }
-}
-
 // some extension for condition
 extension View {
     @ViewBuilder
