@@ -17,10 +17,11 @@ public enum ContainerBackgroundStyle {
     case color(Color)
     case blur(Material)
     case view(AnyView)
-    case none
+    case disable
 }
 
 extension ContainerBackgroundStyle {
+    /// Provides a SwiftUI view base on background style value
     @ViewBuilder
     func view() -> some View {
         switch self {
@@ -30,23 +31,24 @@ extension ContainerBackgroundStyle {
             Rectangle().fill(material)
         case .view(let view):
             view
-        case .none:
+        case .disable:
             Color.clear
         }
     }
 
-    /// Merge background style between container and container View
+    /// Provides the correct background style base on container configuration and container view configuration
     ///
-    /// When the type of Container is **Stacking**, each Container View can specify its own background style,
-    /// and the priority is higher than the background style of Container.
-    /// When Container type is **Horizontal** or **Vertical**, the background style of Container View will be ignored.
+    /// When the display type of container is stacking, each container view can specify its own background style, and that has higher priority than the background style of container configuration.
+    /// When container display type is horizontal or vertical, the background style of container view will be ignored.
+    ///
+    ///     In stacking mode:
     ///
     ///     container         containerView          result
-    ///       nil                nil                  empty
-    ///       nil                none                 empty
+    ///       nil                nil                  Color.clear
+    ///       nil                disable              Color.clear
     ///       nil                color                color
-    ///       none               none                 empty
-    ///       none               nil                  empty
+    ///       disable            disable              Color.clear
+    ///       disable            nil                  Color.clear
     ///       color              blur                 blur
     ///       color(red)         color(blue)          color(blue)
     ///
@@ -57,15 +59,15 @@ extension ContainerBackgroundStyle {
     ) -> Self {
         switch containerViewDisplayType {
         case .horizontal, .vertical:
-            return containerBackgroundStyle ?? .none
+            return containerBackgroundStyle ?? .disable
         case .stacking:
-            guard let containerBackgroundStyle = containerBackgroundStyle else { return viewBackgroundStyle ?? .none }
+            guard let containerBackgroundStyle = containerBackgroundStyle else { return viewBackgroundStyle ?? .disable }
             return viewBackgroundStyle ?? containerBackgroundStyle
         }
     }
 }
 
-/// Transition of container view background
+/// Transition of container view's background
 public enum ContainerBackgroundTransitionStyle {
     case identity
     case opacity

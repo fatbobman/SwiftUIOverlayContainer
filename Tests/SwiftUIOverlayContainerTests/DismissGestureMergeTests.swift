@@ -24,7 +24,7 @@ class DismissGestureMergeTests: XCTestCase {
 
         // then
         switch result {
-        case .none:
+        case .disable:
             XCTAssert(true)
         default:
             XCTAssert(false)
@@ -84,15 +84,15 @@ class DismissGestureMergeTests: XCTestCase {
 
     func testMergeGestureWhenContainerIsNone() throws {
         // given
-        let containerGesture: ContainerViewDismissGesture? = ContainerViewDismissGesture.none
-        let viewGesture: ContainerViewDismissGesture? = ContainerViewDismissGesture.none
+        let containerGesture: ContainerViewDismissGesture? = ContainerViewDismissGesture.disable
+        let viewGesture: ContainerViewDismissGesture? = ContainerViewDismissGesture.disable
 
         // when
         let result = ContainerViewDismissGesture.merge(containerGesture: containerGesture, viewGesture: viewGesture)
 
         // then
         switch result {
-        case .none:
+        case .disable:
             XCTAssert(true)
         default:
             XCTAssert(false)

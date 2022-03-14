@@ -35,7 +35,7 @@ struct GetFrameInfoModifier: ViewModifier {
 
 extension View {
     /// get the current view frame information to binding value
-    func getCurrentViewFrameInfo(to bindingValue: Binding<CGRect>) -> some View {
+    func recordCurrentViewFrameInfo(to bindingValue: Binding<CGRect>) -> some View {
         modifier(GetFrameInfoModifier(bindingValue: bindingValue))
     }
 }

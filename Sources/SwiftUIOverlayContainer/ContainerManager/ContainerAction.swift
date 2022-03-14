@@ -12,16 +12,20 @@
 import Foundation
 import SwiftUI
 
-/// 从 Container Manager 发送给 Contianer 的指令
+/// Actions sent from the container manager to a container
 enum OverlayContainerAction {
-    // push view in container queue
+    /// Push view in container queue, the container will push the view to the correct queue bases on its queue type.
     case show(IdentifiableContainerView)
-    // dismiss the view from the container queue whether it is already displayed or not
-    // Pass false to disable animation of transition
+    /// Dismiss the view from the container queue whether or not it is already displayed.
+    ///
+    /// Pass false to disable animation of transition
     case dismiss(UUID, Bool)
-    // dismiss all views from the container queue whether thats are already displayed or not
-    // Pass false to disable animation of transition
+    /// Dismiss all views in the container views queue whether or not thats are already displayed
+    ///
+    /// Pass false to disable animation of transition
     case dismissAll(Bool)
-    // dismiss all showing views from the container
+    /// Dismiss the view being displayed in the container, after which the first view in the temp queue is displayed (OneByOneWaitFinish mode).
+    /// 
+    /// Pass false to disable animation of transition
     case dismissShowing(Bool)
 }

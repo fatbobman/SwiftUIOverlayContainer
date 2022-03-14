@@ -13,15 +13,14 @@ import Foundation
 import SwiftUI
 
 extension AnyTransition {
-    /// Merge transition between container and container View
+    /// Provides the correct transition mode of view based on the container configuration and container view configuration
     ///
-    /// When the type of Container is **Stacking**, each Container View can specify its own view transition,
-    /// and the priority is higher than the transition of Container.
-    /// When Container type is **Horizontal** or **Vertical**, the transition  of Container View will be ignored.
+    /// Each container view can specify its own view transition, and the transition has higher priority than the one of container configuration.
     ///
-    ///     Stacking:
+    /// When the display type of container is horizontal or vertical, it is the best to use only one transition for all container views, which is set in the container configuration, and set the one in container view configuration to nil
     ///
     ///     container               view               result
+    ///
     ///        nil                  nil                identity
     ///        identity             nil                identity
     ///        move                 identity           identity
@@ -38,23 +37,20 @@ extension AnyTransition {
         viewTransition: AnyTransition?,
         containerViewDisplayType: ContainerViewDisplayType
     ) -> AnyTransition {
-        switch containerViewDisplayType {
-        case .horizontal, .vertical:
-            return containerTransition ?? .identity
-        case .stacking:
-            guard let containerTransition = containerTransition else { return viewTransition ?? .identity }
-            return viewTransition ?? containerTransition
-        }
+        return viewTransition ?? containerTransition ?? .identity
     }
 
-    public static let hubOnTop: AnyTransition = .move(edge: .top).combined(with: .opacity)
+    /// An example showing how to customize a transition for specific case.
+    public static let popMessageFromTop: AnyTransition = .move(edge: .top).combined(with: .opacity)
 }
 
 extension Animation {
-    /// Merge Transition Animation between container and container view
+    /// Provides the correct animation of transition based on the container configuration and the container view configuration
+    ///
+    /// Each container view can specify its own view animation of transition, and the animation has higher priority than the one of container configuration.
     ///
     ///       container           view          result
-    ///         nil               nil           Animation.none
+    ///         nil               nil           disable
     ///         nil               easeIn        easeIn
     ///         default           easeIn        easeIn
     ///
@@ -63,10 +59,10 @@ extension Animation {
     ///                    containerAnimation: containerAnimation,
     ///                    viewAnimation: viewAnimation,
     ///                    containerViewDisplayType: containerViewDisplayType
-    /// )
+    ///             )
     ///       }
     ///
-    ///       withAnimation(animation) {
+    ///       withAnimation(animation)  {
     ///           // dismiss view
     ///       }
     ///
@@ -74,10 +70,10 @@ extension Animation {
         containerAnimation: Animation?,
         viewAnimation: Animation?
     ) -> Animation {
-        return viewAnimation ?? containerAnimation ?? Animation.none
+        return viewAnimation ?? containerAnimation ?? Animation.disable
     }
 
-    static var none: Animation {
+    static var disable: Animation {
         .easeIn(duration: 0)
     }
 }

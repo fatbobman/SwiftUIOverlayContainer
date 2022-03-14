@@ -12,6 +12,7 @@
 import Foundation
 import SwiftUI
 
+/// The Environment Key of overlay container
 public struct ContainerEnvironment {
     public init(
         containerName: String,
@@ -27,10 +28,33 @@ public struct ContainerEnvironment {
         self.dismiss = dismiss
     }
 
+    /// The name of container
     public let containerName: String
+    /// The frame information of the container in global coordinateSpace
     public let containerFrame: CGRect
+    /// Display type of container
     public let containerViewDisplayType: ContainerViewDisplayType
+    /// Queue type of container
     public let containerViewQueueType: ContainerViewQueueType
+    /// The method that can dismiss the current overlay view when call it
+    ///
+    /// You should call it in your SwiftUI view.
+    ///
+    ///     struct MessageView1: View {
+    ///         @Environment(\.overlayContainer) var container
+    ///         var body: some View {
+    ///             RoundedRectangle(cornerRadius: 10)
+    ///                 .fill(Color.orange)
+    ///                 .padding(.horizontal, 20)
+    ///                 .frame(height: 50)
+    ///                 .overlay(Text("Hello world")
+    ///                 .onTapGesture {
+    ///                         container.dismiss()  // dismiss the view itself
+    ///                 })
+    ///         }
+    ///     }
+    ///
+    /// The dismiss method not only includes the close action, but also executes the disappearAction closure in  containerViewConfiguration and containerConfiguration
     public var dismiss: () -> Void
 }
 

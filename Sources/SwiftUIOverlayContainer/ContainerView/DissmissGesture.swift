@@ -14,7 +14,7 @@ import SwiftUI
 
 /// Gesture for dismiss Container View
 ///
-///   Convert gesture to AnyGesture<Void> when using customGesture
+///   Convert the gesture's type to AnyGesture<Void> when using customGesture
 ///
 ///      let gesture = LongPressGesture(minimumDuration: 1, maximumDistance: 5).eraseToAnyGestureForDismiss()
 ///
@@ -35,11 +35,11 @@ public enum ContainerViewDismissGesture {
     case swipeUp
     case swipeDown
     case customGesture(AnyGesture<Void>)
-    case none
+    case disable
 }
 
 extension ContainerViewDismissGesture {
-    /// generate dismiss gesture with execution closure
+    /// generate the dismiss gesture with execution closure
     ///
     /// The dismiss Action not only includes the cancellation action of Overlay Container view,
     /// but also the dismiss closure specified by user
@@ -51,7 +51,7 @@ extension ContainerViewDismissGesture {
             return TapGesture(count: 2).onEnded { _ in dismissAction() }.eraseToAnyGestureForDismiss()
         case .customGesture(let gesture):
             return gesture.onEnded { _ in dismissAction() }.eraseToAnyGestureForDismiss()
-        case .none:
+        case .disable:
             return nil
         case .swipeUp, .swipeDown, .swipeLeft, .swipeRight:
             return SwipeGesture(minimumDistance: 10, coordinateSpace: .global)
@@ -73,34 +73,42 @@ extension ContainerViewDismissGesture {
         }
     }
 
-    /// merge dismiss gesture between container's configuration and containerView's configuration
+    /// Provides the correct gesture of dismiss based on the container configuration and the container view configuration.
     ///
-    /// Container View's dismiss gesture has higher priority than OverlayContainer
+    /// Container view configuration's dismiss gesture has higher priority than the one of container configuration
     ///
-    ///     container           containerView           result
-    ///         nil               nil                     none
-    ///         none              none                    none
+    ///     container             view                    result
+    ///     
+    ///         nil               nil                     disable
+    ///         disable           disable                 disable
     ///         tap               nil                     tap
-    ///         tap               none                    none
+    ///         tap               disable                 disable
     ///         tap               swipeLeft               swipeLeft
     ///         nil               tap                     tap
-    ///         nil               none                    none
+    ///         nil               disable                 disable
     ///
     /// - Returns: ContainerViewDismissGesture
     static func merge(containerGesture: Self?, viewGesture: Self?) -> Self {
-        guard let containerGesture = containerGesture else { return viewGesture ?? Self.none }
+        guard let containerGesture = containerGesture else { return viewGesture ?? Self.disable }
         return viewGesture ?? containerGesture
     }
 }
 
 public extension Gesture {
     /// Erase SwiftUI Gesture to AnyGesture , and convert value to Void.
+    ///
+    /// Convert the gesture's type to AnyGesture<Void> when using customGesture
+    ///
+    ///      let gesture = LongPressGesture(minimumDuration: 1, maximumDistance: 5).eraseToAnyGestureForDismiss()
+    ///
     func eraseToAnyGestureForDismiss() -> AnyGesture<Void> {
         AnyGesture(map { _ in () })
     }
 }
 
 /// Swipe Gesture
+///
+/// Read my blog [post](https://fatbobman.com/posts/swiftuiGesture/) to learn how to customize gesture in SwiftUI.
 struct SwipeGesture: Gesture {
     enum Direction: String {
         case left, right, up, down
@@ -134,7 +142,7 @@ struct SwipeGesture: Gesture {
 }
 
 extension View {
-    /// add dismiss gesture to Container View
+    /// Add dismiss gesture to container view
     ///
     ///   Examples
     ///

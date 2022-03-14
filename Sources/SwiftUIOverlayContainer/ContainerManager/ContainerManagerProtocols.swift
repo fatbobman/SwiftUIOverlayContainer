@@ -13,7 +13,9 @@ import Combine
 import Foundation
 import SwiftUI
 
-/// A protocol that overlay management type need to follow.
+typealias ContainerViewPublisher = Publishers.Share<PassthroughSubject<OverlayContainerAction, Never>>
+
+/// A type defines how the container manager interactive with the container
 protocol ContainerManagement {
     /// Register a container in the container manager
     func registerContainer(for container: String) -> ContainerViewPublisher
@@ -28,7 +30,7 @@ protocol ContainerManagement {
     func getPublisher(for container: String) -> ContainerViewPublisher?
 }
 
-/// The methods provider to ViewModifier
+/// A type defines how the container manager interactive with SwiftUI view modifier
 protocol ContainerViewManagementForViewModifier {
     /// Show container view in specific container
     /// - Returns: container view ID
@@ -46,7 +48,7 @@ protocol ContainerViewManagementForViewModifier {
                                       isPresented: Binding<Bool>?) -> UUID?
 }
 
-/// The methods provider to Environment, can also be called by directly passing the share instance
+/// A type defines some methods for communicating between the container manager and SwiftUI views or cods outside the views.
 public protocol ContainerViewManagementForEnvironment {
     /// push ContainerView to specific overlay container
     ///
@@ -90,6 +92,7 @@ public protocol ContainerViewManagementForEnvironment {
     func dismissAllView(in containers: [String], onlyShowing: Bool, animated flag: Bool)
 }
 
+/// A type defines logging behavior
 protocol ContainerManagerLogger {
     /// A Instance of SwiftUIOverlayContainerLoggerProtocol for write log
     static var logger: SwiftUIOverlayContainerLoggerProtocol { get set }

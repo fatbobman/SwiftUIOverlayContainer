@@ -12,6 +12,7 @@
 import Foundation
 import SwiftUI
 
+/// The Environment Key of container manager. An instance of container manager.
 struct ContainerManagerKey: EnvironmentKey {
     static var defaultValue = ContainerManager.shared
 }
@@ -24,11 +25,12 @@ public extension EnvironmentValues {
     ///         var body: some View {
     ///             VStack{
     ///                 Button("push view by manager"){
-    ///                     manager.show(view: Text("ab"), in: "container2", using: MessageView())
+    ///                     manager.show(view: MessageView(), in: "container2", using: MessageViewConfiguration())
     ///                 }
     ///             }
     ///         }
     ///     }
     ///
+    /// In the most cases, you don't need use primitive methods in SwiftUI view, just use the functionality of View Extension.
     var overlayContainerManager: ContainerManager { self[ContainerManagerKey.self] }
 }

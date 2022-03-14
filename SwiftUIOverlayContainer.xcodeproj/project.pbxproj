@@ -40,7 +40,6 @@
 		76F817CA27DB54BF00186338 /* QueueHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F817C927DB54BF00186338 /* QueueHandlerTests.swift */; };
 		76F817CC27DB5E8300186338 /* QueueHandlerForOneByOneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F817CB27DB5E8300186338 /* QueueHandlerForOneByOneTests.swift */; };
 		76F817CE27DB668600186338 /* QueueHandlerForOneByeOneWaitFinishTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F817CD27DB668600186338 /* QueueHandlerForOneByeOneWaitFinishTests.swift */; };
-		OBJ_46 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Global.swift */; };
 		OBJ_47 /* ContainerManagerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ContainerManagerProtocols.swift */; };
 		OBJ_48 /* Alignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Alignment.swift */; };
 		OBJ_49 /* AutoDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* AutoDismiss.swift */; };
@@ -100,7 +99,6 @@
 		76F817C927DB54BF00186338 /* QueueHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueHandlerTests.swift; sourceTree = "<group>"; };
 		76F817CB27DB5E8300186338 /* QueueHandlerForOneByOneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueHandlerForOneByOneTests.swift; sourceTree = "<group>"; };
 		76F817CD27DB668600186338 /* QueueHandlerForOneByeOneWaitFinishTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueHandlerForOneByeOneWaitFinishTests.swift; sourceTree = "<group>"; };
-		OBJ_10 /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		OBJ_12 /* ContainerManagerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerManagerProtocols.swift; sourceTree = "<group>"; };
 		OBJ_14 /* Alignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alignment.swift; sourceTree = "<group>"; };
 		OBJ_15 /* AutoDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoDismiss.swift; sourceTree = "<group>"; };
@@ -175,6 +173,7 @@
 				OBJ_18 /* TransitionAndAnimation.swift */,
 				76D8C95C27D81752009A86C6 /* IdentifiableContainerView.swift */,
 				76D8C96027D833EB009A86C6 /* ContainerViewProtocols.swift */,
+				OBJ_20 /* BackgroundStyle.swift */,
 			);
 			path = ContainerView;
 			sourceTree = "<group>";
@@ -182,7 +181,6 @@
 		OBJ_19 /* Container */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_20 /* BackgroundStyle.swift */,
 				7696AE9E27DC91F400ECFB1C /* GenericStack.swift */,
 				OBJ_21 /* Container.swift */,
 				7696AE9C27DC8CAC00ECFB1C /* CompositeContainerView.swift */,
@@ -273,7 +271,6 @@
 			isa = PBXGroup;
 			children = (
 				7612925E27D87F22009A70A2 /* EnvironmentKey */,
-				OBJ_9 /* Common */,
 				OBJ_11 /* ContainerManager */,
 				OBJ_13 /* ContainerView */,
 				OBJ_19 /* Container */,
@@ -283,14 +280,6 @@
 			name = SwiftUIOverlayContainer;
 			path = Sources/SwiftUIOverlayContainer;
 			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_9 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_10 /* Global.swift */,
-			);
-			path = Common;
-			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -397,7 +386,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_46 /* Global.swift in Sources */,
 				OBJ_47 /* ContainerManagerProtocols.swift in Sources */,
 				76D8C96127D833EB009A86C6 /* ContainerViewProtocols.swift in Sources */,
 				761292A227D8C1FE009A70A2 /* ContainerProtocols.swift in Sources */,

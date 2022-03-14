@@ -12,19 +12,22 @@
 import Foundation
 import SwiftUI
 
-/// dismiss container view automatic
+/// Dismiss container view automatically
 public enum ContainerViewAutoDismiss: Equatable {
     case seconds(TimeInterval)
-    case none
+    case disable
 }
 
 extension ContainerViewAutoDismiss {
-    /// merger container autoDismiss and containerView autoDismiss
+    /// Merger the container's autoDismiss setting and the container view's autoDismiss setting
+    ///
+    /// The autoDismiss of container view configuration has higher priority than container configuration
     ///
     ///       container        view            result
-    ///        nil             nil             none
-    ///        timeInterval    none            none
-    ///        none            timeInterval    timeInterval
+    ///       
+    ///        nil             nil             disable
+    ///        timeInterval    disable         disable
+    ///        disable         timeInterval    timeInterval
     ///        timeIntervale   nil             timeInterval
     ///
     /// - Parameters:
@@ -32,13 +35,13 @@ extension ContainerViewAutoDismiss {
     ///   - viewAutoDismiss: containerView's autoDismiss configuration
     /// - Returns: ContainerViewAutoDismiss
     static func merge(containerAutoDismiss: Self?, viewAutoDismiss: Self?) -> Self {
-        guard let containerAutoDismiss = containerAutoDismiss else { return viewAutoDismiss ?? Self.none }
+        guard let containerAutoDismiss = containerAutoDismiss else { return viewAutoDismiss ?? Self.disable }
         return viewAutoDismiss ?? containerAutoDismiss
     }
 }
 
 extension View {
-    /// add auto dismiss closure for container View
+    /// Add auto dismiss feature to container View
     ///
     ///      var autoDismiss: ContainerViewAutoDismiss {
     ///           ContainerViewAutoDismiss.merge(containerAutoDismiss: containerAutoDismiss,
@@ -51,8 +54,8 @@ extension View {
     ///
     /// - Parameters:
     ///   - type: ContainerViewAutoDismiss( the type of auto dismiss )
-    ///   - dismissAction: dismiss closure. include container manager closure and specific dismiss closure
-    /// - Returns: View with dismiss task
+    ///   - dismissAction: dismiss closure, include dismiss current view action and the disappearAction in the container configuration and container view configuration
+    /// - Returns: A view that attaches a dismissed task
     @ViewBuilder
     func autoDismiss(_ type: ContainerViewAutoDismiss, dismissAction: @escaping DismissAction) -> some View {
         if case .seconds(let timeInterval) = type {

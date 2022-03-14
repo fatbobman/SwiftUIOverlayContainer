@@ -12,18 +12,18 @@
 import Foundation
 import SwiftUI
 
-/// A struct that wraps container view with Identifier
+/// A struct that wraps SwiftUI view with Identifier
 public struct IdentifiableContainerView: Identifiable {
-    /// The identifier for container
+    /// The identifier for view, used to identifier which view should be dismiss and the identifier of `ForEach`
     public let id: UUID
 
-    /// View of Container View
+    /// View for Container, convert any kind SwiftUI view to anyView type
     let view: AnyView
 
-    /// configuration of Container View
+    /// Configuration of container View
     let configuration: ContainerViewConfigurationProtocol
 
-    /// A switch that controls the display of the current container view
+    /// A bind value that controls the display of the current container view, set false to dismiss the current view
     let isPresented: Binding<Bool>?
 
     public init<Context: View>(
