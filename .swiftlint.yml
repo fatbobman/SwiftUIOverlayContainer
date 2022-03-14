@@ -44,6 +44,7 @@ type_name:
   excluded: # 排除某个名字
     pp
 identifier_name:
+  allowed_symbols: "_"
   min_length: # 只有最小长度
     error: 4 # 只有错误
   excluded: # 排除某些名字

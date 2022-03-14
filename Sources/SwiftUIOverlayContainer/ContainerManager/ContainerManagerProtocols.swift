@@ -36,17 +36,17 @@ protocol ContainerViewManagementForViewModifier {
     /// - Returns: container view ID
     @discardableResult
     func _show<Content: View>(view: Content,
-                             in container: String,
-                             using configuration: ContainerViewConfigurationProtocol,
-                             isPresented: Binding<Bool>?,
-                             animated: Bool) -> UUID?
+                              in container: String,
+                              using configuration: ContainerViewConfigurationProtocol,
+                              isPresented: Binding<Bool>?,
+                              animated: Bool) -> UUID?
 
     /// Show container view in specific container
     /// - Returns: container view ID
     @discardableResult
     func _show<Content: ContainerView>(containerView: Content,
-                                      in container: String,
-                                      isPresented: Binding<Bool>?) -> UUID?
+                                       in container: String,
+                                       isPresented: Binding<Bool>?) -> UUID?
 }
 
 /// A type defines some methods for communicating between the container manager and SwiftUI views or cods outside the views.
