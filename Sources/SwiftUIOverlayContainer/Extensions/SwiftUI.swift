@@ -51,3 +51,16 @@ extension View {
         }
     }
 }
+
+extension View {
+    @available(iOS, introduced: 14, obsoleted: 15)
+    @available(macOS, introduced: 11, obsoleted: 12)
+    func task(priority: TaskPriority = .userInitiated, _ action: @escaping @Sendable () async -> Void) -> some View {
+        self
+            .onAppear {
+                Task(priority: priority) {
+                    await action()
+                }
+            }
+    }
+}
