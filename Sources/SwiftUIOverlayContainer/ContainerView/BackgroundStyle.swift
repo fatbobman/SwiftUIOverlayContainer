@@ -21,7 +21,7 @@ public enum ContainerBackgroundStyle {
 }
 
 extension ContainerBackgroundStyle {
-    /// Provides a SwiftUI view base on background style value
+    /// Provides a SwiftUI view base on background style
     @ViewBuilder
     func view() -> some View {
         switch self {
@@ -87,7 +87,7 @@ extension BlurMaterial {
         """
         Blur backgrounds are only supported on iOS 15+ and macOS 12+. If you want to set a blur background, use the `.view(some blur view)`.
 
-        There are a lot of blur solutions on the internet that support lower versions, for example: https://github.com/twostraws/VisualEffects
+        You can find a blur solutions on the internet that support lower os versions, such as: https://github.com/twostraws/VisualEffects
         """
     }
 }
