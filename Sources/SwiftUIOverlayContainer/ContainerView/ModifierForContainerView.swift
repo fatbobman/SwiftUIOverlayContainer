@@ -32,7 +32,7 @@ struct ShowContainerViewModifier<V: View>: ViewModifier {
         content
             .onChange(of: isPresented) { _ in
                 if isPresented {
-                    identifiableViewID = containerManager.show(view: view, in: container, using: configuration, isPresented: $isPresented)
+                    identifiableViewID = containerManager._show(view: view, in: container, using: configuration, isPresented: $isPresented)
                 } else {
                     if let identifiableViewID = identifiableViewID {
                         containerManager.dismiss(view: identifiableViewID, in: container, animated: true)

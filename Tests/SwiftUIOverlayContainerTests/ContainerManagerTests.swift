@@ -106,7 +106,7 @@ class ContainerManagerTests: XCTestCase {
         publisher
             .sink(receiveValue: { action in
                 switch action {
-                case .show(let identifiableView):
+                case .show(let identifiableView, _):
                     resultID = identifiableView.id
                     expectation.fulfill()
                 default:
@@ -136,7 +136,7 @@ class ContainerManagerTests: XCTestCase {
         publisher?
             .sink(receiveValue: { action in
                 switch action {
-                case .show(let identifiableView):
+                case .show(let identifiableView, _):
                     resultID = identifiableView.id
                     expectation.fulfill()
                 default:

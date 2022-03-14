@@ -51,7 +51,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .oneByOne)
 
         // when
-        perform(.show(identifiableView))
+        perform(.show(identifiableView, true))
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -70,13 +70,13 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .oneByOne)
 
         // when
-        perform(.show(identifiableView1))
+        perform(.show(identifiableView1, true))
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
 
         // when
-        perform(.show(identifiableView2))
+        perform(.show(identifiableView2, true))
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -93,7 +93,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .oneByOne)
 
         // when
-        perform(.show(identifiableView))
+        perform(.show(identifiableView, true))
         perform(.dismiss(identifiableView.id, true))
 
         // then
@@ -113,8 +113,8 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .oneByOne)
 
         // when
-        perform(.show(identifiableView1))
-        perform(.show(identifiableView2))
+        perform(.show(identifiableView1, true))
+        perform(.show(identifiableView2, true))
         perform(.dismissAll(false))
 
         // then
@@ -180,7 +180,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
 
         // when
         manager.show(view: view, in: container, using: view)
-        manager.show(view: view, in: container, using: view, isPresented: binding)
+        manager._show(view: view, in: container, using: view, isPresented: binding)
         manager.dismissAllView(in: [container], animated: true)
 
         // then

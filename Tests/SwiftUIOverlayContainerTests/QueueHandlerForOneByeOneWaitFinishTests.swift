@@ -51,7 +51,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .oneByOneWaitFinish)
 
         // when
-        perform(.show(identifiableView))
+        perform(.show(identifiableView, false))
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -70,13 +70,13 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .oneByOneWaitFinish)
 
         // when
-        perform(.show(identifiableView1))
+        perform(.show(identifiableView1, false))
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
 
         // when
-        perform(.show(identifiableView2))
+        perform(.show(identifiableView2, false))
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -104,8 +104,8 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .oneByOneWaitFinish)
 
         // when
-        perform(.show(identifiableView1))
-        perform(.show(identifiableView2))
+        perform(.show(identifiableView1, false))
+        perform(.show(identifiableView2, false))
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -133,8 +133,8 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .oneByOneWaitFinish)
 
         // when
-        perform(.show(identifiableView1))
-        perform(.show(identifiableView2))
+        perform(.show(identifiableView1, false))
+        perform(.show(identifiableView2, false))
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -162,8 +162,8 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         let perform = handler.getStrategyHandler(for: .oneByOneWaitFinish)
 
         // when
-        perform(.show(identifiableView1))
-        perform(.show(identifiableView2))
+        perform(.show(identifiableView1, false))
+        perform(.show(identifiableView2, false))
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -269,7 +269,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         // when
         manager.show(view: view, in: container, using: view)
         manager.show(view: view, in: container, using: view)
-        manager.show(view: view, in: container, using: view, isPresented: binding)
+        manager._show(view: view, in: container, using: view, isPresented: binding)
         manager.dismissAllView(notInclude: [], animated: true)
 
         // then

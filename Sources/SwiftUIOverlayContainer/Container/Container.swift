@@ -157,6 +157,7 @@ struct RootView: View {
         VStack {
             Button("Show message in container1") {
                 manager.show(containerView: MessageView(), in: "container1")
+
             }
         }
         .edgesIgnoringSafeArea(.all)
