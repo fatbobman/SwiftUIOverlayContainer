@@ -141,12 +141,13 @@ struct OverlayContainer: View {
         .recordCurrentViewFrameInfo(to: $containerFrame)
         .onAppear { queueHandler.connect() }
         .onDisappear { queueHandler.disconnect() }
-        // if animation or delayForShowingNext changed , reassign the queueHandler
+        // if animation or delayForShowingNext changed, reassign the properties of queueHandler
+        // The queue handler has the ability to respond to the container configuration changes
         .onChange(of: configuration.animation, configuration.delayForShowingNext) { newAnimation, newDelay in
             queueHandler.animation = newAnimation
             queueHandler.delayForShowingNext = newDelay
         }
-        // Can't change containerName or queueType
+        // Prohibition of changing the containerName and the queueType
         .onChange(of: configuration.queueType, containerName) { _ in
             #if DEBUG
             fatalError("❌ Can't change container name or queue type in runtime, this message only show in Debug mode.")

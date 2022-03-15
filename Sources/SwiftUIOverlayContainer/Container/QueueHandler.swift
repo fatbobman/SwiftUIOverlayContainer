@@ -19,7 +19,7 @@ final class ContainerQueueHandler: ObservableObject {
     /// the main queue for IdentifiableView, used in SwiftUI ForEach
     @Published var mainQueue: [IdentifiableContainerView] = [] {
         didSet {
-            // if main queue is empty get a new one from temp queue in oneByeOneWaitFinish mode
+            // if the main queue is empty, get a new view from the temp queue in oneByeOneWaitFinish mode
             if case .oneByOneWaitFinish = queueType {
                 transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
             }
@@ -265,10 +265,10 @@ extension ContainerQueueHandler {
     ///
     /// If the main queue is empty, try transfer the first view from temp queue to main queue.
     func transferNewViewFromTempQueueIfNeeded(delay seconds: TimeInterval) {
-        guard self.mainQueue.isEmpty else { return }
-        guard let view = self.tempQueue.first else { return }
-        self.tempQueue.removeFirst()
+        guard self.mainQueue.isEmpty, !self.tempQueue.isEmpty else { return }
         delayToRun(seconds: seconds) {
+            guard let view = self.tempQueue.first else { return }
+            self.tempQueue.removeFirst()
             self.pushViewIntoQueue(view, queue: .main)
         }
     }
