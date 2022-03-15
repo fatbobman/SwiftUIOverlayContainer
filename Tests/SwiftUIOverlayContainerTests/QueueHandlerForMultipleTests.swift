@@ -12,21 +12,16 @@
 import SwiftUI
 @testable import SwiftUIOverlayContainer
 import XCTest
-
+@MainActor
 class QueueHandlerForMultipleUnitTests: XCTestCase {
-    let manager = ContainerManager.shared
+    var manager: ContainerManager!
     var containerConfiguration: ContainerConfiguration!
     var handler: ContainerQueueHandler!
 
-    override class func setUp() {
-        ContainerManager.shared.publishers.removeAll()
-    }
-
-    override class func tearDown() {
-        ContainerManager.shared.publishers.removeAll()
-    }
-
+    @MainActor
     override func setUp() {
+        manager = ContainerManager()
+        manager.debugLevel = 3
         self.containerConfiguration = ContainerConfiguration(
             displayType: .stacking, queueType: .multiple, delayForShowingNext: 0
         )
@@ -37,6 +32,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         )
     }
 
+    @MainActor
     override func tearDown() {
         self.containerConfiguration = nil
         self.handler = nil
@@ -106,7 +102,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
-    func testShowViewAfterConnect() throws {
+    func testShowViewAfterConnect() async throws {
         // given
         let view1 = MessageView()
         let view2 = MessageView()
@@ -117,6 +113,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         let containerName = handler.container
         manager.show(view: view1, in: containerName, using: view1)
         manager.show(view: view2, in: containerName, using: view2)
+        try await Task.sleep(seconds: 0.01)
 
         // then
         XCTAssertEqual(manager.containerCount, 1)
@@ -129,7 +126,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         }
     }
 
-    func testDismissViewAfterConnect() throws {
+    func testDismissViewAfterConnect() async throws {
         // given
         let view1 = MessageView()
         let view2 = MessageView()
@@ -141,6 +138,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         manager.show(view: view1, in: containerName, using: view1)
         let id = manager.show(view: view2, in: containerName, using: view2)
         manager.dismiss(view: try XCTUnwrap(id), in: containerName, animated: false)
+        try await Task.sleep(seconds: 0.01)
 
         // then
         XCTAssertEqual(manager.containerCount, 1)

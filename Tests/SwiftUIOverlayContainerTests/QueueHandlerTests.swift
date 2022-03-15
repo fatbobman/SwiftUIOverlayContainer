@@ -12,20 +12,14 @@
 @testable import SwiftUIOverlayContainer
 import XCTest
 
+@MainActor
 class QueueHandlerTests: XCTestCase {
-    let manager = ContainerManager.shared
+    let manager = ContainerManager()
     var containerConfiguration: ContainerConfiguration!
     var handler: ContainerQueueHandler!
 
-    override class func setUp() {
-        ContainerManager.shared.publishers.removeAll()
-    }
-
-    override class func tearDown() {
-        ContainerManager.shared.publishers.removeAll()
-    }
-
-    override func setUp() {
+    @MainActor override func setUp() {
+        manager.publishers.removeAll()
         self.containerConfiguration = ContainerConfiguration(
             displayType: .stacking, queueType: .multiple, delayForShowingNext: 0
         )
@@ -36,12 +30,13 @@ class QueueHandlerTests: XCTestCase {
         )
     }
 
+    @MainActor
     override func tearDown() {
         self.containerConfiguration = nil
         self.handler = nil
     }
 
-    func testDismiss() throws {
+    @MainActor func testDismiss() throws {
         // given
         let view = MessageView()
         let identifiableView = IdentifiableContainerView(

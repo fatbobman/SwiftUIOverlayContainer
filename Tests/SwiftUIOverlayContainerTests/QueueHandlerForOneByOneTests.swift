@@ -13,20 +13,15 @@ import SwiftUI
 @testable import SwiftUIOverlayContainer
 import XCTest
 
+@MainActor
 class QueueHandlerForOneByOneTests: XCTestCase {
-    let manager = ContainerManager.shared
+    let manager = ContainerManager()
     var containerConfiguration: ContainerConfiguration!
     var handler: ContainerQueueHandler!
 
-    override class func setUp() {
-        ContainerManager.shared.publishers.removeAll()
-    }
-
-    override class func tearDown() {
-        ContainerManager.shared.publishers.removeAll()
-    }
-
+    @MainActor
     override func setUp() {
+        manager.publishers.removeAll()
         self.containerConfiguration = ContainerConfiguration(
             displayType: .stacking, queueType: .oneByOne, delayForShowingNext: 0
         )
@@ -37,6 +32,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         )
     }
 
+    @MainActor
     override func tearDown() {
         self.containerConfiguration = nil
         self.handler = nil
@@ -121,7 +117,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
-    func testShowViewAfterConnect() throws {
+    func testShowViewAfterConnect() async throws {
         // given
         handler.connect()
         let view = MessageView()
@@ -131,6 +127,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         // when
         manager.show(view: view, in: container, using: view)
         let id = manager.show(view: view, in: container, using: view)
+        try await Task.sleep(seconds: 0.01)
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -169,7 +166,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
-    func testDismissViewWithIsPresented() throws {
+    func testDismissViewWithIsPresented() async throws {
         // given
         let mock = BindingMock()
         mock.isPresented = true
@@ -182,6 +179,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         manager.show(view: view, in: container, using: view)
         manager._show(view: view, in: container, using: view, isPresented: binding)
         manager.dismissAllView(in: [container], animated: true)
+        try await Task.sleep(seconds: 0.01)
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 0)

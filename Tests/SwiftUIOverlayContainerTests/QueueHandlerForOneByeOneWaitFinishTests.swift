@@ -13,20 +13,15 @@ import SwiftUI
 @testable import SwiftUIOverlayContainer
 import XCTest
 
+@MainActor
 class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
-    let manager = ContainerManager.shared
+    let manager = ContainerManager()
     var containerConfiguration: ContainerConfiguration!
     var handler: ContainerQueueHandler!
 
-    override class func setUp() {
-        ContainerManager.shared.publishers.removeAll()
-    }
-
-    override class func tearDown() {
-        ContainerManager.shared.publishers.removeAll()
-    }
-
+    @MainActor
     override func setUp() {
+        manager.publishers.removeAll()
         self.containerConfiguration = ContainerConfiguration(
             displayType: .stacking, queueType: .oneByOneWaitFinish, delayForShowingNext: 0
         )
@@ -37,6 +32,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         )
     }
 
+    @MainActor
     override func tearDown() {
         self.containerConfiguration = nil
         self.handler = nil
@@ -178,7 +174,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         XCTAssertEqual(try XCTUnwrap(handler.mainQueue.first?.id), view2ID)
     }
 
-    func testShowViewAfterConnect() throws {
+    func testShowViewAfterConnect() async throws {
         // given
         let view = MessageView()
         handler.connect()
@@ -188,6 +184,8 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         let viewID1 = manager.show(view: view, in: container, using: view)
         let viewID2 = manager.show(view: view, in: container, using: view)
         let viewID3 = manager.show(view: view, in: container, using: view)
+
+        try await Task.sleep(seconds: 0.01)
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -201,7 +199,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         }
     }
 
-    func testDismissViewAfterConnect() throws {
+    func testDismissViewAfterConnect() async throws {
         // given
         let view = MessageView()
         handler.connect()
@@ -212,6 +210,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         let viewID2 = manager.show(view: view, in: container, using: view)
         let viewID3 = manager.show(view: view, in: container, using: view)
         manager.dismiss(view: try XCTUnwrap(viewID1), in: container, animated: true)
+        try await Task.sleep(seconds: 0.01)
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -220,7 +219,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         XCTAssertEqual(handler.tempQueue.first?.id, viewID3)
     }
 
-    func testDismissViewTransferFormTempQueueAfterConnect() throws {
+    func testDismissViewTransferFormTempQueueAfterConnect() async throws {
         // given
         let view = MessageView()
         handler.connect()
@@ -231,6 +230,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         let viewID2 = manager.show(view: view, in: container, using: view)
         let viewID3 = manager.show(view: view, in: container, using: view)
         manager.dismiss(view: try XCTUnwrap(viewID2), in: container, animated: true)
+        try await Task.sleep(seconds: 0.01)
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -257,7 +257,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
     }
 
     // temp queue is not empty
-    func testDismissAllViewWithIsPresentedAfterConnect() throws {
+    func testDismissAllViewWithIsPresentedAfterConnect() async throws {
         // given
         let view = MessageView()
         handler.connect()
@@ -271,6 +271,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         manager.show(view: view, in: container, using: view)
         manager._show(view: view, in: container, using: view, isPresented: binding)
         manager.dismissAllView(notInclude: [], animated: true)
+        try await Task.sleep(seconds: 0.01)
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 0)
