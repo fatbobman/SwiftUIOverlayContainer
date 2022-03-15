@@ -25,8 +25,10 @@ class QueueHandlerTests: XCTestCase {
         )
         self.handler = ContainerQueueHandler(
             container: "testContainer",
-            containerConfiguration: containerConfiguration,
-            containerManager: manager
+            containerManager: manager,
+            queueType: containerConfiguration.queueType,
+            animation: containerConfiguration.animation,
+            delayForShowingNext: containerConfiguration.delayForShowingNext
         )
     }
 
