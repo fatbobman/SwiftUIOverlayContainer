@@ -17,7 +17,13 @@ import SwiftUI
 @MainActor
 final class ContainerQueueHandler: ObservableObject {
     /// the main queue for IdentifiableView, used in SwiftUI ForEach
-    @Published var mainQueue: [IdentifiableContainerView] = []
+    @Published var mainQueue: [IdentifiableContainerView] = []{
+        didSet{
+            if case .oneByOneWaitFinish = containerConfiguration.queueType {
+                transferNewViewFromTempQueueIfNeeded(delay: containerConfiguration.delayForShowingNext)
+            }
+        }
+    }
 
     /// a temporary queue of IdentifiableContainerView. Use in OneByOneWaitFinish mode
     var tempQueue: [IdentifiableContainerView] = []
@@ -230,12 +236,10 @@ extension ContainerQueueHandler {
             }
         case .dismiss(let id, let animated):
             dismiss(id: id, animated: animated)
-            transferNewViewFromTempQueueIfNeeded(delay: containerConfiguration.delayForShowingNext)
         case .dismissAll(let animated):
             dismissAll(animated: animated)
         case .dismissShowing(let animated):
             dismissMainQueue(animated: animated)
-            transferNewViewFromTempQueueIfNeeded(delay: containerConfiguration.delayForShowingNext)
         }
     }
 
@@ -249,12 +253,12 @@ extension ContainerQueueHandler {
     ///
     /// If the main queue is empty, try transfer the first view from temp queue to main queue.
     func transferNewViewFromTempQueueIfNeeded(delay seconds: TimeInterval = 0.5) {
-        guard mainQueue.isEmpty else { return }
-        guard let view = tempQueue.first else { return }
-        tempQueue.removeFirst()
-        delayToRun(seconds: seconds) {
-            self.pushViewIntoQueue(view, queue: .main)
-        }
+            guard self.mainQueue.isEmpty else { return }
+            guard let view = self.tempQueue.first else { return }
+            self.tempQueue.removeFirst()
+            delayToRun(seconds: seconds) {
+                self.pushViewIntoQueue(view, queue: .main)
+            }
     }
 }
 
