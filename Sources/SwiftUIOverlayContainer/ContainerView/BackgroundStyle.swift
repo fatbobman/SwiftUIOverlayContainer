@@ -15,7 +15,7 @@ import SwiftUI
 /// The background Style for Container
 public enum ContainerBackgroundStyle {
     case color(Color)
-    case blur(BlurMaterial)
+    case blur(OverlayContainerBlurMaterial)
     case view(AnyView)
     case disable
 }
@@ -40,7 +40,7 @@ extension ContainerBackgroundStyle {
 /// Type of blur
 ///
 /// Improve compatibility, bridge for os that do not support blur
-public enum BlurMaterial {
+public enum OverlayContainerBlurMaterial {
     case regular
     case thick
     case thin
@@ -48,7 +48,7 @@ public enum BlurMaterial {
     case ultraThick
 }
 
-extension BlurMaterial {
+extension OverlayContainerBlurMaterial {
     @ViewBuilder
     func getBlurView() -> some View {
         if #available(iOS 15, macOS 12, tvOS 15, *) {
