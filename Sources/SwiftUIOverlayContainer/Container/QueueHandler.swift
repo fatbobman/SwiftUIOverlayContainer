@@ -14,6 +14,7 @@ import Foundation
 import SwiftUI
 
 /// The core logic of Container queue. Exhibits different behaviors depends on the type of container queue.
+@MainActor
 final class ContainerQueueHandler: ObservableObject {
     /// the main queue for IdentifiableView, used in SwiftUI ForEach
     @Published var mainQueue: [IdentifiableContainerView] = []
@@ -52,6 +53,7 @@ final class ContainerQueueHandler: ObservableObject {
     /// Remove the container from the container manager. This method Will be called when container disappear
     func connect() {
         cancellable = manager.registerContainer(for: container)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] action in
                 self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
                 guard let queueType = self?.containerConfiguration.queueType else { return }
@@ -116,22 +118,20 @@ extension ContainerQueueHandler {
 
     /// Push view into specific queue
     func pushViewIntoQueue(_ identifiableView: IdentifiableContainerView, queue: QueueType, animated flag: Bool = true) {
-        DispatchQueue.main.async {
-            switch queue {
-            case .main:
-                var animation: Animation = .disable
-                if flag {
-                    animation = Animation.merge(
-                        containerAnimation: self.containerConfiguration.animation,
-                        viewAnimation: identifiableView.configuration.animation
-                    )
-                }
-                withAnimation(animation) {
-                    self.mainQueue.append(identifiableView)
-                }
-            case .temporary:
-                self.tempQueue.append(identifiableView)
+        switch queue {
+        case .main:
+            var animation: Animation = .disable
+            if flag {
+                animation = Animation.merge(
+                    containerAnimation: self.containerConfiguration.animation,
+                    viewAnimation: identifiableView.configuration.animation
+                )
             }
+            withAnimation(animation) {
+                self.mainQueue.append(identifiableView)
+            }
+        case .temporary:
+            self.tempQueue.append(identifiableView)
         }
     }
 
@@ -149,21 +149,19 @@ extension ContainerQueueHandler {
 
     /// Remove a identifiable view from specific queue
     func remove(view id: UUID, from queue: QueueType, animation: Animation) {
-        DispatchQueue.main.async {
-            switch queue {
-            case .main:
-                if let index = self.mainQueue.firstIndex(where: { $0.id == id }) {
-                    withAnimation(animation) {
-                        // swiftlint:disable:next redundant_discardable_let
-                        let _ = self.mainQueue.remove(at: index)
-                    }
+        switch queue {
+        case .main:
+            if let index = self.mainQueue.firstIndex(where: { $0.id == id }) {
+                withAnimation(animation) {
+                    // swiftlint:disable:next redundant_discardable_let
+                    let _ = self.mainQueue.remove(at: index)
                 }
-            case .temporary:
-                if let index = self.tempQueue.firstIndex(where: { $0.id == id }) {
-                    withAnimation(animation) {
-                        // swiftlint:disable:next redundant_discardable_let
-                        let _ = self.tempQueue.remove(at: index)
-                    }
+            }
+        case .temporary:
+            if let index = self.tempQueue.firstIndex(where: { $0.id == id }) {
+                withAnimation(animation) {
+                    // swiftlint:disable:next redundant_discardable_let
+                    let _ = self.tempQueue.remove(at: index)
                 }
             }
         }
@@ -174,7 +172,7 @@ extension ContainerQueueHandler {
 
 extension ContainerQueueHandler {
     /// Get a method  based on queue type to handler he actions received from container manager
-    func getStrategyHandler(for queueType: ContainerViewQueueType) -> (OverlayContainerAction) -> Void {
+    func getStrategyHandler(for queueType: ContainerViewQueueType) -> @MainActor(OverlayContainerAction) -> Void {
         switch queueType {
         case .oneByOne:
             return sinkForOneByOne
