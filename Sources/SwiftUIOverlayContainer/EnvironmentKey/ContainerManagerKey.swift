@@ -32,5 +32,8 @@ public extension EnvironmentValues {
     ///     }
     ///
     /// In the most cases, you don't need use primitive methods in SwiftUI view, just use the functionality of View Extension.
-    var overlayContainerManager: ContainerManager { self[ContainerManagerKey.self] }
+    var overlayContainerManager: ContainerManager {
+        get { self[ContainerManagerKey.self] }
+        set { self[ContainerManagerKey.self] = newValue }
+    }
 }
