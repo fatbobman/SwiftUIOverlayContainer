@@ -98,8 +98,11 @@ public protocol ContainerViewManagementForEnvironment {
 /// A type defines logging behavior
 protocol ContainerManagerLogger {
     /// A Instance of SwiftUIOverlayContainerLoggerProtocol for write log
-    static var logger: SwiftUIOverlayContainerLoggerProtocol { get set }
+    var logger: SwiftUIOverlayContainerLoggerProtocol? { get set }
 
     /// Level for log output, set to zero means disable log output
-    static var debugLevel: Int { get set }
+    var debugLevel: Int { get set }
+
+    /// Controlled method of writing to the log
+    func sendMessage(type: SwiftUIOverlayContainerLogType, message: String, debugLevel: Int)
 }
