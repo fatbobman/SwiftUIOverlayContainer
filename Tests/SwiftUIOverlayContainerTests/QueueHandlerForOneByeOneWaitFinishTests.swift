@@ -27,8 +27,10 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         )
         self.handler = ContainerQueueHandler(
             container: "testContainer",
-            containerConfiguration: containerConfiguration,
-            containerManager: manager
+            containerManager: manager,
+            queueType: containerConfiguration.queueType,
+            animation: containerConfiguration.animation,
+            delayForShowingNext: containerConfiguration.delayForShowingNext
         )
     }
 
@@ -116,7 +118,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.first?.id, identifiableView1.id)
     }
 
-    func testDismissAllView() throws {
+    func testDismissAllView() async throws {
         // given
         let view = MessageView()
         let identifiableView1 = IdentifiableContainerView(
