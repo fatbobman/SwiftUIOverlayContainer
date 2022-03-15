@@ -66,9 +66,12 @@ extension View {
 }
 
 extension View {
-    func onChange<X, Y>(of value1: X, _ value2: Y, perform action: @escaping (_ newValues: (X, Y)) -> Void) -> some View where X: Equatable, Y: Equatable {
+    func onChange<X, Y>(of value1: X,
+                        _ value2: Y,
+                        perform action: @escaping (_ newValues: (X, Y)) -> Void)
+        -> some View where X: Equatable, Y: Equatable {
         self
-            .onChange(of: value1, perform: { new in action((new, value2)) })
-            .onChange(of: value2, perform: { new in action((value1, new)) })
+            .onChange(of: value1, perform: { newValue1 in action((newValue1, value2)) })
+            .onChange(of: value2, perform: { newValue2 in action((value1, newValue2)) })
     }
 }

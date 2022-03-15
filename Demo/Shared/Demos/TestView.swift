@@ -32,7 +32,7 @@ struct TestView: View {
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .overlayContainer("testViewContainer", containerConfiguration: containerConfiguration)
-        .onAppear{
+        .onAppear {
             overlayManager.debugLevel = 3
         }
     }
