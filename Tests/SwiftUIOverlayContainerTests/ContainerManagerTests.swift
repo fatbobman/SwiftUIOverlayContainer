@@ -17,22 +17,14 @@ import XCTest
 // swiftlint:disable redundant_discardable_let
 
 class ContainerManagerTests: XCTestCase {
-    let manager = ContainerManager.shared
-
-    override class func setUp() {
-        ContainerManager.shared.publishers.removeAll()
-    }
-
-    override class func tearDown() {
-        ContainerManager.shared.publishers.removeAll()
-    }
+    let manager = ContainerManager()
 
     override func setUp() {
         manager.publishers.removeAll()
     }
 
     override func tearDown() {
-        ContainerManager.logger = SwiftUIOverlayContainerDefaultLogger()
+        manager.logger = SwiftUIOverlayContainerDefaultLogger()
     }
 
     func testRegisterContainer() throws {
@@ -65,8 +57,8 @@ class ContainerManagerTests: XCTestCase {
         let containerName = "message"
         let expectation = expectation(description: "same name error")
         let logger = LoggerSpy(expectation: expectation)
-        ContainerManager.logger = logger
-        ContainerManager.debugLevel = 2
+        manager.logger = logger
+        manager.debugLevel = 2
 
         // when
         let _ = manager.registerContainer(for: containerName)
@@ -76,7 +68,7 @@ class ContainerManagerTests: XCTestCase {
         XCTAssertEqual(logger.type, .error)
         XCTAssertEqual(manager.containerCount, 1)
         addTeardownBlock {
-            ContainerManager.debugLevel = 1
+            self.manager.debugLevel = 1
         }
     }
 
@@ -99,7 +91,7 @@ class ContainerManagerTests: XCTestCase {
         let publisher = manager.registerContainer(for: containerName)
         let expectation = XCTestExpectation(description: "get view from container 1")
         var cancellable: Set<AnyCancellable> = []
-        ContainerManager.debugLevel = 2
+        manager.debugLevel = 2
         var resultID: UUID?
 
         // when
