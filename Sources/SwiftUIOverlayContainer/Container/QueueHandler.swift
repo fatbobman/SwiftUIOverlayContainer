@@ -17,10 +17,11 @@ import SwiftUI
 @MainActor
 final class ContainerQueueHandler: ObservableObject {
     /// the main queue for IdentifiableView, used in SwiftUI ForEach
-    @Published var mainQueue: [IdentifiableContainerView] = []{
-        didSet{
-            if case .oneByOneWaitFinish = containerConfiguration.queueType {
-                transferNewViewFromTempQueueIfNeeded(delay: containerConfiguration.delayForShowingNext)
+    @Published var mainQueue: [IdentifiableContainerView] = [] {
+        didSet {
+            // if main queue is empty get a new one from temp queue in oneByeOneWaitFinish mode
+            if case .oneByOneWaitFinish = queueType {
+                transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
             }
         }
     }
@@ -34,17 +35,27 @@ final class ContainerQueueHandler: ObservableObject {
     /// The name of container
     var container: String
 
-    /// Container Configurations
-    var containerConfiguration: ContainerConfigurationProtocol
+    /// The queue type of container
+    let queueType: ContainerViewQueueType
+
+    /// The container transition animation setting
+    var animation: Animation?
+
+    /// In OneByOneWaitFinish mode,The view in temporary queue are delayed for a specific number of seconds when the currently displayed view is dismissed.
+    var delayForShowingNext: TimeInterval
 
     /// Container Manager
     var manager: ContainerManager
 
     init(container: String,
-         containerConfiguration: ContainerConfigurationProtocol,
-         containerManager: ContainerManager) {
+         containerManager: ContainerManager,
+         queueType: ContainerViewQueueType,
+         animation: Animation?,
+         delayForShowingNext: TimeInterval) {
         self.container = container
-        self.containerConfiguration = containerConfiguration
+        self.queueType = queueType
+        self.animation = animation
+        self.delayForShowingNext = delayForShowingNext
         self.manager = containerManager
     }
 
@@ -62,7 +73,7 @@ final class ContainerQueueHandler: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] action in
                 self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
-                guard let queueType = self?.containerConfiguration.queueType else { return }
+                guard let queueType = self?.queueType else { return }
                 self?.getStrategyHandler(for: queueType)(action)
             }
         sendMessage(type: .info, message: "container `\(container)` connected", debugLevel: 2)
@@ -88,7 +99,7 @@ extension ContainerQueueHandler {
         var animation = Animation.disable
         if flag {
             animation = Animation.merge(
-                containerAnimation: containerConfiguration.animation,
+                containerAnimation: animation,
                 viewAnimation: identifiableView.configuration.animation
             )
         }
@@ -129,7 +140,7 @@ extension ContainerQueueHandler {
             var animation: Animation = .disable
             if flag {
                 animation = Animation.merge(
-                    containerAnimation: self.containerConfiguration.animation,
+                    containerAnimation: self.animation,
                     viewAnimation: identifiableView.configuration.animation
                 )
             }
@@ -252,13 +263,13 @@ extension ContainerQueueHandler {
     /// A method for oneByOneWaitFinish strategy
     ///
     /// If the main queue is empty, try transfer the first view from temp queue to main queue.
-    func transferNewViewFromTempQueueIfNeeded(delay seconds: TimeInterval = 0.5) {
-            guard self.mainQueue.isEmpty else { return }
-            guard let view = self.tempQueue.first else { return }
-            self.tempQueue.removeFirst()
-            delayToRun(seconds: seconds) {
-                self.pushViewIntoQueue(view, queue: .main)
-            }
+    func transferNewViewFromTempQueueIfNeeded(delay seconds: TimeInterval) {
+        guard self.mainQueue.isEmpty else { return }
+        guard let view = self.tempQueue.first else { return }
+        self.tempQueue.removeFirst()
+        delayToRun(seconds: seconds) {
+            self.pushViewIntoQueue(view, queue: .main)
+        }
     }
 }
 
