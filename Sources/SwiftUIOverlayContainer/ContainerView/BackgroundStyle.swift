@@ -37,6 +37,9 @@ extension ContainerBackgroundStyle {
     }
 }
 
+/// Type of blur
+///
+/// Improve compatibility, bridge for os that do not support blur
 public enum BlurMaterial {
     case regular
     case thick

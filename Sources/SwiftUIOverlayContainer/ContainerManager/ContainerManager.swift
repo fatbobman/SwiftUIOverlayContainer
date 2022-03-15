@@ -29,15 +29,22 @@ import SwiftUI
 ///     }
 ///
 /// Because the Container Manager adopts the singleton pattern, you can directly call public methods such as show and dismiss through code even if you are not in the SwiftUI view.
-public final class ContainerManager {
+public final class ContainerManager: ContainerManagerLogger {
     var publishers: [String: ContainerViewPublisher] = [:]
 
-    private init() {}
+    init(logger: SwiftUIOverlayContainerLoggerProtocol? = nil, debugLevel: Int = 0) {
+        self.logger = logger
+        self.debugLevel = debugLevel
+    }
+
+    public var logger: SwiftUIOverlayContainerLoggerProtocol?
+    /// Debug Level for log output. 0 disable 1 basic 2 more detail
+    public var debugLevel: Int
 
     /// Controlled method of writing to the log
     func sendMessage(type: SwiftUIOverlayContainerLogType, message: String, debugLevel: Int = 1) {
-        if debugLevel <= Self.debugLevel {
-            Self.logger.log(type: type, message: message)
+        if debugLevel <= self.debugLevel {
+            self.logger?.log(type: type, message: message)
         }
     }
 }
@@ -204,18 +211,4 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
             }
         }
     }
-}
-
-// MARK: - Logger
-
-extension ContainerManager: ContainerManagerLogger {
-    public static var logger: SwiftUIOverlayContainerLoggerProtocol = SwiftUIOverlayContainerDefaultLogger()
-    /// Debug Level for log output. 0 disable 1 basic 2 more detail
-    public static var debugLevel = 0
-}
-
-// MARK: - shared
-
-public extension ContainerManager {
-    static let shared = ContainerManager()
 }
