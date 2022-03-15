@@ -118,11 +118,12 @@ extension ContainerQueueHandler {
 
     /// Dismiss all views in both main queue and temporary queue
     func dismissAll(animated flag: Bool) {
-        for identifiableView in mainQueue {
-            dismiss(id: identifiableView.id, animated: flag)
-        }
+        // The temporary queue must be emptied first. If the main queue is emptied first, didSet will raised.
         for identifiableView in tempQueue {
             dismiss(id: identifiableView.id, animated: false)
+        }
+        for identifiableView in mainQueue {
+            dismiss(id: identifiableView.id, animated: flag)
         }
     }
 
