@@ -59,8 +59,10 @@ struct OverlayContainer: View {
         self.configuration = configuration
         let handler = ContainerQueueHandler(
             container: containerName,
-            containerConfiguration: configuration,
-            containerManager: containerManager
+            containerManager: containerManager,
+            queueType: configuration.queueType,
+            animation: configuration.animation,
+            delayForShowingNext: configuration.delayForShowingNext
         )
         _queueHandler = StateObject(wrappedValue: handler)
     }
@@ -139,6 +141,17 @@ struct OverlayContainer: View {
         .recordCurrentViewFrameInfo(to: $containerFrame)
         .onAppear { queueHandler.connect() }
         .onDisappear { queueHandler.disconnect() }
+        // if animation or delayForShowingNext changed , reassign the queueHandler
+        .onChange(of: configuration.animation, configuration.delayForShowingNext) { newAnimation, newDelay in
+            queueHandler.animation = newAnimation
+            queueHandler.delayForShowingNext = newDelay
+        }
+        // Can't change containerName or queueType
+        .onChange(of: configuration.queueType, containerName) { _ in
+            #if DEBUG
+            fatalError("❌ Can't change container name or queue type in runtime, this message only show in Debug mode.")
+            #endif
+        }
     }
 }
 
@@ -157,7 +170,6 @@ struct RootView: View {
         VStack {
             Button("Show message in container1") {
                 manager.show(containerView: MessageView(), in: "container1")
-
             }
         }
         .edgesIgnoringSafeArea(.all)
