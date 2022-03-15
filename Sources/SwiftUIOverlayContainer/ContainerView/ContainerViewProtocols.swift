@@ -120,5 +120,5 @@ public extension ContainerViewConfigurationProtocol {
 
     var appearAction: (() -> Void)? { nil }
 
-    var animation: Animation? { nil }
+    var animation: Animation? { .default }
 }
