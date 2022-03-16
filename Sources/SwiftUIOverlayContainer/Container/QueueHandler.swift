@@ -48,7 +48,14 @@ final class ContainerQueueHandler: ObservableObject {
     /// In OneByOneWaitFinish mode,The view in temporary queue are delayed for a specific number of seconds when the currently displayed view is dismissed.
     var delayForShowingNext: TimeInterval
 
-    var maximumNumberOfViewsInMultiple: UInt
+    var maximumNumberOfViewsInMultiple: UInt {
+        didSet {
+            // if user change the max number of view on runtime, get more views from temp queue
+            if maximumNumberOfViewsInMultiple > oldValue {
+                transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
+            }
+        }
+    }
 
     /// Container Manager
     var manager: ContainerManager
