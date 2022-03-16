@@ -1,0 +1,40 @@
+/* 
+  Localizable.strings
+  Demo
+
+  Created by Yang Xu on 2022/3/16.
+  
+*/
+
+// MARK: - Menu
+"MenuNavigationTitle" = "Demo";
+"MenuTip" = "Select Demo";
+
+// MARK: - Queue type
+
+"QueueTypeLinkLabel" = "Queue Type";
+"QueueTypeDescription" = "The queue type will determine whether multiple views are allowed to exist in the container at the same time. This can be set in the container's configuration.";
+"PushOneMessage" = "push one message";
+"CurrentMessageID %lld" = "Current Message ID: %lld";
+"PushButtonTip" = "Try tapping the button multiple times";
+"QueueTypeTitle" = "Queue Type";
+"MessageText %lld" = "Message ID: %lld   Tap Me To Dismiss";
+"SliderOfNumberOfViewLabel %lld" = "Number of views can be displayed at the same time: %lld";
+"SliderOfDelayForShowNext %@" = "Time interval to fetch the next view from the waiting queue : %@ secs";
+"MultipleDescription" = "Display multiple views at the same time";
+"OneByOneDescription" = "Only one view is displayed at a time, the new view will replace the showing one automatically";
+"OneByOneWaitFinishDescription" = "Only one view is displayed at a time, show the next view after the previous view is dismissed";
+
+// MARK: - Display type
+
+"DisplayTypeLinkLabel" = "Display Type";
+"HorizontalDescription" = "The views are arranged horizontally. Normally spacing is greater than 0, views do not overlap each other. Internal implementation uses HStack.";
+"VerticalDescription" = "The views are arranged vertically, under normal conditions (spacing greater than 0), there is no overlap between views. Usually used to implement information tips at the top or bottom of the screen. The internal implementation uses VStack.";
+"StackingDescription" = "Aligns the views along the Z-axis. Views will be stacked on the top of each other. ZStack is used for internal implementation.";
+"DisplayTypeTitle" = "Display Type";
+"DisplayTypeDescription" = "The display type of the container view, this type will determine the layout of the container.";
+"AddBlockButton" = "Show New View";
+"DismissForStacking" = "Tap to dismiss";
+"DismissForVertical" = "Tap or Swipe Down";
+"DismissForHorizontal" = "Tap or Swipe Left";
+"SliderOfSpace %@" = "spacing between views %@";
