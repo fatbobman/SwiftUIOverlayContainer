@@ -253,6 +253,48 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         // then
         XCTAssertFalse(source.isPresented)
     }
+
+    func testChangedMaxViewOnRunTime() async throws {
+        // given
+
+        self.handler = ContainerQueueHandler(
+            container: "testContainer",
+            containerManager: manager,
+            queueType: containerConfiguration.queueType,
+            animation: containerConfiguration.animation,
+            delayForShowingNext: 0.02,
+            maximumNumberOfViewsInMultiple: 1
+        )
+
+        let view1 = IdentifiableContainerView(
+            id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
+        )
+        let view2 = IdentifiableContainerView(
+            id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
+        )
+        let view3 = IdentifiableContainerView(
+            id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
+        )
+        let view4 = IdentifiableContainerView(
+            id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
+        )
+
+        let perform = handler.getStrategyHandler(for: .multiple)
+
+        // when
+        perform(.show(view1, false))
+        perform(.show(view2, false))
+        perform(.show(view3, false))
+        perform(.show(view4, false))
+        // change maximumNumberOfViewsInMultiple on run time
+        handler.maximumNumberOfViewsInMultiple = 3
+        try await Task.sleep(seconds: 0.1)
+
+        // then
+        XCTAssertEqual(handler.mainQueue.count, 3)
+        XCTAssertEqual(handler.tempQueue.count, 1)
+    }
+
 }
 
 struct ContainerConfiguration: ContainerConfigurationProtocol {
