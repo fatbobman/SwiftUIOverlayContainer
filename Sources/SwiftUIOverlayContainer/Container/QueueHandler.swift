@@ -26,13 +26,18 @@ final class ContainerQueueHandler: ObservableObject {
             // check maximum number setting ,if temp queue is not empty, get a new view into main queue in multiple mode
             if case .multiple = queueType,
                mainQueue.count < maximumNumberOfViewsInMultiple,
-               mainQueue.count < oldValue.count {
+               !_transferring
+            {
+                _transferring = true
                 transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
             }
         }
     }
 
-    /// a temporary queue of IdentifiableContainerView. Use in OneByOneWaitFinish mode
+    /// Whether the view is being transferred from temp queue to main queue
+    var _transferring:Bool = false
+
+    /// The temporary queue of IdentifiableContainerView. Use in OneByOneWaitFinish mode
     var tempQueue: [IdentifiableContainerView] = []
 
     /// Publisher storage
@@ -286,10 +291,14 @@ extension ContainerQueueHandler {
     ///
     /// If the main queue is empty, try transfer the first view from temp queue to main queue.
     func transferNewViewFromTempQueueIfNeeded(delay seconds: TimeInterval) {
-        guard !self.tempQueue.isEmpty else { return }
+        guard !self.tempQueue.isEmpty else {
+            _transferring = false
+            return
+        }
         delayToRun(seconds: seconds) {
             guard let view = self.tempQueue.first else { return }
             self.tempQueue.removeFirst()
+            self._transferring = false
             self.pushViewIntoQueue(view, queue: .main)
         }
     }
