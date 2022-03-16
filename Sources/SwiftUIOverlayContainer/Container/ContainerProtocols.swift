@@ -49,7 +49,7 @@ public extension ContainerTypeConfigurationProtocol {
 /// A type defines partial arrangement configuration of view in the container
 public protocol ContainerCompositionProtocol {
     /// Spacing between each view when the display type is horizontal or vertical, and queue type is mulitple
-    var spacing: CGFloat? { get }
+    var spacing: CGFloat { get }
     /// Insets of view or view group in container
     ///
     /// In stacking mode, insets will be added to each view
@@ -59,7 +59,7 @@ public protocol ContainerCompositionProtocol {
 }
 
 public extension ContainerCompositionProtocol {
-    var spacing: CGFloat? { nil }
+    var spacing: CGFloat { 10 }
 
     var insets: EdgeInsets { .init() }
 }
