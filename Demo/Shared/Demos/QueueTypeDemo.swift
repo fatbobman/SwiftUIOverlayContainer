@@ -128,7 +128,7 @@ struct QueueTypeDemo: View {
     @ViewBuilder
     func sliderOfDelayForNext() -> some View {
         VStack {
-            Text("SliderOfDelayForShowNext \(String(format:"%.1f",delayForNext))")
+            Text("SliderOfDelayForShowNext \(String(format: "%.1f", delayForNext))")
             Slider(value: $delayForNext, in: 0.0...3.0)
         }
         .padding(.horizontal, 30)
@@ -140,7 +140,7 @@ struct QueueTypeDemo: View {
     }
 }
 
-extension ContainerViewQueueType:Information {
+extension ContainerViewQueueType: Information {
     var information: (name: String, description: LocalizedStringKey) {
         switch self {
         case .multiple:

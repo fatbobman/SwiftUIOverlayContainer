@@ -134,14 +134,16 @@ extension DisplayTypeDemo {
     }
 
     @ViewBuilder
-    func moreDetailView() -> some View{
-        Text("more detail")
+    func moreDetailView() -> some View {
+        Text("ContainerMoreInfo")
+            .padding(.horizontal, 20)
     }
 }
 
 struct DisplayTypeDemo_Previews: PreviewProvider {
     static var previews: some View {
         DisplayTypeDemo()
+            .previewLayout(.sizeThatFits)
     }
 }
 

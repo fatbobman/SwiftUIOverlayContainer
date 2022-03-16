@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7660AFE327E2A23A003978D8 /* ViewConfigurationDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7660AFE227E2A23A003978D8 /* ViewConfigurationDemo.swift */; };
+		7660AFE427E2A23A003978D8 /* ViewConfigurationDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7660AFE227E2A23A003978D8 /* ViewConfigurationDemo.swift */; };
 		7678966927E190B400DDAF17 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678966827E190B400DDAF17 /* MessageView.swift */; };
 		7678966A27E1964F00DDAF17 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678966827E190B400DDAF17 /* MessageView.swift */; };
 		7678966D27E1B0F800DDAF17 /* QueueTypeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678966C27E1B0F800DDAF17 /* QueueTypeDemo.swift */; };
@@ -32,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7660AFE227E2A23A003978D8 /* ViewConfigurationDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConfigurationDemo.swift; sourceTree = "<group>"; };
 		7678966827E190B400DDAF17 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		7678966C27E1B0F800DDAF17 /* QueueTypeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTypeDemo.swift; sourceTree = "<group>"; };
 		7678966F27E1EC9400DDAF17 /* Demo (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Demo (iOS).entitlements"; sourceTree = "<group>"; };
@@ -153,6 +156,7 @@
 			children = (
 				7678966C27E1B0F800DDAF17 /* QueueTypeDemo.swift */,
 				7678967827E1FDBB00DDAF17 /* DisplayTypeDemo.swift */,
+				7660AFE227E2A23A003978D8 /* ViewConfigurationDemo.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -278,6 +282,7 @@
 				7678968327E205F100DDAF17 /* Protocol.swift in Sources */,
 				7678966D27E1B0F800DDAF17 /* QueueTypeDemo.swift in Sources */,
 				76DE33A727E062AD00AD9419 /* DemoApp.swift in Sources */,
+				7660AFE327E2A23A003978D8 /* ViewConfigurationDemo.swift in Sources */,
 				7678966927E190B400DDAF17 /* MessageView.swift in Sources */,
 				7678967927E1FDBB00DDAF17 /* DisplayTypeDemo.swift in Sources */,
 			);
@@ -293,6 +298,7 @@
 				7678968427E205F100DDAF17 /* Protocol.swift in Sources */,
 				7678967E27E1FE3600DDAF17 /* SwiftUI.swift in Sources */,
 				7678968127E2042700DDAF17 /* BlockView.swift in Sources */,
+				7660AFE427E2A23A003978D8 /* ViewConfigurationDemo.swift in Sources */,
 				7678966E27E1B16E00DDAF17 /* QueueTypeDemo.swift in Sources */,
 				76DE33A827E062AD00AD9419 /* DemoApp.swift in Sources */,
 			);

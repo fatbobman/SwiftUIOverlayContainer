@@ -30,8 +30,7 @@ struct ContentView: View {
     let demos: [DemoLink] = [
         .init("QueueTypeLinkLabel", QueueTypeDemo()),
         .init("DisplayTypeLinkLabel", DisplayTypeDemo()),
-        .init("ViewConfiguration", EmptyView()),
-        .init("Dynamically configurable", EmptyView()),
+        .init("ViewConfigurationLabel", ViewConfigurationDemo()),
         .init("Gesture", EmptyView()),
         .init("Transition", EmptyView()),
         .init("Background", EmptyView()),
