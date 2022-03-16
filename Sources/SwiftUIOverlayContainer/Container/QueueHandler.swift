@@ -50,7 +50,7 @@ final class ContainerQueueHandler: ObservableObject {
 
     var maximumNumberOfViewsInMultiple: UInt {
         didSet {
-            // if user change the max number of view on runtime, get more views from temp queue
+            // if user change the max number of view at runtime, get more views from temp queue
             if maximumNumberOfViewsInMultiple > oldValue {
                 transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
             }
