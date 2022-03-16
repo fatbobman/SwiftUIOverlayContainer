@@ -28,7 +28,7 @@ public enum ContainerViewDisplayType {
     case stacking
 }
 
-/// The display queue type of the container. This type will determine if multiple views are allowed to exist in the container at the same time
+/// The  view queue type of the container. This type will determine if multiple views are allowed to exist in the container at the same time
 public enum ContainerViewQueueType {
     ///  Only one view can be displayed at a time. When the container receives a new view, the current view will be dismissed and the new view will be displayed.
     case oneByOne
