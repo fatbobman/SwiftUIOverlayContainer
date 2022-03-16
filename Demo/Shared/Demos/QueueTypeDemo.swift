@@ -25,9 +25,9 @@ struct QueueTypeDemo: View {
         ZStack(alignment: .top) {
             Color.clear
             VStack {
-                Text("The queue type will determine whether multiple views are allowed to exist in the container at the same time")
+                Text("QueueTypeDescription")
                     .padding(.all, 20)
-                Picker("Queue Type", selection: $queueType) {
+                Picker("QueueTypeLinkLabel", selection: $queueType) {
                     ForEach(ContainerViewQueueType.allCases) { queueType in
                         Text(queueType.information.name)
                             .tag(queueType)
@@ -40,20 +40,22 @@ struct QueueTypeDemo: View {
                 })
 
                 Text(queueType.information.description)
-                    .font(.title2)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: 500)
                     .padding(.init(top: 30, leading: 30, bottom: 20, trailing: 30))
                 VStack {
-                    Button("push one message".uppercased()) {
+                    Button {
                         manager.show(containerView: generateContainerView(), in: queueType.information.name)
+                    } label: {
+                        Text("PushOneMessage")
+                            .textCase(.uppercase)
                     }
                     if messageID > 1 {
-                        Text("Current message ID:\(messageID - 1)")
+                        Text("CurrentMessageID \(messageID - 1)")
                             .transition(.opacity)
                     }
 
-                    Text("Try tapping the button multiple times")
+                    Text("PushButtonTip")
                 }
                 .buttonStyle(.bordered)
                 .padding(.bottom, 30)
@@ -62,7 +64,7 @@ struct QueueTypeDemo: View {
         }
         .background(LinearGradient(colors: [.blue, .cyan, .green], startPoint: .top, endPoint: .bottom).opacity(0.5))
         .edgesIgnoringSafeArea(.bottom)
-        .navigationTitle("Queue Type")
+        .navigationTitle("QueueTypeTitle")
         #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -88,7 +90,7 @@ struct QueueTypeDemo: View {
 
     func generateContainerView() -> some ContainerView {
         let height = CGFloat.random(in: 50...100)
-        let text = "Message ID:\(messageID)     tap me to dismiss"
+        let text = LocalizedStringKey("MessageText \(messageID)")
         withAnimation {
             messageID += 1
         }
@@ -103,19 +105,19 @@ struct QueueTypeDemo: View {
         case .oneByOne:
             EmptyView()
         case .oneByOneWaitFinish:
-            SliderOfDelayForNext()
+            sliderOfDelayForNext()
         case .multiple:
             VStack {
-                SliderOfNumberOfViews()
-                SliderOfDelayForNext()
+                sliderOfNumberOfViews()
+                sliderOfDelayForNext()
             }
         }
     }
 
     @ViewBuilder
-    func SliderOfNumberOfViews() -> some View {
+    func sliderOfNumberOfViews() -> some View {
         VStack {
-            Text("Number of views can be displayed at the same time: \(Int(maxNumberOfView))")
+            Text("SliderOfNumberOfViewLabel \(Int(maxNumberOfView))")
             Slider(value: $maxNumberOfView,
                    in: 3...10,
                    step: 1.0)
@@ -124,9 +126,9 @@ struct QueueTypeDemo: View {
     }
 
     @ViewBuilder
-    func SliderOfDelayForNext() -> some View {
+    func sliderOfDelayForNext() -> some View {
         VStack {
-            Text("Time interval to fetch the next view from the waiting queue : ") + Text(delayForNext, format: .number.precision(.fractionLength(1))) + Text(" secs")
+            Text("SliderOfDelayForShowNext \(String(format:"%.1f",delayForNext))")
             Slider(value: $delayForNext, in: 0.0...3.0)
         }
         .padding(.horizontal, 30)
@@ -138,15 +140,15 @@ struct QueueTypeDemo: View {
     }
 }
 
-private extension ContainerViewQueueType {
-    var information: (name: String, description: String) {
+extension ContainerViewQueueType:Information {
+    var information: (name: String, description: LocalizedStringKey) {
         switch self {
         case .multiple:
-            return ("multiple", "Display multiple views at the same time")
+            return ("multiple", "MultipleDescription")
         case .oneByOne:
-            return ("oneByOne", "Only one view is displayed at a time, the new view will replace the showing one automatically")
+            return ("oneByOne", "OneByOneDescription")
         case .oneByOneWaitFinish:
-            return ("oneByOneWaitFinish", "Only one view is displayed at a time, show the next view after the previous view is dismissed")
+            return ("oneByOneWaitFinish", "OneByOneWaitFinishDescription")
         }
     }
 }
@@ -175,6 +177,7 @@ struct QueueTypeDemoPreview: PreviewProvider {
 struct ContainerConfigurationForQueueTypeDemo: ContainerConfigurationProtocol {
     let queueType: ContainerViewQueueType
     let displayType: ContainerViewDisplayType = .vertical
+    var spacing: CGFloat = 10
     let alignment: Alignment? = .bottom
     let insets: EdgeInsets = .init(top: 0, leading: 0, bottom: 20, trailing: 0)
     let maximumNumberOfViewsInMultipleMode: UInt

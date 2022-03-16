@@ -11,6 +11,16 @@
 		7678966A27E1964F00DDAF17 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678966827E190B400DDAF17 /* MessageView.swift */; };
 		7678966D27E1B0F800DDAF17 /* QueueTypeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678966C27E1B0F800DDAF17 /* QueueTypeDemo.swift */; };
 		7678966E27E1B16E00DDAF17 /* QueueTypeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678966C27E1B0F800DDAF17 /* QueueTypeDemo.swift */; };
+		7678967327E1F56800DDAF17 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7678967627E1F56800DDAF17 /* Localizable.strings */; };
+		7678967427E1F56800DDAF17 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7678967627E1F56800DDAF17 /* Localizable.strings */; };
+		7678967927E1FDBB00DDAF17 /* DisplayTypeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678967827E1FDBB00DDAF17 /* DisplayTypeDemo.swift */; };
+		7678967A27E1FDBB00DDAF17 /* DisplayTypeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678967827E1FDBB00DDAF17 /* DisplayTypeDemo.swift */; };
+		7678967D27E1FE3600DDAF17 /* SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678967C27E1FE3600DDAF17 /* SwiftUI.swift */; };
+		7678967E27E1FE3600DDAF17 /* SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678967C27E1FE3600DDAF17 /* SwiftUI.swift */; };
+		7678968027E2042700DDAF17 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678967F27E2042700DDAF17 /* BlockView.swift */; };
+		7678968127E2042700DDAF17 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678967F27E2042700DDAF17 /* BlockView.swift */; };
+		7678968327E205F100DDAF17 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678968227E205F100DDAF17 /* Protocol.swift */; };
+		7678968427E205F100DDAF17 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678968227E205F100DDAF17 /* Protocol.swift */; };
 		76DE33A727E062AD00AD9419 /* DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DE339727E062AB00AD9419 /* DemoApp.swift */; };
 		76DE33A827E062AD00AD9419 /* DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DE339727E062AB00AD9419 /* DemoApp.swift */; };
 		76DE33A927E062AD00AD9419 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DE339827E062AB00AD9419 /* ContentView.swift */; };
@@ -19,13 +29,18 @@
 		76DE33AC27E062AD00AD9419 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76DE339927E062AC00AD9419 /* Assets.xcassets */; };
 		76DE33C327E0632800AD9419 /* SwiftUIOverlayContainer in Frameworks */ = {isa = PBXBuildFile; productRef = 76DE33C227E0632800AD9419 /* SwiftUIOverlayContainer */; };
 		76DE33C527E0632D00AD9419 /* SwiftUIOverlayContainer in Frameworks */ = {isa = PBXBuildFile; productRef = 76DE33C427E0632D00AD9419 /* SwiftUIOverlayContainer */; };
-		76DE33CA27E0648600AD9419 /* demonstrate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DE33C927E0648600AD9419 /* demonstrate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7678966827E190B400DDAF17 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		7678966C27E1B0F800DDAF17 /* QueueTypeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTypeDemo.swift; sourceTree = "<group>"; };
 		7678966F27E1EC9400DDAF17 /* Demo (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Demo (iOS).entitlements"; sourceTree = "<group>"; };
+		7678967527E1F56800DDAF17 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7678967727E1F57100DDAF17 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		7678967827E1FDBB00DDAF17 /* DisplayTypeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayTypeDemo.swift; sourceTree = "<group>"; };
+		7678967C27E1FE3600DDAF17 /* SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.swift; sourceTree = "<group>"; };
+		7678967F27E2042700DDAF17 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
+		7678968227E205F100DDAF17 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		76DE339727E062AB00AD9419 /* DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApp.swift; sourceTree = "<group>"; };
 		76DE339827E062AB00AD9419 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		76DE339927E062AC00AD9419 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -34,7 +49,6 @@
 		76DE33A627E062AD00AD9419 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		76DE33BE27E0630C00AD9419 /* Demo--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Demo--iOS--Info.plist"; sourceTree = "<group>"; };
 		76DE33C027E0631A00AD9419 /* SwiftUIOverlayContainer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftUIOverlayContainer; path = ..; sourceTree = "<group>"; };
-		76DE33C927E0648600AD9419 /* demonstrate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = demonstrate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +75,17 @@
 			isa = PBXGroup;
 			children = (
 				7678966827E190B400DDAF17 /* MessageView.swift */,
+				7678967F27E2042700DDAF17 /* BlockView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		7678967B27E1FE2C00DDAF17 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				7678967C27E1FE3600DDAF17 /* SwiftUI.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		76DE339127E062AB00AD9419 = {
@@ -81,12 +104,14 @@
 		76DE339627E062AB00AD9419 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				7678967B27E1FE2C00DDAF17 /* Extension */,
 				7678966727E1909E00DDAF17 /* Views */,
 				76DE33C827E0644600AD9419 /* Common */,
 				76DE33C727E0642C00AD9419 /* Demos */,
 				76DE339727E062AB00AD9419 /* DemoApp.swift */,
 				76DE339827E062AB00AD9419 /* ContentView.swift */,
 				76DE339927E062AC00AD9419 /* Assets.xcassets */,
+				7678967627E1F56800DDAF17 /* Localizable.strings */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -127,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				7678966C27E1B0F800DDAF17 /* QueueTypeDemo.swift */,
+				7678967827E1FDBB00DDAF17 /* DisplayTypeDemo.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -134,7 +160,7 @@
 		76DE33C827E0644600AD9419 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				76DE33C927E0648600AD9419 /* demonstrate.swift */,
+				7678968227E205F100DDAF17 /* Protocol.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -207,6 +233,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 76DE339127E062AB00AD9419;
 			productRefGroup = 76DE339F27E062AD00AD9419 /* Products */;
@@ -225,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76DE33AB27E062AD00AD9419 /* Assets.xcassets in Resources */,
+				7678967327E1F56800DDAF17 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76DE33AC27E062AD00AD9419 /* Assets.xcassets in Resources */,
+				7678967427E1F56800DDAF17 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,11 +272,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7678968027E2042700DDAF17 /* BlockView.swift in Sources */,
 				76DE33A927E062AD00AD9419 /* ContentView.swift in Sources */,
+				7678967D27E1FE3600DDAF17 /* SwiftUI.swift in Sources */,
+				7678968327E205F100DDAF17 /* Protocol.swift in Sources */,
 				7678966D27E1B0F800DDAF17 /* QueueTypeDemo.swift in Sources */,
-				76DE33CA27E0648600AD9419 /* demonstrate.swift in Sources */,
 				76DE33A727E062AD00AD9419 /* DemoApp.swift in Sources */,
 				7678966927E190B400DDAF17 /* MessageView.swift in Sources */,
+				7678967927E1FDBB00DDAF17 /* DisplayTypeDemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,13 +288,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				7678966A27E1964F00DDAF17 /* MessageView.swift in Sources */,
+				7678967A27E1FDBB00DDAF17 /* DisplayTypeDemo.swift in Sources */,
 				76DE33AA27E062AD00AD9419 /* ContentView.swift in Sources */,
+				7678968427E205F100DDAF17 /* Protocol.swift in Sources */,
+				7678967E27E1FE3600DDAF17 /* SwiftUI.swift in Sources */,
+				7678968127E2042700DDAF17 /* BlockView.swift in Sources */,
 				7678966E27E1B16E00DDAF17 /* QueueTypeDemo.swift in Sources */,
 				76DE33A827E062AD00AD9419 /* DemoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7678967627E1F56800DDAF17 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7678967527E1F56800DDAF17 /* en */,
+				7678967727E1F57100DDAF17 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		76DE33AD27E062AD00AD9419 /* Debug */ = {

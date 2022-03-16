@@ -13,21 +13,45 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        NavigationView{
+        NavigationView {
             List {
-                NavigationLink("Queue Type", destination: QueueTypeDemo())
+                ForEach(demos) { demo in
+                    NavigationLink(demo.label, destination: demo.view)
+                }
             }
             .listStyle(.sidebar)
-            .navigationTitle("Demo")
-            VStack{
-                Text("Select Demo")
+            .navigationTitle("MenuNavigationTitle")
+            VStack {
+                Text("MenuTip")
             }
         }
     }
+
+    let demos: [DemoLink] = [
+        .init("QueueTypeLinkLabel", QueueTypeDemo()),
+        .init("DisplayTypeLinkLabel", DisplayTypeDemo()),
+        .init("ViewConfiguration", EmptyView()),
+        .init("Dynamically configurable", EmptyView()),
+        .init("Gesture", EmptyView()),
+        .init("Transition", EmptyView()),
+        .init("Background", EmptyView()),
+        .init("Bind", EmptyView())
+    ]
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct DemoLink: Identifiable {
+    let id = UUID()
+    let label: LocalizedStringKey
+    let view: AnyView
+
+    init<V: View>(_ label: LocalizedStringKey, _ view: V) {
+        self.label = label
+        self.view = view.eraseToAnyView()
     }
 }

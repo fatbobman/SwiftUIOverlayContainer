@@ -13,7 +13,7 @@ import SwiftUI
 import SwiftUIOverlayContainer
 
 struct Message<S: ShapeStyle>: View {
-    init(height: CGFloat, background: S, text: String, textColor: Color) {
+    init(height: CGFloat, background: S, text: LocalizedStringKey, textColor: Color) {
         self.height = height
         self.background = background
         self.text = text
@@ -22,7 +22,7 @@ struct Message<S: ShapeStyle>: View {
 
     let height: CGFloat
     let background: S
-    let text: String
+    let text: LocalizedStringKey
     let textColor: Color
 
     var body: some View {
