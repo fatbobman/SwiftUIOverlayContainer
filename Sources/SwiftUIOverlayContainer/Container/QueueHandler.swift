@@ -24,7 +24,9 @@ final class ContainerQueueHandler: ObservableObject {
                 transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
             }
             // check maximum number setting ,if temp queue is not empty, get a new view into main queue in multiple mode
-            if case .multiple = queueType, mainQueue.count < maximumNumberOfViewsInMultiple {
+            if case .multiple = queueType,
+               mainQueue.count < maximumNumberOfViewsInMultiple,
+               mainQueue.count < oldValue.count {
                 transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
             }
         }
