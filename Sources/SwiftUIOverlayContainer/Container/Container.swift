@@ -108,7 +108,7 @@ struct OverlayContainer: View {
                         background
                     }
 
-                    GenericStack(displayType: configuration.displayType, alignment: alignment) {
+                    GenericStack(displayType: configuration.displayType, alignment: alignment, spacing: configuration.spacing) {
                         ForEach(queueHandler.mainQueue.alignment(
                             displayType: configuration.displayType, by: alignment
                         ), id: \.id) { identifiableView in
@@ -201,6 +201,8 @@ struct ContainerConfiguration: ContainerConfigurationProtocol {
     var displayType: ContainerViewDisplayType = .vertical
 
     var queueType: ContainerViewQueueType = .oneByOne
+
+    var spacing: CGFloat { 10 }
 
     var transition: AnyTransition? {
         .move(edge: .bottom).combined(with: .opacity)
