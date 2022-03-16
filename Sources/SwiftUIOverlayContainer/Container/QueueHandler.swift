@@ -20,7 +20,11 @@ final class ContainerQueueHandler: ObservableObject {
     @Published var mainQueue: [IdentifiableContainerView] = [] {
         didSet {
             // if the main queue is empty, get a new view from the temp queue in oneByeOneWaitFinish mode
-            if case .oneByOneWaitFinish = queueType {
+            if case .oneByOneWaitFinish = queueType, mainQueue.isEmpty {
+                transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
+            }
+            // check maximum number setting ,if temp queue is not empty, get a new view into main queue in multiple mode
+            if case .multiple = queueType, mainQueue.count < maximumNumberOfViewsInMultiple {
                 transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
             }
         }
@@ -44,6 +48,8 @@ final class ContainerQueueHandler: ObservableObject {
     /// In OneByOneWaitFinish mode,The view in temporary queue are delayed for a specific number of seconds when the currently displayed view is dismissed.
     var delayForShowingNext: TimeInterval
 
+    var maximumNumberOfViewsInMultiple: UInt
+
     /// Container Manager
     var manager: ContainerManager
 
@@ -51,12 +57,14 @@ final class ContainerQueueHandler: ObservableObject {
          containerManager: ContainerManager,
          queueType: ContainerViewQueueType,
          animation: Animation?,
-         delayForShowingNext: TimeInterval) {
+         delayForShowingNext: TimeInterval,
+         maximumNumberOfViewsInMultiple: UInt = UInt.max) {
         self.container = container
         self.queueType = queueType
         self.animation = animation
         self.delayForShowingNext = delayForShowingNext
         self.manager = containerManager
+        self.maximumNumberOfViewsInMultiple = maximumNumberOfViewsInMultiple
     }
 
     /// Register the container in the container manager. This method will be called when  the container appear ( not in container view init ).
@@ -207,7 +215,11 @@ extension ContainerQueueHandler {
     func sinkForMultiple(action: OverlayContainerAction) {
         switch action {
         case .show(let identifiableContainerView, let animated):
-            pushViewIntoQueue(identifiableContainerView, queue: .main, animated: animated)
+            if mainQueue.count < maximumNumberOfViewsInMultiple, tempQueue.isEmpty {
+                pushViewIntoQueue(identifiableContainerView, queue: .main, animated: animated)
+            } else {
+                pushViewIntoQueue(identifiableContainerView, queue: .temporary, animated: animated)
+            }
         case .dismiss(let id, let animated):
             dismiss(id: id, animated: animated)
         case .dismissAll(let animated):
@@ -261,11 +273,11 @@ extension ContainerQueueHandler {
         dismiss(id: identifiableView.id, animated: true)
     }
 
-    /// A method for oneByOneWaitFinish strategy
+    /// A method for oneByOneWaitFinish strategy and multiple strategy
     ///
     /// If the main queue is empty, try transfer the first view from temp queue to main queue.
     func transferNewViewFromTempQueueIfNeeded(delay seconds: TimeInterval) {
-        guard self.mainQueue.isEmpty, !self.tempQueue.isEmpty else { return }
+        guard !self.tempQueue.isEmpty else { return }
         delayToRun(seconds: seconds) {
             guard let view = self.tempQueue.first else { return }
             self.tempQueue.removeFirst()

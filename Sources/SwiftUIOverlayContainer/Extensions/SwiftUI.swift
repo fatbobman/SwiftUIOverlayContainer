@@ -65,6 +65,7 @@ extension View {
     }
 }
 
+// Convenience extension to monitor multiple properties at the same time
 extension View {
     func onChange<X, Y>(of value1: X,
                         _ value2: Y,
@@ -73,5 +74,16 @@ extension View {
         self
             .onChange(of: value1, perform: { newValue1 in action((newValue1, value2)) })
             .onChange(of: value2, perform: { newValue2 in action((value1, newValue2)) })
+    }
+
+    func onChange<X, Y, Z>(of value1: X,
+                           _ value2: Y,
+                           _ value3: Z,
+                           perform action: @escaping (_ newValues: (X, Y, Z)) -> Void)
+        -> some View where X: Equatable, Y: Equatable, Z: Equatable {
+        self
+            .onChange(of: value1, perform: { newValue1 in action((newValue1, value2, value3)) })
+            .onChange(of: value2, perform: { newValue2 in action((value1, newValue2, value3)) })
+            .onChange(of: value3, perform: { newValue3 in action((value1, value2, newValue3)) })
     }
 }

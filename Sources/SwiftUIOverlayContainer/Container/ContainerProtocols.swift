@@ -25,16 +25,25 @@ public protocol ContainerTypeConfigurationProtocol {
     /// Different queue handling type will determine whether to run logic such as displaying multiple view at the same time, if the new view will automatically replace the old one. etc.
     var queueType: ContainerViewQueueType { get }
 
-    /// In OneByOneWaitFinish mode,The view in temporary queue are delayed for a specific number of seconds when the currently displayed view is dismissed.
+    /// Delay duration to show next view
+    ///
+    /// In OneByOneWaitFinish mode or In Multiple mode with limit maximum number of views at the same time,The view in temporary queue are delayed for a specific number of seconds when the currently displayed view is dismissed.
     ///
     /// Setting a reasonable delay time can give users a good feeling.
     ///
     /// Imagine if there are multiple views in the temporary queue, every time the user dismisses a current displayed view, the next view pops up immediately, which will give the user a greater sense of pressure
     var delayForShowingNext: TimeInterval { get }
+
+    /// The maximum number of views that can show on the screen at the same time in Multiple mode
+    ///
+    /// Default is unlimited
+    var maximumNumberOfViewsInMultipleMode: UInt { get }
 }
 
 public extension ContainerTypeConfigurationProtocol {
     var delayForShowingNext: TimeInterval { 0.5 }
+
+    var maximumNumberOfViewsInMultipleMode: UInt { UInt.max }
 }
 
 /// A type defines partial arrangement configuration of view in the container

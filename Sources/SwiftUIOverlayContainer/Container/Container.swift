@@ -62,7 +62,8 @@ struct OverlayContainer: View {
             containerManager: containerManager,
             queueType: configuration.queueType,
             animation: configuration.animation,
-            delayForShowingNext: configuration.delayForShowingNext
+            delayForShowingNext: configuration.delayForShowingNext,
+            maximumNumberOfViewsInMultiple: configuration.maximumNumberOfViewsInMultipleMode
         )
         _queueHandler = StateObject(wrappedValue: handler)
     }
@@ -143,9 +144,10 @@ struct OverlayContainer: View {
         .onDisappear { queueHandler.disconnect() }
         // if animation or delayForShowingNext changed, reassign the properties of queueHandler
         // The queue handler has the ability to respond to the container configuration changes
-        .onChange(of: configuration.animation, configuration.delayForShowingNext) { newAnimation, newDelay in
+        .onChange(of: configuration.animation, configuration.delayForShowingNext, configuration.maximumNumberOfViewsInMultipleMode) { newAnimation, newDelay, newMaximumNumberOfViewsInMultipleMode in
             queueHandler.animation = newAnimation
             queueHandler.delayForShowingNext = newDelay
+            queueHandler.maximumNumberOfViewsInMultiple = newMaximumNumberOfViewsInMultipleMode
         }
         // Prohibition of changing the containerName and the queueType
         .onChange(of: configuration.queueType, containerName) { _ in
