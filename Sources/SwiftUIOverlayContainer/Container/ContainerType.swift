@@ -35,5 +35,7 @@ public enum ContainerViewQueueType {
     /// Only one view can be displayed at a time. A new view needs to wait until the current view is dismissed (close call dismiss code, Binding value, auto dismiss, etc.) before it can be displayed.
     case oneByOneWaitFinish
     /// Multiple views can be displayed at once. The arrangement of the views depends on the view display type of container
+    ///
+    /// The maximum number of view that can show at the same time base one maximumNumberOfViewsInMultipleMode
     case multiple
 }

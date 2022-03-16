@@ -60,6 +60,36 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertEqual(handler.tempQueue.count, 0)
     }
 
+    func testShowViewWithLimitedMaxView() async throws {
+        // given
+
+        self.handler = ContainerQueueHandler(
+            container: "testContainer",
+            containerManager: manager,
+            queueType: containerConfiguration.queueType,
+            animation: containerConfiguration.animation,
+            delayForShowingNext: containerConfiguration.delayForShowingNext,
+            maximumNumberOfViewsInMultiple: 1
+        )
+
+        let view1 = IdentifiableContainerView(
+            id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
+        )
+        let view2 = IdentifiableContainerView(
+            id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
+        )
+
+        let perform = handler.getStrategyHandler(for: .multiple)
+
+        // when
+        perform(.show(view1, false))
+        perform(.show(view2, false))
+
+        // then
+        XCTAssertEqual(handler.mainQueue.count, 1)
+        XCTAssertEqual(handler.tempQueue.count, 1)
+    }
+
     func testDismissView() throws {
         // given
         let view1 = IdentifiableContainerView(
@@ -80,6 +110,39 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
+    }
+
+    func testDismissViewWithLimitedMaxView() async throws {
+        // given
+
+        self.handler = ContainerQueueHandler(
+            container: "testContainer",
+            containerManager: manager,
+            queueType: containerConfiguration.queueType,
+            animation: containerConfiguration.animation,
+            delayForShowingNext: 0.1,
+            maximumNumberOfViewsInMultiple: 1
+        )
+
+        let view1 = IdentifiableContainerView(
+            id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
+        )
+        let view2 = IdentifiableContainerView(
+            id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
+        )
+
+        let perform = handler.getStrategyHandler(for: .multiple)
+
+        // when
+        perform(.show(view1, false))
+        perform(.show(view2, false))
+        perform(.dismiss(view1.id, false))
+        try await Task.sleep(seconds: 0.1)
+
+        // then
+        XCTAssertEqual(handler.mainQueue.count, 1)
+        XCTAssertEqual(handler.tempQueue.count, 0)
+        XCTAssertEqual(handler.mainQueue.first?.id, view2.id)
     }
 
     func testDismissAllView() throws {
