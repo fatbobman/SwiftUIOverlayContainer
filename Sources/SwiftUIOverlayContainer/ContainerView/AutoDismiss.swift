@@ -24,7 +24,7 @@ extension ContainerViewAutoDismiss {
     /// The autoDismiss of container view configuration has higher priority than container configuration
     ///
     ///       container        view            result
-    ///       
+    ///
     ///        nil             nil             disable
     ///        timeInterval    disable         disable
     ///        disable         timeInterval    timeInterval
@@ -63,7 +63,9 @@ extension View {
                 .task {
                     try? await Task.sleep(seconds: timeInterval)
                     if !Task.isCancelled {
-                        dismissAction()
+                        await MainActor.run {
+                            dismissAction()
+                        }
                     }
                 }
         } else {
