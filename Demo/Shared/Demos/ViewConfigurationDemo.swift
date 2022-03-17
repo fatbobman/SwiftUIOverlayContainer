@@ -18,10 +18,10 @@ struct ViewConfigurationDemo: View {
         ZStack(alignment: .top) {
             Color(backgroundColorOfZStack)
             VStack {
-                ZStack{
+                ZStack {
                     Color.clear
                 }
-                .frame(minHeight:300)
+                .frame(minHeight: 300)
                 .overlayContainer("viewDemo", containerConfiguration: .viewConfigurationDemo)
                 Text("ViewConfigurationDescription")
                     .padding()
@@ -32,7 +32,7 @@ struct ViewConfigurationDemo: View {
                         Text("CreateNewRandomView")
                             .textCase(.uppercase)
                     }
-                    .padding(.bottom,20)
+                    .padding(.bottom, 20)
                 }
                 .buttonStyle(.bordered)
                 .padding(.bottom, 30)
@@ -43,7 +43,6 @@ struct ViewConfigurationDemo: View {
         #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
-
     }
 
     func generateContainerView() -> some View {
@@ -64,7 +63,7 @@ struct ViewConfigurationDemoContainerConfiguration: ContainerConfigurationProtoc
     var queueType: ContainerViewQueueType = .oneByOne
     var displayType: ContainerViewDisplayType = .stacking
 
-    var insets: EdgeInsets{
+    var insets: EdgeInsets {
         .init(top: 30, leading: 30, bottom: 30, trailing: 30)
     }
 }

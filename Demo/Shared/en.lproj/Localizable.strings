@@ -76,3 +76,12 @@
 "Dismiss %@" = "Dismiss view %@";
 "IsPresentedStatus %@ %@" = "View %@'s isPresented is %@";
 "View %@" = "View %@";
+
+// MARK: - Controllable Animation
+
+"ControllableAnimationLabel" = "Controllable Animation";
+"ControllableAnimationDescription" = "By setting animated to false, you can prevent the view from animating when it is showed or dismissed. Useful for handling scenarios like Deep link.";
+"ShowWithAnimation" = "Show a view with animation";
+"ShowWithoutAnimation" = "Show a view without animation";
+"DismissWithoutAnimation" = "Dismiss all views without animation";
+"DismissWithAnimation" = "Dismiss all views with animation";

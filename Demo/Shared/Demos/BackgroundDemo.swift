@@ -35,17 +35,16 @@ struct BackgroundDemo: View {
 
                     Toggle("TapToDismiss", isOn: $tapToDismiss)
                         .toggleStyle(.automatic)
-                        .padding(.vertical,20)
-                        .padding(.horizontal,50)
-
+                        .padding(.vertical, 20)
+                        .padding(.horizontal, 50)
                 }
                 .padding(.top, 50)
                 Spacer()
                 VStack {
                     Text("ViewBackgroundDescription")
-                        .padding(.horizontal,30)
+                        .padding(.horizontal, 30)
                 }
-                .padding(.bottom,300)
+                .padding(.bottom, 300)
             }
         }
         .background(LinearGradient(colors: [.blue, .cyan, .green], startPoint: .top, endPoint: .bottom).opacity(0.5))
@@ -99,8 +98,6 @@ struct BackgroundContainerConfiguration: ContainerConfigurationProtocol {
         .tap
     }
 
-
-
     var shadowStyle: ContainerViewShadowStyle? {
         .radius(10)
     }
@@ -109,5 +106,5 @@ struct BackgroundContainerConfiguration: ContainerConfigurationProtocol {
 struct BackgroundDemoViewConfiguration: ContainerViewConfigurationProtocol {
     let tapToDismiss: Bool?
     var backgroundStyle: ContainerBackgroundStyle?
-    var animation: Animation?{.easeInOut}
+    var animation: Animation? { .easeInOut }
 }
