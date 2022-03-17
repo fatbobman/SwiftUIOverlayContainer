@@ -20,7 +20,7 @@ struct DisplayTypeDemo: View {
     @Environment(\.overlayContainerManager) var manager
     var body: some View {
         ZStack(alignment: .top) {
-            Color(grayColor)
+            Color(backgroundColorOfZStack)
             VStack {
                 Text("DisplayTypeDescription")
                     .padding(.all, 20)
@@ -73,7 +73,7 @@ struct DisplayTypeDemo: View {
             }
         }
         .edgesIgnoringSafeArea(.bottom)
-        .navigationTitle("DisplayTypeTitle")
+        .navigationTitle("DisplayTypeLinkLabel")
         #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif

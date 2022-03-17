@@ -16,7 +16,7 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach(demos) { demo in
-                    NavigationLink(demo.label, destination: demo.view)
+                    NavigationLink(demo.label, destination: demo.view.toolbarForMac)
                 }
             }
             .listStyle(.sidebar)
@@ -24,6 +24,7 @@ struct ContentView: View {
             VStack {
                 Text("MenuTip")
             }
+            .toolbarForMac()
         }
     }
 
@@ -31,9 +32,8 @@ struct ContentView: View {
         .init("QueueTypeLinkLabel", QueueTypeDemo()),
         .init("DisplayTypeLinkLabel", DisplayTypeDemo()),
         .init("ViewConfigurationLabel", ViewConfigurationDemo()),
-        .init("Gesture", EmptyView()),
-        .init("Transition", EmptyView()),
-        .init("Background", EmptyView()),
+        .init("DismissGestureLabel", DismissGestureDemo()),
+        .init("ViewBackgroundLalel", EmptyView()),
         .init("Bind", EmptyView())
     ]
 }
@@ -52,5 +52,29 @@ struct DemoLink: Identifiable {
     init<V: View>(_ label: LocalizedStringKey, _ view: V) {
         self.label = label
         self.view = view.eraseToAnyView()
+    }
+}
+
+extension View {
+    private func toggleSidebar() { // 2
+        #if os(iOS)
+        #else
+        NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
+        #endif
+    }
+
+    @ViewBuilder
+    func toolbarForMac() -> some View {
+        #if os(macOS) && !targetEnvironment(macCatalyst)
+        self.toolbar {
+            ToolbarItem(placement: .navigation) {
+                Button(action: toggleSidebar, label: { // 1
+                    Image(systemName: "sidebar.leading")
+                })
+            }
+        }
+        #else
+        self
+        #endif
     }
 }

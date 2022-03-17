@@ -19,11 +19,12 @@ extension View{
     }
 }
 
-#if canImport(UIKit)
+#if os(iOS)
 import UIKit
-let grayColor = UIColor.systemGroupedBackground
+let backgroundColorOfZStack = UIColor.systemGroupedBackground
 #endif
 
-#if canImport(AppKit)
-let grayColor = NSColor.windowBackgroundColor
+#if os(macOS)
+import AppKit
+let backgroundColorOfZStack = NSColor.windowBackgroundColor
 #endif

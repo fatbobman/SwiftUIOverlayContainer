@@ -64,7 +64,7 @@ struct QueueTypeDemo: View {
         }
         .background(LinearGradient(colors: [.blue, .cyan, .green], startPoint: .top, endPoint: .bottom).opacity(0.5))
         .edgesIgnoringSafeArea(.bottom)
-        .navigationTitle("QueueTypeTitle")
+        .navigationTitle("QueueTypeLinkLabel")
         #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
