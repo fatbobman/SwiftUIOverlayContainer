@@ -109,6 +109,7 @@ extension OverlayContainer {
     /// composite background, backgroundDismiss, view, gesture, shadow, transition, autoDismiss, isPresented, alignment, inset for the stacking container
     ///
     @ViewBuilder
+    // swiftlint:disable:next function_body_length
     func compositeContainerView(
         for identifiableView: IdentifiableContainerView,
         containerConfiguration: ContainerConfigurationProtocol,

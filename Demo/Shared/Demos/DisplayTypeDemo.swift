@@ -186,8 +186,12 @@ struct DisplayTypeContainerConfiguration: ContainerConfigurationProtocol {
     }
 
     static let stacking: DisplayTypeContainerConfiguration = .init(displayType: .stacking, alignment: .center, spacing: 10, insets: .init())
-    static let horizontal: DisplayTypeContainerConfiguration = .init(displayType: .horizontal, alignment: .leading, spacing: 10, insets: .init(top: 0, leading: 20, bottom: 0, trailing: 0))
-    static let vertical: DisplayTypeContainerConfiguration = .init(displayType: .vertical, alignment: .bottom, spacing: 10, insets: .init(top: 0, leading: 0, bottom: 20, trailing: 0))
+    static let horizontal: DisplayTypeContainerConfiguration = .init(
+        displayType: .horizontal, alignment: .leading, spacing: 10, insets: .init(top: 0, leading: 20, bottom: 0, trailing: 0)
+    )
+    static let vertical: DisplayTypeContainerConfiguration = .init(
+        displayType: .vertical, alignment: .bottom, spacing: 10, insets: .init(top: 0, leading: 0, bottom: 20, trailing: 0)
+    )
 }
 
 struct DisplayTypeViewConfiguration: ContainerViewConfigurationProtocol {
@@ -196,6 +200,10 @@ struct DisplayTypeViewConfiguration: ContainerViewConfigurationProtocol {
     var dismissGesture: ContainerViewDismissGesture? = .tap
 
     static let stacking: DisplayTypeViewConfiguration = .init(alignment: .center, transition: .opacity, dismissGesture: .tap)
-    static let horizontal: DisplayTypeViewConfiguration = .init(alignment: nil, transition: .move(edge: .leading).combined(with: .opacity), dismissGesture: .swipeLeft)
-    static let vertical: DisplayTypeViewConfiguration = .init(alignment: nil, transition: .move(edge: .bottom).combined(with: .opacity), dismissGesture: .swipeDown)
+    static let horizontal: DisplayTypeViewConfiguration = .init(
+        alignment: nil, transition: .move(edge: .leading).combined(with: .opacity), dismissGesture: .swipeLeft
+    )
+    static let vertical: DisplayTypeViewConfiguration = .init(
+        alignment: nil, transition: .move(edge: .bottom).combined(with: .opacity), dismissGesture: .swipeDown
+    )
 }

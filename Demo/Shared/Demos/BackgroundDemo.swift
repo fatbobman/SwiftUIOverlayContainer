@@ -22,7 +22,10 @@ struct BackgroundDemo: View {
                 VStack {
                     ForEach(backgrounds) { background in
                         Button(action: {
-                            let viewConfiguration = BackgroundDemoViewConfiguration(tapToDismiss: tapToDismiss, backgroundStyle: background.background)
+                            let viewConfiguration = BackgroundDemoViewConfiguration(
+                                tapToDismiss: tapToDismiss,
+                                backgroundStyle: background.background
+                            )
                             let size = CGSize(width: 300, height: 400)
                             let view = BlockView(size: size, text: background.description, opacity: 1, allowDismiss: false)
                             manager.show(view: view, in: "backgroundContainer", using: viewConfiguration)

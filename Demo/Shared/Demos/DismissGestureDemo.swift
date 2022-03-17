@@ -22,7 +22,12 @@ struct DismissGestureDemo: View {
                     ForEach(gestures) { dismissGesture in
                         Button(action: {
                             let configuration = GestureViewConfiguration(dismissGesture: dismissGesture.gesture)
-                            let view = BlockView(size: .init(width: 200, height: 80), text: dismissGesture.description, opacity: 0.7, allowDismiss: false)
+                            let view = BlockView(
+                                size: .init(width: 200, height: 80),
+                                text: dismissGesture.description,
+                                opacity: 0.7,
+                                allowDismiss: false
+                            )
                             manager.show(view: view, in: "gestureContainer", using: configuration)
                         }, label: {
                             Text(dismissGesture.description)

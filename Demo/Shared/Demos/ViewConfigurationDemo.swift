@@ -8,6 +8,8 @@
 //  Follow me on Twitter: @fatbobman
 //  My Blog: https://www.fatbobman.com
 //
+// swiftlint:disable identifier_name
+// swiftlint:disable type_name
 
 import SwiftUI
 import SwiftUIOverlayContainer
