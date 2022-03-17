@@ -18,7 +18,7 @@ struct DismissGestureDemo: View {
         ZStack {
             Color(backgroundColorOfZStack)
             VStack {
-                Form {
+                VStack {
                     ForEach(gestures) { dismissGesture in
                         Button(action: {
                             let configuration = GestureViewConfiguration(dismissGesture: dismissGesture.gesture)
@@ -26,14 +26,13 @@ struct DismissGestureDemo: View {
                             manager.show(view: view, in: "gestureContainer", using: configuration)
                         }, label: {
                             Text(dismissGesture.description)
+                                .frame(width:200)
                         })
                     }
                 }
-                #if os(macOS)
                 .padding(.top,50)
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(.bordered)
                 .controlSize(.large)
-                #endif
                 ZStack{
                     Color.clear
                 }
