@@ -17,7 +17,6 @@
 "PushOneMessage" = "push one message";
 "CurrentMessageID %lld" = "Current Message ID: %lld";
 "PushButtonTip" = "Try tapping the button multiple times";
-"QueueTypeTitle" = "Queue Type";
 "MessageText %lld" = "Message ID: %lld   Tap Me To Dismiss";
 "SliderOfNumberOfViewLabel %lld" = "Number of views can be displayed at the same time: %lld";
 "SliderOfDelayForShowNext %@" = "Time interval to fetch the next view from the waiting queue : %@ secs";
@@ -31,7 +30,6 @@
 "HorizontalDescription" = "The views are arranged horizontally. Normally spacing is greater than 0, views do not overlap each other. Internal implementation uses HStack.";
 "VerticalDescription" = "The views are arranged vertically, under normal conditions (spacing greater than 0), there is no overlap between views. Usually used to implement information tips at the top or bottom of the screen. The internal implementation uses VStack.";
 "StackingDescription" = "Aligns the views along the Z-axis. Views will be stacked on the top of each other. ZStack is used for internal implementation.";
-"DisplayTypeTitle" = "Display Type";
 "DisplayTypeDescription" = "The display type of the container view, this type will determine the layout of the container.";
 "AddBlockButton" = "Show New View";
 "DismissForStacking" = "Tap to dismiss";
@@ -43,4 +41,18 @@
 // MARK: - View Configuration
 
 "ViewConfigurationLabel" = "View Configuration";
+"ViewConfigurationDescription" = "The user can set the view style and behavior within the container through the configuration of container view. For example: shadow, transition, dismissGesture, autoDismiss, alignment, animation, etc. If the view is not set, the container's default settings will be tried";
+"AutoDismiss" = "Disappear in 2 seconds automatically";
+"CreateNewRandomView" = "create random style view";
 
+// MARK: - Dismiss Gesture
+
+"DismissGestureLabel" = "Dismiss Gesture";
+"DismissGestureDescription" = "In addition to the above gestures, user can also add custom dismiss gesture via *.customGesture*";
+"TapGesture" = "Tap to dismiss";
+"DoubleTapGesture" = "Double tap to dismiss";
+"LongPressGesture" = "Long press to dismiss";
+"SwipeUpGesture" = "Swipe up to dismiss";
+"SwipeLeftGesture" = "Swipe left to dismiss";
+"SwipeRightGesture" = "Swipe right to dismiss";
+"SwipeDownGesture" = "Swipe down to dismiss";
