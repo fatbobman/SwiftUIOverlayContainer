@@ -33,13 +33,13 @@ struct ControllableAnimationDemo: View {
                         manager.show(view: view, in: container, using: AnimatedViewConfiguration(), animated: false)
 
                     } label: {
-                        Text("ShowWithAnimation")
+                        Text("ShowWithoutAnimation")
                             .frame(width: 300)
                     }
                     Button {
                         manager.dismissAllView(in: [container], animated: true)
                     } label: {
-                        Text("DismissWithAnimation")
+                        Text("DismissWithoutAnimation")
                             .frame(width: 300)
                     }
                     Button {
