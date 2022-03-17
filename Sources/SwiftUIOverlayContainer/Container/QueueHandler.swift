@@ -26,8 +26,7 @@ final class ContainerQueueHandler: ObservableObject {
             // check maximum number setting ,if temp queue is not empty, get a new view into main queue in multiple mode
             if case .multiple = queueType,
                mainQueue.count < maximumNumberOfViewsInMultiple,
-               !_transferring
-            {
+               !_transferring {
                 _transferring = true
                 transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
             }
@@ -35,7 +34,7 @@ final class ContainerQueueHandler: ObservableObject {
     }
 
     /// Whether the view is being transferred from temp queue to main queue
-    var _transferring:Bool = false
+    var _transferring = false
 
     /// The temporary queue of IdentifiableContainerView. Use in OneByOneWaitFinish mode
     var tempQueue: [IdentifiableContainerView] = []
