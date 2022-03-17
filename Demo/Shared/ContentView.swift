@@ -34,7 +34,8 @@ struct ContentView: View {
         .init("ViewConfigurationLabel", ViewConfigurationDemo()),
         .init("DismissGestureLabel", DismissGestureDemo()),
         .init("ViewBackgroundLabel", BackgroundDemo()),
-        .init("BindValueLabel", BindDemo())
+        .init("BindValueLabel", BindDemo()),
+        .init("ControllableAnimationLabel", ControllableAnimationDemo())
     ]
 }
 
@@ -58,7 +59,7 @@ struct DemoLink: Identifiable {
 extension View {
     private func toggleSidebar() { // 2
         #if os(iOS)
-        #else 
+        #else
         NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
         #endif
     }

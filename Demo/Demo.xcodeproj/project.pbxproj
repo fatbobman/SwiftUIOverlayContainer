@@ -13,6 +13,8 @@
 		7646119E27E2FEE2005B3D18 /* BackgroundDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646119C27E2FEE2005B3D18 /* BackgroundDemo.swift */; };
 		764611A027E31A90005B3D18 /* BindDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646119F27E31A90005B3D18 /* BindDemo.swift */; };
 		764611A127E31A90005B3D18 /* BindDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646119F27E31A90005B3D18 /* BindDemo.swift */; };
+		764611A327E3361E005B3D18 /* ControllableAnimationDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764611A227E3361E005B3D18 /* ControllableAnimationDemo.swift */; };
+		764611A427E3361E005B3D18 /* ControllableAnimationDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764611A227E3361E005B3D18 /* ControllableAnimationDemo.swift */; };
 		7660AFE327E2A23A003978D8 /* ViewConfigurationDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7660AFE227E2A23A003978D8 /* ViewConfigurationDemo.swift */; };
 		7660AFE427E2A23A003978D8 /* ViewConfigurationDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7660AFE227E2A23A003978D8 /* ViewConfigurationDemo.swift */; };
 		7678966927E190B400DDAF17 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7678966827E190B400DDAF17 /* MessageView.swift */; };
@@ -43,6 +45,7 @@
 		7646119927E2D63C005B3D18 /* DismissGestureDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissGestureDemo.swift; sourceTree = "<group>"; };
 		7646119C27E2FEE2005B3D18 /* BackgroundDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundDemo.swift; sourceTree = "<group>"; };
 		7646119F27E31A90005B3D18 /* BindDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindDemo.swift; sourceTree = "<group>"; };
+		764611A227E3361E005B3D18 /* ControllableAnimationDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllableAnimationDemo.swift; sourceTree = "<group>"; };
 		7660AFE227E2A23A003978D8 /* ViewConfigurationDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConfigurationDemo.swift; sourceTree = "<group>"; };
 		7678966827E190B400DDAF17 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		7678966C27E1B0F800DDAF17 /* QueueTypeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTypeDemo.swift; sourceTree = "<group>"; };
@@ -83,13 +86,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7678966727E1909E00DDAF17 /* Views */ = {
+		7678966727E1909E00DDAF17 /* ComponetView */ = {
 			isa = PBXGroup;
 			children = (
 				7678966827E190B400DDAF17 /* MessageView.swift */,
 				7678967F27E2042700DDAF17 /* BlockView.swift */,
 			);
-			path = Views;
+			path = ComponetView;
 			sourceTree = "<group>";
 		};
 		7678967B27E1FE2C00DDAF17 /* Extension */ = {
@@ -117,7 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				7678967B27E1FE2C00DDAF17 /* Extension */,
-				7678966727E1909E00DDAF17 /* Views */,
+				7678966727E1909E00DDAF17 /* ComponetView */,
 				76DE33C827E0644600AD9419 /* Common */,
 				76DE33C727E0642C00AD9419 /* Demos */,
 				76DE339727E062AB00AD9419 /* DemoApp.swift */,
@@ -169,6 +172,7 @@
 				7646119927E2D63C005B3D18 /* DismissGestureDemo.swift */,
 				7646119C27E2FEE2005B3D18 /* BackgroundDemo.swift */,
 				7646119F27E31A90005B3D18 /* BindDemo.swift */,
+				764611A227E3361E005B3D18 /* ControllableAnimationDemo.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -291,6 +295,7 @@
 				7678968027E2042700DDAF17 /* BlockView.swift in Sources */,
 				76DE33A927E062AD00AD9419 /* ContentView.swift in Sources */,
 				7678967D27E1FE3600DDAF17 /* SwiftUI.swift in Sources */,
+				764611A327E3361E005B3D18 /* ControllableAnimationDemo.swift in Sources */,
 				7678968327E205F100DDAF17 /* Protocol.swift in Sources */,
 				7646119D27E2FEE2005B3D18 /* BackgroundDemo.swift in Sources */,
 				7678966D27E1B0F800DDAF17 /* QueueTypeDemo.swift in Sources */,
@@ -310,6 +315,7 @@
 				7678966A27E1964F00DDAF17 /* MessageView.swift in Sources */,
 				7678967A27E1FDBB00DDAF17 /* DisplayTypeDemo.swift in Sources */,
 				76DE33AA27E062AD00AD9419 /* ContentView.swift in Sources */,
+				764611A427E3361E005B3D18 /* ControllableAnimationDemo.swift in Sources */,
 				7678968427E205F100DDAF17 /* Protocol.swift in Sources */,
 				7646119E27E2FEE2005B3D18 /* BackgroundDemo.swift in Sources */,
 				7678967E27E1FE3600DDAF17 /* SwiftUI.swift in Sources */,

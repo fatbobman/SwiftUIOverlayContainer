@@ -29,7 +29,7 @@ struct Message<S: ShapeStyle>: View {
         RoundedRectangle(cornerRadius: 15)
             .fill(.regularMaterial)
             .frame(maxWidth: 400)
-            .frame(height:height)
+            .frame(height: height)
             .padding(.horizontal, 20)
             .overlay(
                 Text(text)
@@ -38,7 +38,7 @@ struct Message<S: ShapeStyle>: View {
     }
 }
 
-extension Message:ContainerViewConfigurationProtocol {
+extension Message: ContainerViewConfigurationProtocol {
     var transition: AnyTransition? {
         .move(edge: .bottom).combined(with: .opacity)
     }
