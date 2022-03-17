@@ -56,3 +56,23 @@
 "SwipeLeftGesture" = "Swipe left to dismiss";
 "SwipeRightGesture" = "Swipe right to dismiss";
 "SwipeDownGesture" = "Swipe down to dismiss";
+
+// MARK: - View Background
+
+"ViewBackgroundLabel" = "Customizable Background";
+"BlurBackground" = "Use material type";
+"ColorBackground" = "Use color type";
+"ViewBackground" = "Use a custom view";
+"DisableBackground" = "No background";
+"ViewBackgroundDescription" = "When using material type as background, only iOS 15, macOS 12, tvOS 15 and above are supported. TapToDismiss will be ignored when no background is used.\nIn vertical and horizontal modes, the container will use its own background configuration and ignore the view's background settings.";
+"TapToDismiss" = "Tap on the background to dismiss the view";
+
+
+// MARK: - Bind Demo
+
+"BindValueLabel" = "Use Bind Value";
+"BindValueDescription" = "In other demos, we used calls to the environment value overlayContainer to display the view in the container. We can also do this using SwiftUI style modifiers.";
+"Show %@" = "Show View %@";
+"Dismiss %@" = "Dismiss view %@";
+"IsPresentedStatus %@ %@" = "View %@'s isPresented is %@";
+"View %@" = "View %@";
