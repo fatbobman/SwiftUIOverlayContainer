@@ -27,9 +27,9 @@
 // MARK: - Display type
 
 "DisplayTypeLinkLabel" = "Display Type";
-"HorizontalDescription" = "The views are arranged horizontally. Normally spacing is greater than 0, views do not overlap each other. Internal implementation uses HStack.";
-"VerticalDescription" = "The views are arranged vertically, under normal conditions (spacing greater than 0), there is no overlap between views. Usually used to implement information tips at the top or bottom of the screen. The internal implementation uses VStack.";
-"StackingDescription" = "Aligns the views along the Z-axis. Views will be stacked on the top of each other. ZStack is used for internal implementation.";
+"HorizontalDescription" = "The views are arranged horizontally. Normally spacing is greater than 0, views do not overlap each other.";
+"VerticalDescription" = "The views are arranged vertically, under normal conditions (spacing greater than 0), there is no overlap between views. Usually used to implement information tips at the top or bottom of the screen.";
+"StackingDescription" = "Aligns the views along the Z-axis. Views will be stacked on the top of each other.";
 "DisplayTypeDescription" = "The display type of the container view, this type will determine the layout of the container.";
 "AddBlockButton" = "Show New View";
 "DismissForStacking" = "Tap to dismiss";
@@ -43,12 +43,12 @@
 "ViewConfigurationLabel" = "View Configuration";
 "ViewConfigurationDescription" = "The user can set the view style and behavior within the container through the configuration of container view. For example: shadow, transition, dismissGesture, autoDismiss, alignment, animation, etc. If the view is not set, the container's default settings will be tried";
 "AutoDismiss" = "Disappear in 2 seconds automatically";
-"CreateNewRandomView" = "create random style view";
+"CreateNewRandomView" = "create random view styles";
 
 // MARK: - Dismiss Gesture
 
 "DismissGestureLabel" = "Dismiss Gesture";
-"DismissGestureDescription" = "In addition to the above gestures, user can also add custom dismiss gesture via *.customGesture*";
+"DismissGestureDescription" = "In addition to the above gestures, user can also add custom dismiss gesture via `.customGesture`";
 "TapGesture" = "Tap to dismiss";
 "DoubleTapGesture" = "Double tap to dismiss";
 "LongPressGesture" = "Long press to dismiss";
@@ -80,7 +80,7 @@
 // MARK: - Controllable Animation
 
 "ControllableAnimationLabel" = "Controllable Animation";
-"ControllableAnimationDescription" = "By setting animated to false, you can prevent the view from animating when it is showed or dismissed. Useful for handling scenarios like Deep link.";
+"ControllableAnimationDescription" = "By setting animated to false, you can prevent the view from animating when it is showed or dismissed. Useful for handling scenarios like Deep Link.";
 "ShowWithAnimation" = "Show a view with animation";
 "ShowWithoutAnimation" = "Show a view without animation";
 "DismissWithoutAnimation" = "Dismiss all views without animation";

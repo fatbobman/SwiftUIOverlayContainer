@@ -5,3 +5,83 @@
   Created by Yang Xu on 2022/3/16.
   
 */
+
+// MARK: - Menu
+"MenuNavigationTitle" = "演示";
+"MenuTip" = "请选择演示项目";
+
+// MARK: - Queue type
+
+"QueueTypeLinkLabel" = "队列类型";
+"QueueTypeDescription" = "队列类型 (Queue Type) 将决定是否允许多个视图同时存在于容器中。可以在容器的配置中设置。";
+"PushOneMessage" = "推送一条信息";
+"CurrentMessageID %lld" = "当前信息 ID: %lld";
+"PushButtonTip" = "可以尝试多次点击按钮";
+"MessageText %lld" = "信息 ID: %lld   轻触取消视图";
+"SliderOfNumberOfViewLabel %lld" = "可同时显示视图数: %lld";
+"SliderOfDelayForShowNext %@" = "从等待队列中获取下一个视图的间隔时间 : %@ 秒";
+"MultipleDescription" = "可同时显示多个视图";
+"OneByOneDescription" = "每次只显示一个视图，新的视图将自动替换正在显示的视图。";
+"OneByOneWaitFinishDescription" = "每次只显示一个视图，只有在当前显示的视图撤销后才会显示下一个视图";
+
+// MARK: - Display type
+
+"DisplayTypeLinkLabel" = "显示类型";
+"HorizontalDescription" = "对容器的的视图水平排列。在间距大于0的情况下，视图不会互相重叠。";
+"VerticalDescription" = "对容器的的视图竖直排列。在间距大于0的情况下，视图不会互相重叠。";
+"StackingDescription" = "视图沿 Z 轴进行堆叠。";
+"DisplayTypeDescription" = "容器视图的显示类型 (Display Type)，该类型将决定容器的布局。";
+"AddBlockButton" = "显示新视图";
+"DismissForStacking" = "单击取消";
+"DismissForVertical" = "点击或下划";
+"DismissForHorizontal" = "点击或左划";
+"SliderOfSpace %@" = "视图间距 %@";
+"ContainerMoreInfo" = "除了名称和队列类型之外，容器的其他属性都可以动态地调整。";
+
+// MARK: - View Configuration
+
+"ViewConfigurationLabel" = "视图配置";
+"ViewConfigurationDescription" = "通过视图配置来设定容器内的视图样式和行为。例如：阴影、过渡、取消手势、自动取消、对齐、动画等。如果没有视图配置，将尝试使用容器的默认设置。";
+"AutoDismiss" = "两秒后自动消失";
+"CreateNewRandomView" = "创建随机视图风格";
+
+// MARK: - Dismiss Gesture
+
+"DismissGestureLabel" = "取消手势";
+"DismissGestureDescription" = "除了上述手势外，用户还可以通过 `.customGesture` 添加自定义手势。";
+"TapGesture" = "单击取消";
+"DoubleTapGesture" = "双击取消";
+"LongPressGesture" = "长按取消";
+"SwipeUpGesture" = "向上划动取消";
+"SwipeLeftGesture" = "向左划动取消";
+"SwipeRightGesture" = "向右划动取消";
+"SwipeDownGesture" = "向下划动取消";
+
+// MARK: - View Background
+
+"ViewBackgroundLabel" = "可定制背景";
+"BlurBackground" = "使用材料(Material)";
+"ColorBackground" = "使用颜色(Color)";
+"ViewBackground" = "使用自定义视图";
+"DisableBackground" = "不添加背景";
+"ViewBackgroundDescription" = "当使用材料类型作为背景时，只支持iOS 15、macOS 12、tvOS 15及以上版本。当没有使用背景时，TapToDismiss将被忽略。在垂直和水平模式下，将忽略视图的背景设置，使用容器的背景配置。";
+"TapToDismiss" = "点击背景取消视图";
+
+
+// MARK: - Bind Demo
+
+"BindValueLabel" = "使用绑定数据";
+"BindValueDescription" = "在其他演示中，我们使用对环境值overlayContainer的调用来显示容器中的视图。我们也可以使用更具 SwiftUI 风格的修饰器 (Modifier) 来控制视图。";
+"Show %@" = "显示视图 %@";
+"Dismiss %@" = "取消视图 %@";
+"IsPresentedStatus %@ %@" = "视图 %@ 的 isPresented 为 %@";
+"View %@" = "视图 %@";
+
+// MARK: - Controllable Animation
+
+"ControllableAnimationLabel" = "可控动画";
+"ControllableAnimationDescription" = "通过设置 animated 为 false，你可以阻止视图在显示或取消时使用动画。有利于处理 Deep Link 这样的场景。";
+"ShowWithAnimation" = "显示视图（有动画）";
+"ShowWithoutAnimation" = "显示视图（没有动画）";
+"DismissWithoutAnimation" = "取消所有视图（有动画）";
+"DismissWithAnimation" = "取消所有视图（没有动画）";
