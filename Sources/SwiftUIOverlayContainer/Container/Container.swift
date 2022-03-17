@@ -104,9 +104,12 @@ struct OverlayContainer: View {
                 let insets = configuration.insets
 
                 ZStack(alignment: alignment) {
-                    if !queueHandler.mainQueue.isEmpty {
-                        background
+                    Group {
+                        if !queueHandler.mainQueue.isEmpty {
+                            background
+                        }
                     }
+                    .zIndex(1.0)
 
                     GenericStack(displayType: configuration.displayType, alignment: alignment, spacing: configuration.spacing) {
                         ForEach(queueHandler.mainQueue.alignment(
@@ -135,6 +138,7 @@ struct OverlayContainer: View {
                         }
                     }
                     .padding(insets)
+                    .zIndex(2.0)
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             }
