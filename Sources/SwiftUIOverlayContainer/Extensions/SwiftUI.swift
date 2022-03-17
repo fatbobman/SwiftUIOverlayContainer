@@ -8,6 +8,7 @@
 //  Follow me on Twitter: @fatbobman
 //  My Blog: https://www.fatbobman.com
 //
+// swiftlint:disable large_tuple
 
 import Foundation
 import SwiftUI
