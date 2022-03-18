@@ -252,6 +252,8 @@ public protocol ContainerViewConfigurationProtocol {
   部分版本的操作系统（iOS 14，watchOS ）不支持 blur 模式，如果想在这些版本中使用 blur，可以通过 customView 来包裹其他的 blur 代码。
 
   *详情参看项目演示代码*
+  
+![background](Image/background.gif)
 
 * backgroundTransitionStyle
 
@@ -274,6 +276,8 @@ public protocol ContainerViewConfigurationProtocol {
   在 tvOS 下，仅长按被支持
 
   *详情参看项目演示代码*
+  
+![gesture](Image/gesture.gif)
 
 * transition
 
@@ -341,6 +345,8 @@ struct ContentView1: View {
 无论是直接调用容器管理器还是使用 View modifier，当将 animated 设为 false 时，均可强制取消转场动画。
 
 对于处理例如 Deep Link 之类的场景时十分有效。
+
+![animation](Image/animation.gif)
 
 ### 在 SwiftUI 视图外使用
 

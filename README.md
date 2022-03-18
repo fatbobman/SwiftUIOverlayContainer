@@ -257,6 +257,8 @@ public protocol ContainerViewConfigurationProtocol {
   Some versions of operating systems (iOS 14, watchOS) do not support blur mode. If you want to use blur in these versions, you can wrap other blur codes through customView.
 
   *See the project demo code for details*
+  
+  ![background](Image/background.gif)
 
 * backgroundTransitionStyle
 
@@ -279,6 +281,8 @@ public protocol ContainerViewConfigurationProtocol {
   Under tvOS, only long press are supported
 
   *See the project demo code for details*
+  
+  ![gesture](Image/gesture.gif)
 
 * transition
 
@@ -346,6 +350,8 @@ The methods currently provided by the Container Manager are.
 The transition animation can be forced to cancel when `animated` is set to false, either by calling the container manager directly or by using a View modifier.
 
 This is useful when dealing with scenarios such as Deep Link.
+
+![animation](Image/animation.gif)
 
 ### Use outside of SwiftUI views
 
