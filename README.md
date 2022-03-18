@@ -6,6 +6,35 @@ A highly customizable view container components for SwiftUI
 
 [中文版说明](README.md)
 
+Table of Contents
+=================
+
+* [SwiftUI Overlay Container 2](#swiftui-overlay-container-2)
+   * [Overview](#overview)
+   * [Motivation](#motivation)
+   * [Features](#features)
+   * [Quick Guide](#quick-guide)
+      * [Create a container](#create-a-container)
+      * [Show views in containers](#show-views-in-containers)
+      * [Dismiss all views in the specified container](#dismiss-all-views-in-the-specified-container)
+   * [Knowledge](#knowledge)
+      * [Container](#container)
+      * [Display type](#display-type)
+      * [Queue Type](#queue-type)
+      * [Configuring the container](#configuring-the-container)
+      * [The EnvironmentValue of container](#the-environmentvalue-of-container)
+      * [Container view](#container-view)
+      * [Configuring the container view](#configuring-the-container-view)
+      * [Container Manager](#container-manager)
+      * [The EnvironmentValue of container manager](#the-environmentvalue-of-container-manager)
+      * [Blockable animation](#blockable-animation)
+      * [Use outside of SwiftUI views](#use-outside-of-swiftui-views)
+   * [System Requirements](#system-requirements)
+   * [Installation](#installation)
+   * [Copyrights](#copyrights)
+   * [Help and Support](#help-and-support)
+
+
 ## Overview
 
 SwiftUI Overlay Container is a view container component for SwiftUI. It is a customizable, efficient and convenient view manager.
