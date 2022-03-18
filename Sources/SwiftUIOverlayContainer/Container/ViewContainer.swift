@@ -17,7 +17,7 @@ import SwiftUI
 /// Used when you want to use overlayContainer directly instead of attaching it to a view.
 ///
 ///     // use
-///     
+///
 ///         ViewContainer("viewDemo",configuration: .viewConfigurationDemo)
 ///             .frame(minHeight:300)
 ///
