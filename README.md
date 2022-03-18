@@ -254,7 +254,7 @@ public protocol ContainerViewConfigurationProtocol {
 
   Set the background for the container view. Currently supports color, blur, customView.
 
-  Some lower versions of operating systems (iOS 14) do not support blur mode. If you want to use blur in lower versions, you can wrap other blur codes through customView.
+  Some versions of operating systems (iOS 14, watchOS) do not support blur mode. If you want to use blur in these versions, you can wrap other blur codes through customView.
 
   *See the project demo code for details*
 
@@ -379,4 +379,4 @@ This library is released under the MIT license. See [LICENSE](LICENSE) for detai
 
 ## Help and Support
 
-You can give your feedback or suggestions by creating Issues. You can also contact me on Twitter **[@fatbobman](twitter://twitter.com/fatbobman)**.
+You can give your feedback or suggestions by creating Issues. You can also contact me on Twitter **[@fatbobman](https://twitter.com/fatbobman)**.

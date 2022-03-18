@@ -249,7 +249,7 @@ public protocol ContainerViewConfigurationProtocol {
 
   为容器视图设置背景。目前支持 color、blur、customView。
 
-  部分低版本操作系统（iOS 14）不支持 blur 模式，如果想在低版本使用 blur，可以通过 customView 来包裹其他的 blur 代码。
+  部分版本的操作系统（iOS 14，watchOS ）不支持 blur 模式，如果想在这些版本中使用 blur，可以通过 customView 来包裹其他的 blur 代码。
 
   *详情参看项目演示代码*
 
@@ -374,4 +374,4 @@ dependencies: [
 
 ## 帮助与支持
 
-可以通过创建 Issues 来反馈你的意见或建议。也可以通过 Twitter [@fatbobman](twitter://twitter.com/fatbobman) 与我联络。
+可以通过创建 Issues 来反馈你的意见或建议。也可以通过 Twitter [@fatbobman](https://twitter.com/fatbobman) 与我联络。
