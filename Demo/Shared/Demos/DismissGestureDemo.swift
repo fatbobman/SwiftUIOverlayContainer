@@ -38,10 +38,7 @@ struct DismissGestureDemo: View {
                 .padding(.top, 50)
                 .buttonStyle(.bordered)
                 .controlSize(.large)
-                ZStack {
-                    Color.clear
-                }
-                .overlayContainer("gestureContainer", containerConfiguration: GestureContainer())
+                ViewContainer("gestureContainer", configuration: GestureContainer())
                 VStack {
                     Text("DismissGestureDescription")
                 }

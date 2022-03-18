@@ -29,6 +29,7 @@
 		761E8DB927D97041003C6D79 /* ContainerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E8DB827D97041003C6D79 /* ContainerAction.swift */; };
 		761E8DBB27D99F92003C6D79 /* QueueHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E8DBA27D99F92003C6D79 /* QueueHandler.swift */; };
 		761E8DBE27D9CF2B003C6D79 /* ExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E8DBC27D9CE91003C6D79 /* ExtensionTests.swift */; };
+		767D939427E4296700BA6057 /* ViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767D939327E4296700BA6057 /* ViewContainer.swift */; };
 		7696AE9B27DC7BD000ECFB1C /* ViewFrameInfoModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7696AE9A27DC7BD000ECFB1C /* ViewFrameInfoModifier.swift */; };
 		7696AE9D27DC8CAC00ECFB1C /* CompositeContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7696AE9C27DC8CAC00ECFB1C /* CompositeContainerView.swift */; };
 		7696AE9F27DC91F400ECFB1C /* GenericStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7696AE9E27DC91F400ECFB1C /* GenericStack.swift */; };
@@ -88,6 +89,7 @@
 		761E8DB827D97041003C6D79 /* ContainerAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerAction.swift; sourceTree = "<group>"; };
 		761E8DBA27D99F92003C6D79 /* QueueHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueHandler.swift; sourceTree = "<group>"; };
 		761E8DBC27D9CE91003C6D79 /* ExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionTests.swift; sourceTree = "<group>"; };
+		767D939327E4296700BA6057 /* ViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewContainer.swift; sourceTree = "<group>"; };
 		7696AE9A27DC7BD000ECFB1C /* ViewFrameInfoModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFrameInfoModifier.swift; sourceTree = "<group>"; };
 		7696AE9C27DC8CAC00ECFB1C /* CompositeContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositeContainerView.swift; sourceTree = "<group>"; };
 		7696AE9E27DC91F400ECFB1C /* GenericStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericStack.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				761292A127D8C1FE009A70A2 /* ContainerProtocols.swift */,
 				761E8DBA27D99F92003C6D79 /* QueueHandler.swift */,
 				7696AE9A27DC7BD000ECFB1C /* ViewFrameInfoModifier.swift */,
+				767D939327E4296700BA6057 /* ViewContainer.swift */,
 			);
 			path = Container;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 				OBJ_54 /* Container.swift in Sources */,
 				OBJ_55 /* ContainerType.swift in Sources */,
 				7696AE9D27DC8CAC00ECFB1C /* CompositeContainerView.swift in Sources */,
+				767D939427E4296700BA6057 /* ViewContainer.swift in Sources */,
 				7612926027D87F81009A70A2 /* ContainerManagerKey.swift in Sources */,
 				7696AE9B27DC7BD000ECFB1C /* ViewFrameInfoModifier.swift in Sources */,
 				OBJ_56 /* Foundation.swift in Sources */,
