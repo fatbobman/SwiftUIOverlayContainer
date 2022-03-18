@@ -20,8 +20,8 @@ struct ViewConfigurationDemo: View {
         ZStack(alignment: .top) {
             Color(backgroundColorOfZStack)
             VStack {
-                ViewContainer("viewDemo",configuration: .viewConfigurationDemo)
-                    .frame(minHeight:300)
+                ViewContainer("viewDemo", configuration: .viewConfigurationDemo)
+                    .frame(minHeight: 300)
                 Text("ViewConfigurationDescription")
                     .padding()
                 VStack {
