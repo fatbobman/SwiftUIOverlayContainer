@@ -1,6 +1,6 @@
 # SwiftUI Overlay Container 2
 
-用于 SwiftUI 的高度可定制视图容器
+用于 SwiftUI 的高度可定制视图容器组件
 
 ![os](https://img.shields.io/badge/Platform%20Compatibility-iOS%20|%20macOS%20|%20tvOS%20|%20watchOs-red) ![swift](https://img.shields.io/badge/Swift%20Compatibility-5.5-red)
 
@@ -370,7 +370,7 @@ dependencies: [
 
 ## 版权
 
-这个库是在 MIT 许可下发布的。详见 LICENSE。
+这个库是在 MIT 许可下发布的。详见 [LICENSE](LICENSE)。
 
 ## 帮助与支持
 
