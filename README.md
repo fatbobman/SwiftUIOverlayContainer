@@ -4,7 +4,7 @@ A highly customizable view container components for SwiftUI
 
 ![os](https://img.shields.io/badge/Platform%20Compatibility-iOS%20|%20macOS%20|%20tvOS%20|%20watchOs-red) ![swift](https://img.shields.io/badge/Swift%20Compatibility-5.5-red)
 
-[中文版说明](README.md)
+[中文版说明](READMECN.md)
 
 Table of Contents
 =================
