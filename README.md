@@ -1,6 +1,6 @@
 # SwiftUI Overlay Container 2
 
-Highly customizable view container components for SwiftUI
+A highly customizable view container components for SwiftUI
 
 ![os](https://img.shields.io/badge/Platform%20Compatibility-iOS%20|%20macOS%20|%20tvOS%20|%20watchOs-red) ![swift](https://img.shields.io/badge/Swift%20Compatibility-5.5-red)
 
