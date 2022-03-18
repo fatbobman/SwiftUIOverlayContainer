@@ -129,19 +129,19 @@ You can set the default view style for the container, and for style properties n
 
   When multiple views are displayed in the container at the same time, the views are arranged along the Z axis. It behaves like `ZStack`.
 
-  ![stacking](stacking.gif)
+  ![stacking](Image/stacking.gif)
 
 * horizontal
 
   When multiple views are displayed in the container at the same time, the views are arranged along the X axis. It behaves like `HStack`.
 
-  ![horizontal](horizontal.gif)
+  ![horizontal](Image/horizontal.gif)
 
 * vertical
 
   When multiple views are displayed in the container at the same time, the views are arranged along the Y axis. It behaves like `VStack`.
 
-  ![vertical](vertical.gif)
+  ![vertical](Image/vertical.gif)
 
 ### Queue Type
 
@@ -149,19 +149,19 @@ You can set the default view style for the container, and for style properties n
 
   Multiple views can be displayed within a container at the same time. When the given number of views exceeds the maximum number of views set by the container, the excess views will be temporarily stored in the waiting queue, and will be replenished one by one after the displayed views are dismissed.
 
-  ![multiple](multiple.gif)
+  ![multiple](Image/multiple.gif)
 
 * oneByOne
 
   Only one view can be displayed in the container at the same time. The newly added view will automatically replace the one being displayed.
 
-  ![oneByOne](oneByOne.gif)
+  ![oneByOne](Image/oneByOne.gif)
 
 * oneByOneWaitFinish
 
   One view can be displayed in the container at the same time. Only after the currently displayed view is dismissed, the new view can be displayed.
 
-  ![oneByOneWaitFinish](oneByOneWaitFinish.gif)
+  ![oneByOneWaitFinish](Image/oneByOneWaitFinish.gif)
 
 ### Configuring the container
 
