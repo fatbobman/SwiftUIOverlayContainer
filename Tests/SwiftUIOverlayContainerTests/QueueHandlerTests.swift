@@ -14,7 +14,7 @@ import XCTest
 
 @MainActor
 class QueueHandlerTests: XCTestCase {
-    let manager = ContainerManager()
+    let manager = ContainerManager.share
     var containerConfiguration: ContainerConfiguration!
     var handler: ContainerQueueHandler!
 

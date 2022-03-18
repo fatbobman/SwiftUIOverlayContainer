@@ -18,9 +18,13 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
     var containerConfiguration: ContainerConfiguration!
     var handler: ContainerQueueHandler!
 
+    override class func setUp() {
+        ContainerManager.share.publishers.removeAll()
+    }
+
     @MainActor
     override func setUp() {
-        manager = ContainerManager()
+        manager = ContainerManager.share
         manager.debugLevel = 3
         self.containerConfiguration = ContainerConfiguration(
             displayType: .stacking, queueType: .multiple, delayForShowingNext: 0

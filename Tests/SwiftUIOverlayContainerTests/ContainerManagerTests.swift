@@ -17,7 +17,7 @@ import XCTest
 // swiftlint:disable redundant_discardable_let
 
 class ContainerManagerTests: XCTestCase {
-    let manager = ContainerManager()
+    let manager = ContainerManager.share
 
     override func setUp() {
         manager.publishers.removeAll()
