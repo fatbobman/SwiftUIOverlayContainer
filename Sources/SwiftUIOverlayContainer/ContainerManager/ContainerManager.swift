@@ -32,7 +32,7 @@ import SwiftUI
 public final class ContainerManager: ContainerManagerLogger {
     var publishers: [String: ContainerViewPublisher] = [:]
 
-    public init(logger: SwiftUIOverlayContainerLoggerProtocol? = nil, debugLevel: Int = 0) {
+    private init(logger: SwiftUIOverlayContainerLoggerProtocol? = nil, debugLevel: Int = 0) {
         if logger == nil {
             self.logger = SwiftUIOverlayContainerDefaultLogger()
         }
@@ -213,4 +213,8 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
             }
         }
     }
+}
+
+public extension ContainerManager {
+    static let share = ContainerManager()
 }

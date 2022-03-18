@@ -14,7 +14,7 @@ import SwiftUI
 
 /// The Environment Key of container manager. An instance of container manager.
 struct ContainerManagerKey: EnvironmentKey {
-    static var defaultValue = ContainerManager()
+    static var defaultValue = ContainerManager.share
 }
 
 public extension EnvironmentValues {
