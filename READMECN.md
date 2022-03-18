@@ -291,11 +291,11 @@ public protocol ContainerViewConfigurationProtocol {
 
 * disappearAction
 
-  视图被撤销时执行的闭包
+  视图被撤销后执行的闭包
 
 * appearAction
 
-  视图在容器中显示时执行的闭包
+  视图在容器中显示前执行的闭包
 
 ### 容器管理器
 
@@ -344,7 +344,7 @@ struct ContentView1: View {
 
 ### 在 SwiftUI 视图外使用
 
-如果想在 SwiftUI 视图之外调用视图管理器，可以直接调用 ContainerManager 的单例：
+如果想在 SwiftUI 视图之外调用容器管理器，可以直接调用 ContainerManager 的单例：
 
 ```swift
 let manager = ContainerManager.share
