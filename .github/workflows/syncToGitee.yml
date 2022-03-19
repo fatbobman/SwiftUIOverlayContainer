@@ -8,11 +8,11 @@ name: sync2gitee
 on:
   push:
   schedule:
-    # 每天北京时间9点跑
-    - cron: '0 1 * * *'
+    # UTC 17:00 -> CST (China) 1:00 see https://datetime360.com/cn/utc-cst-china-time/
+    - cron: '1 17 * * *'
 
 jobs:
-  build:
+  run:
     name: Sync GitHub to Gitee
     runs-on: ubuntu-latest
     steps:
@@ -28,10 +28,10 @@ jobs:
       - name: Mirror the GitHub repos to Gitee
         uses: Yikun/hub-mirror-action@v0.13
         with:
-          src: github/SwiftUIOverlayContainer
-          dst: gitee/SwiftUIOverlayContainer
+          src: github/fatbobman
+          dst: gitee/fatbobman
           dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
           dst_token: ${{ secrets.GITEE_TOKEN }}
-          timeout: 600
+          static_list: '${{ steps.info.outputs.result }}'
           account_type: user
           force_update: true
