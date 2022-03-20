@@ -85,33 +85,69 @@ class ContainerManagerTests: XCTestCase {
     }
 
     func testSendView() throws {
-        // given
-        let containerName = "message"
-        let messageView = MessageView()
-        let publisher = manager.registerContainer(for: containerName)
-        let expectation = XCTestExpectation(description: "get view from container 1")
-        var cancellable: Set<AnyCancellable> = []
-        manager.debugLevel = 2
-        var resultID: UUID?
+        func testSendView() throws {
+            // given
+            let containerName = "message"
+            let messageView = MessageView()
+            let publisher = manager.registerContainer(for: containerName)
+            let expectation = XCTestExpectation(description: "get view from container 1")
+            var cancellable: Set<AnyCancellable> = []
+            manager.debugLevel = 2
+            var resultID: UUID?
 
-        // when
-        publisher
-            .sink(receiveValue: { action in
-                switch action {
-                case .show(let identifiableView, _):
-                    resultID = identifiableView.id
-                    expectation.fulfill()
-                default:
-                    break
-                }
-            })
-            .store(in: &cancellable)
+            // when
+            publisher
+                .sink(receiveValue: { action in
+                    switch action {
+                    case .show(let identifiableView, _):
+                        resultID = identifiableView.id
+                        expectation.fulfill()
+                    default:
+                        break
+                    }
+                })
+                .store(in: &cancellable)
 
-        let viewID = manager.show(view: messageView, in: containerName, using: messageView)
+            let viewID = manager.show(view: messageView, in: containerName, using: messageView)
 
-        // then
-        wait(for: [expectation], timeout: 2)
-        XCTAssertEqual(resultID, viewID)
+            // then
+            wait(for: [expectation], timeout: 2)
+            XCTAssertEqual(resultID, viewID)
+        }
+    }
+
+    func testSendViewID() throws {
+        func testSendView() throws {
+            // given
+            let containerName = "message"
+            let messageView = MessageView()
+            let publisher = manager.registerContainer(for: containerName)
+            let expectation = XCTestExpectation(description: "get view from container 1")
+            var cancellable: Set<AnyCancellable> = []
+            manager.debugLevel = 2
+            var resultIDFromSink: UUID?
+            let viewID = UUID()
+
+            // when
+            publisher
+                .sink(receiveValue: { action in
+                    switch action {
+                    case .show(let identifiableView, _):
+                        resultIDFromSink = identifiableView.id
+                        expectation.fulfill()
+                    default:
+                        break
+                    }
+                })
+                .store(in: &cancellable)
+
+            let viewIDFromShow = manager.show(view: messageView, in: containerName, using: messageView)
+
+            // then
+            wait(for: [expectation], timeout: 2)
+            XCTAssertEqual(viewID, viewIDFromShow)
+            XCTAssertEqual(resultIDFromSink, viewID)
+        }
     }
 
     func testSendViewWithGetPublisher() throws {

@@ -36,6 +36,7 @@ protocol ContainerViewManagementForViewModifier {
     /// - Returns: container view ID
     @discardableResult
     func _show<Content: View>(view: Content,
+                              with ID: UUID?,
                               in container: String,
                               using configuration: ContainerViewConfigurationProtocol,
                               isPresented: Binding<Bool>?,
@@ -57,6 +58,7 @@ public protocol ContainerViewManagementForEnvironment {
     /// - Returns: container view ID
     func show<Content>(
         view: Content,
+        with ID: UUID?,
         in container: String,
         using configuration: ContainerViewConfigurationProtocol,
         animated: Bool
@@ -68,6 +70,7 @@ public protocol ContainerViewManagementForEnvironment {
     /// - Returns: container view ID
     func show<Content>(
         containerView: Content,
+        with ID: UUID?,
         in container: String,
         animated: Bool
     ) -> UUID? where Content: ContainerView

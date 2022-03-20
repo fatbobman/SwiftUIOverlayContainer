@@ -111,6 +111,7 @@ extension ContainerManager: ContainerViewManagementForViewModifier {
     @discardableResult
     func _show<Content>(
         view: Content,
+        with ID: UUID? = nil,
         in container: String,
         using configuration: ContainerViewConfigurationProtocol,
         isPresented: Binding<Bool>? = nil,
@@ -119,7 +120,7 @@ extension ContainerManager: ContainerViewManagementForViewModifier {
         guard let publisher = getPublisher(for: container) else {
             return nil
         }
-        let viewID = UUID()
+        let viewID = ID ?? UUID() // If no specific ID is given, generate a new ID
         let identifiableContainerView = IdentifiableContainerView(
             id: viewID,
             view: view,
@@ -149,6 +150,7 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
     @discardableResult
     public func show<Content>(
         view: Content,
+        with ID: UUID? = nil,
         in container: String,
         using configuration: ContainerViewConfigurationProtocol,
         animated: Bool = true
@@ -163,6 +165,7 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
     @discardableResult
     public func show<Content>(
         containerView: Content,
+        with ID: UUID? = nil,
         in container: String,
         animated: Bool = true
     ) -> UUID? where Content: ContainerView {
