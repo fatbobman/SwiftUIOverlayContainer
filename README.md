@@ -329,7 +329,7 @@ struct ContentView1: View {
 
 The methods currently provided by the Container Manager are.
 
-* show(view: Content, in container: String, using configuration: ContainerViewConfigurationProtocol, animated: Bool) -> UUID?
+* show(view: Content, with ID: UUID?, in container: String, using configuration: ContainerViewConfigurationProtocol, animated: Bool) -> UUID?
 
   Show the view in the specified container, the return value is the ID of the view
 

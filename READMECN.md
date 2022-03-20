@@ -324,7 +324,7 @@ struct ContentView1: View {
 
 容器管理器目前提供的方法有：
 
-* show(view: Content, in container: String, using configuration: ContainerViewConfigurationProtocol, animated: Bool) -> UUID?
+* show(view: Content, with ID: UUID?, in container: String, using configuration: ContainerViewConfigurationProtocol, animated: Bool) -> UUID?
 
   在指定的容器中显示视图，返回值为视图的 ID
 
