@@ -98,6 +98,22 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
+    func testDismissTopmostView() throws {
+        // given
+        let view = MessageView()
+        let identifiableView = IdentifiableContainerView(
+            id: UUID(), view: view, viewConfiguration: view, isPresented: nil
+        )
+        let perform = handler.getStrategyHandler(for: .oneByOne)
+
+        // when
+        perform(.show(identifiableView, true))
+        perform(.dismissTopmostView(false))
+
+        // then
+        XCTAssertEqual(handler.mainQueue.count, 0)
+    }
+
     func testDismissAllView() throws {
         // given
         let view = MessageView()

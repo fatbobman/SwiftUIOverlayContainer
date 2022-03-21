@@ -30,4 +30,8 @@ enum OverlayContainerAction {
     ///
     /// Pass false to disable animation of transition
     case dismissShowing(Bool)
+    /// Dismiss the top view in the container
+    ///
+    /// Pass false to disable animation of transition
+    case dismissTopmostView(Bool)
 }

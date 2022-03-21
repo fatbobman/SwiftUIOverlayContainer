@@ -216,6 +216,18 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
             }
         }
     }
+
+    /// Dismiss the top view in the containers
+    /// - Parameters:
+    ///   - containers: container names
+    ///   - flag: Pass false, disable animation when dismiss the view
+    public func dismissTopmostView(in containers: [String], animated flag: Bool) {
+        for container in containers {
+            if let publisher = getPublisher(for: container) {
+                publisher.upstream.send(.dismissTopmostView(flag))
+            }
+        }
+    }
 }
 
 public extension ContainerManager {

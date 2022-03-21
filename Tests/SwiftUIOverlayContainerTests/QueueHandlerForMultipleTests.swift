@@ -171,6 +171,29 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
+    func testDismissTopmostView() throws {
+        // given
+        let view1 = IdentifiableContainerView(
+            id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
+        )
+        let view2 = IdentifiableContainerView(
+            id: UUID(), view: MessageView(), viewConfiguration: MessageView(), isPresented: nil
+        )
+
+        let perform = handler.getStrategyHandler(for: .multiple)
+
+        // when
+        perform(.show(view1, false))
+        perform(.show(view2, false))
+
+        // dismiss view
+        perform(.dismissTopmostView(false))
+
+        // then
+        XCTAssertEqual(handler.mainQueue.count, 1)
+        XCTAssertEqual(handler.mainQueue.first?.id, view2.id)
+    }
+
     func testShowViewAfterConnect() async throws {
         // given
         let view1 = MessageView()
@@ -298,7 +321,6 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 3)
         XCTAssertEqual(handler.tempQueue.count, 1)
     }
-
 }
 
 struct ContainerConfiguration: ContainerConfigurationProtocol {

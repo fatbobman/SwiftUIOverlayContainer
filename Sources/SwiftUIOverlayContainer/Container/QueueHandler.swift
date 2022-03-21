@@ -155,6 +155,12 @@ extension ContainerQueueHandler {
         }
     }
 
+    func dismissTopmostView(animated flag: Bool) {
+        if let theTopView = mainQueue.first {
+            dismiss(id: theTopView.id, animated: flag)
+        }
+    }
+
     /// Push view into specific queue
     func pushViewIntoQueue(_ identifiableView: IdentifiableContainerView, queue: QueueType, animated flag: Bool = true) {
         switch queue {
@@ -239,6 +245,8 @@ extension ContainerQueueHandler {
             dismissAll(animated: animated)
         case .dismissShowing(let animated):
             dismissMainQueue(animated: animated)
+        case .dismissTopmostView(let animated):
+            dismissTopmostView(animated: animated)
         }
     }
 
@@ -256,6 +264,8 @@ extension ContainerQueueHandler {
             dismissAll(animated: animated)
         case .dismissShowing(let animated):
             dismissMainQueue(animated: animated)
+        case .dismissTopmostView(let animated):
+            dismissTopmostView(animated: animated)
         }
     }
 
@@ -277,6 +287,8 @@ extension ContainerQueueHandler {
             dismissAll(animated: animated)
         case .dismissShowing(let animated):
             dismissMainQueue(animated: animated)
+        case .dismissTopmostView(let animated):
+            dismissTopmostView(animated: animated)
         }
     }
 

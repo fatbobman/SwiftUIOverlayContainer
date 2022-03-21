@@ -344,6 +344,10 @@ The methods currently provided by the Container Manager are.
 * dismissAllView(in containers: [String], onlyShowing: Bool, animated flag: Bool)
 
   Dismiss all views in the specified containers
+  
+* dismissTopmostView(in containers: [String], animated flag: Bool)
+
+  Dismiss the top view in specified containers
 
 ### Blockable animation
 

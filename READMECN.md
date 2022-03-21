@@ -340,6 +340,10 @@ struct ContentView1: View {
 
   撤销指定容器内的所有视图
 
+* dismissTopmostView(in containers: [String], animated flag: Bool)
+
+  撤销指定容器的顶视图
+
 ### 可屏蔽动画
 
 无论是直接调用容器管理器还是使用 View modifier，当将 animated 设为 false 时，均可强制取消转场动画。

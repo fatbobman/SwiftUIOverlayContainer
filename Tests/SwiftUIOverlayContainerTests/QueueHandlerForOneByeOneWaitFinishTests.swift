@@ -146,6 +146,29 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         XCTAssertEqual(handler.tempQueue.count, 0)
     }
 
+    func testDismissTopmostView() async throws {
+        // given
+        let view = MessageView()
+        let identifiableView1 = IdentifiableContainerView(
+            id: UUID(), view: view, viewConfiguration: view, isPresented: nil
+        )
+        let identifiableView2 = IdentifiableContainerView(
+            id: UUID(), view: view, viewConfiguration: view, isPresented: nil
+        )
+
+        let perform = handler.getStrategyHandler(for: .oneByOneWaitFinish)
+
+        // when
+        perform(.show(identifiableView1, false))
+        perform(.show(identifiableView2, false))
+        perform(.dismissTopmostView(false))
+
+        // then
+        XCTAssertEqual(handler.mainQueue.count, 1)
+        XCTAssertEqual(handler.tempQueue.count, 0)
+        XCTAssertEqual(handler.mainQueue.first?.id, identifiableView2.id)
+    }
+
     func testDismissShowingView() throws {
         // given
         let view = MessageView()

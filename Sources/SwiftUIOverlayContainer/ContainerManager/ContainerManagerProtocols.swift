@@ -96,6 +96,12 @@ public protocol ContainerViewManagementForEnvironment {
     ///   - containers: container names
     ///   - flag: pass true to animate the transition
     func dismissAllView(in containers: [String], onlyShowing: Bool, animated flag: Bool)
+
+    /// Dismiss the top view in containers
+    /// - Parameters:
+    ///   - container: container names
+    ///   - flag: pass true to animate the transition
+    func dismissTopmostView(in containers: [String], animated flag: Bool)
 }
 
 /// A type defines logging behavior
