@@ -82,7 +82,7 @@ ViewContainer("containerB", configuration: BConfiguration())
 Display the view `MessageView` in the view container `containerA`
 
 ```swift
-.containerView(in: "containerA", configuration: MessageView(), isPresented: $show, content: ViewConfiguration())
+.containerView(in: "containerA", configuration: ViewConfiguration(), isPresented: $show, content: MessageView())
 ```
 
 Use the container manager
