@@ -85,3 +85,11 @@
 "ShowWithoutAnimation" = "显示视图（没有动画）";
 "DismissWithoutAnimation" = "取消所有视图（有动画）";
 "DismissWithAnimation" = "取消所有视图（没有动画）";
+
+// MARK: - Custom Menu
+"CustomMenuLabel" = "通过 NameSpace 定位容器视图";
+"Transition1" = "缩放";
+"Transition2" = "透明度";
+"PopMenu" = "弹出菜单";
+"CustomMenuDescription" = "通过利用 Namespace + ID 可以精确定位容器视图的位置，配合正确的转场、锚点等信息，实现自定义菜单。此逻辑同样适用于例如新手指南、tips 等场景。";
+"Item %lld" = "项目 %lld";

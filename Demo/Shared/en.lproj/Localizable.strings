@@ -85,3 +85,11 @@
 "ShowWithoutAnimation" = "Show a view without animation";
 "DismissWithoutAnimation" = "Dismiss all views without animation";
 "DismissWithAnimation" = "Dismiss all views with animation";
+
+// MARK: - Custom Menu
+"CustomMenuLabel" = "Use NameSpace to locate the view";
+"Transition1" = "Scale";
+"Transition2" = "Opacity";
+"PopMenu" = "Pop Menu";
+"CustomMenuDescription" = "By using Namespace + ID, the position of the container view can be accurately positioned, and the custom menu can be realized with the correct transition, anchor point and other information. This logic also applies to scenarios such as beginner's guides, tips, etc.";
+"Item %lld" = "Item %lld";

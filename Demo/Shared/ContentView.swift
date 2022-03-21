@@ -35,7 +35,8 @@ struct ContentView: View {
         .init("DismissGestureLabel", DismissGestureDemo()),
         .init("ViewBackgroundLabel", BackgroundDemo()),
         .init("BindValueLabel", BindDemo()),
-        .init("ControllableAnimationLabel", ControllableAnimationDemo())
+        .init("ControllableAnimationLabel", ControllableAnimationDemo()),
+        .init("CustomMenuLabel", CustomMenuDemo())
     ]
 }
 

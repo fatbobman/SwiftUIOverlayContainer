@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7606D22527E8462B009F96FE /* CustomMenuDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7606D22427E8462B009F96FE /* CustomMenuDemo.swift */; };
+		7606D22627E8462B009F96FE /* CustomMenuDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7606D22427E8462B009F96FE /* CustomMenuDemo.swift */; };
 		7646119A27E2D63C005B3D18 /* DismissGestureDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646119927E2D63C005B3D18 /* DismissGestureDemo.swift */; };
 		7646119B27E2D63C005B3D18 /* DismissGestureDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646119927E2D63C005B3D18 /* DismissGestureDemo.swift */; };
 		7646119D27E2FEE2005B3D18 /* BackgroundDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646119C27E2FEE2005B3D18 /* BackgroundDemo.swift */; };
@@ -42,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7606D22427E8462B009F96FE /* CustomMenuDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuDemo.swift; sourceTree = "<group>"; };
 		7646119927E2D63C005B3D18 /* DismissGestureDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissGestureDemo.swift; sourceTree = "<group>"; };
 		7646119C27E2FEE2005B3D18 /* BackgroundDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundDemo.swift; sourceTree = "<group>"; };
 		7646119F27E31A90005B3D18 /* BindDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindDemo.swift; sourceTree = "<group>"; };
@@ -173,6 +176,7 @@
 				7646119C27E2FEE2005B3D18 /* BackgroundDemo.swift */,
 				7646119F27E31A90005B3D18 /* BindDemo.swift */,
 				764611A227E3361E005B3D18 /* ControllableAnimationDemo.swift */,
+				7606D22427E8462B009F96FE /* CustomMenuDemo.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -302,6 +306,7 @@
 				76DE33A727E062AD00AD9419 /* DemoApp.swift in Sources */,
 				7660AFE327E2A23A003978D8 /* ViewConfigurationDemo.swift in Sources */,
 				7678966927E190B400DDAF17 /* MessageView.swift in Sources */,
+				7606D22527E8462B009F96FE /* CustomMenuDemo.swift in Sources */,
 				7678967927E1FDBB00DDAF17 /* DisplayTypeDemo.swift in Sources */,
 				7646119A27E2D63C005B3D18 /* DismissGestureDemo.swift in Sources */,
 				764611A027E31A90005B3D18 /* BindDemo.swift in Sources */,
@@ -322,6 +327,7 @@
 				7678968127E2042700DDAF17 /* BlockView.swift in Sources */,
 				7660AFE427E2A23A003978D8 /* ViewConfigurationDemo.swift in Sources */,
 				7678966E27E1B16E00DDAF17 /* QueueTypeDemo.swift in Sources */,
+				7606D22627E8462B009F96FE /* CustomMenuDemo.swift in Sources */,
 				76DE33A827E062AD00AD9419 /* DemoApp.swift in Sources */,
 				7646119B27E2D63C005B3D18 /* DismissGestureDemo.swift in Sources */,
 				764611A127E31A90005B3D18 /* BindDemo.swift in Sources */,
