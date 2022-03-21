@@ -18,7 +18,7 @@ public extension View {
     ///   - containerName: The name of overlay container
     ///   - containerConfiguration: container configuration
     ///   - alignment: Alignment of container ( does not apply to contents in container )
-    ///   - size: The Size of container. The size is the same as its attached view, if kept as nil
+    ///   - size: The size of container. The size is the maximum between the same size as its attached view or the size of the view inside the container, if kept at nil
     func overlayContainer(
         _ containerName: String,
         containerConfiguration: ContainerConfigurationProtocol,
@@ -48,7 +48,7 @@ struct SwiftUIOverlayContainerModifier: ViewModifier {
     let alignment: Alignment
     /// Size of container
     ///
-    /// The size of container is the same as its attached view, if kept as nil
+    /// The size is the maximum between the same size as its attached view or the size of the view inside the container, if kept at nil
     let size: CGSize?
     init(
         containerName: String,
