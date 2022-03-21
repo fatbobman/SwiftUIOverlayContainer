@@ -17,8 +17,22 @@ public extension View {
     /// - Parameters:
     ///   - containerName: The name of overlay container
     ///   - containerConfiguration: container configuration
-    func overlayContainer(_ containerName: String, containerConfiguration: ContainerConfigurationProtocol) -> some View {
-        modifier(SwiftUIOverlayContainerModifier(containerName: containerName, configuration: containerConfiguration))
+    ///   - alignment: Alignment of container ( does not apply to contents in container )
+    ///   - size: The Size of container. The size is the same as its attached view, if kept as nil
+    func overlayContainer(
+        _ containerName: String,
+        containerConfiguration: ContainerConfigurationProtocol,
+        alignment: Alignment = .center,
+        size: CGSize? = nil
+    ) -> some View {
+        modifier(
+            SwiftUIOverlayContainerModifier(
+                containerName: containerName,
+                configuration: containerConfiguration,
+                alignment: alignment,
+                size: size
+            )
+        )
     }
 }
 
@@ -30,14 +44,31 @@ struct SwiftUIOverlayContainerModifier: ViewModifier {
     let configuration: ContainerConfigurationProtocol
     /// The name of container
     let containerName: String
-    init(containerName: String, configuration: ContainerConfigurationProtocol) {
+    /// Alignment of container ( does not apply to contents in container )
+    let alignment: Alignment
+    /// Size of container
+    ///
+    /// The size of container is the same as its attached view, if kept as nil
+    let size: CGSize?
+    init(
+        containerName: String,
+        configuration: ContainerConfigurationProtocol,
+        alignment: Alignment = .center,
+        size: CGSize? = nil
+    ) {
         self.containerName = containerName
         self.configuration = configuration
+        self.alignment = alignment
+        self.size = size
     }
 
     func body(content: Content) -> some View {
         content
-            .overlay(OverlayContainer(containerName: containerName, configuration: configuration, containerManager: manager))
+            .overlay(
+                OverlayContainer(containerName: containerName, configuration: configuration, containerManager: manager)
+                    .frame(width: size?.width, height: size?.height),
+                alignment: alignment
+            )
     }
 }
 
