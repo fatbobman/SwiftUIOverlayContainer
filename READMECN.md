@@ -77,7 +77,7 @@ ViewContainer("containerB", configuration: BConfiguration())
 在视图容器 containerA 显示视图 MessageView
 
 ```swift
-.containerView(in: "containerA", configuration: MessageView(), isPresented: $show, content: ViewConfiguration())
+.containerView(in: "containerA", configuration: ViewConfiguration(), isPresented: $show, content: MessageView())
 ```
 
 或者使用视图管理器
