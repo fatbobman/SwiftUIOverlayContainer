@@ -88,3 +88,15 @@ extension View {
             .onChange(of: value3, perform: { newValue3 in action((value1, value2, newValue3)) })
     }
 }
+
+// condition clip
+extension View {
+    @ViewBuilder
+    func clipped(enable: Bool) -> some View {
+        if enable {
+            clipped()
+        } else {
+            self
+        }
+    }
+}

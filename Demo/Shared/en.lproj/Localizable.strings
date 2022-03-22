@@ -91,5 +91,5 @@
 "Transition1" = "Scale";
 "Transition2" = "Opacity";
 "PopMenu" = "Pop Menu";
-"CustomMenuDescription" = "By using Namespace + ID, the position of the container view can be accurately positioned, and the custom menu can be realized with the correct transition, anchor point and other information. This logic also applies to scenarios such as beginner's guides, tips, etc.";
+"CustomMenuDescription" = "By using Namespace + ID, the position of the container view can be accurately positioned, and the custom menu can be realized with the correct transition, anchor point and other information. This logic also applies to scenarios such as beginner's guides, tips, etc.\n\n**Note**: Positioning the container view via matchedGeometryEffect will cause some transitions that generate displacement to fail (eg: slide, move, offset)";
 "Item %lld" = "Item %lld";

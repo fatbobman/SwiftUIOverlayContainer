@@ -47,7 +47,7 @@ SwiftUI Overlay Container 是一个用于 SwiftUI 的视图容器组件。一个
 * 支持多个容器
 * 单一容器内支持多个视图
 * 可在 SwiftUI 视图代码内或视图代码外向任意指定的容器推送视图
-* 可以动态修改容器的配置（除了队列类型）
+* 可以动态修改容器的配置（除了 queue type 和 clipped）
 * 容器内的视图有多种排列方式
 * 有多种队列类型以指导容器如何显示视图
 
@@ -186,6 +186,10 @@ struct MyContainerConfiguration:ContainerConfigurationProtocol{
 * insets
 
   在 stacking 模式下，该值为视图的内嵌值。在 horizontal 和 vertical 模式下，该值为视图组的内嵌值。
+
+* clipped
+
+  对容器进行剪裁，当想限制视图转换的边界时需要设置为真
 
 * 其他所有容器视图的配置（用作容器视图的默认值）
 

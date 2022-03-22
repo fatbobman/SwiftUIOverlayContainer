@@ -48,7 +48,7 @@ public extension ContainerTypeConfigurationProtocol {
 
 /// A type defines partial arrangement configuration of view in the container
 public protocol ContainerCompositionProtocol {
-    /// Spacing between each view when the display type is horizontal or vertical, and queue type is mulitple
+    /// Spacing between each view when the display type is horizontal or vertical, and queue type is multiple
     var spacing: CGFloat { get }
     /// Insets of view or view group in container
     ///
@@ -56,12 +56,20 @@ public protocol ContainerCompositionProtocol {
     ///
     /// In vertical or horizontal mode, insets will be added to the view group (VStack or HStack)
     var insets: EdgeInsets { get }
+
+    /// Clip the container to its bounding rectangle frame
+    ///
+    /// Pass true when the bounds of the view's transition need to limited
+    /// Can't be changed dynamically
+    var clipped: Bool { get }
 }
 
 public extension ContainerCompositionProtocol {
     var spacing: CGFloat { 10 }
 
     var insets: EdgeInsets { .init() }
+
+    var clipped: Bool { false }
 }
 
 /// A combined protocol that defines all the configuration of the container

@@ -67,6 +67,7 @@ struct CustomMenuDemo: View {
             }
             .frame(maxHeight: 300)
             #if targetEnvironment(macCatalyst) || !os(macOS)
+                // In macOS, the container view displayed abnormally when positioned to the toolbar via matchedGeometryEffect.
                 .toolbar {
                     // Button2
                     Button {
@@ -80,7 +81,7 @@ struct CustomMenuDemo: View {
                         isPresented: $showButton2,
                         content: MenuView(
                             isPresented: $showButton2,
-                            transitionType: 1,
+                            transitionType: transitionType,
                             namespace: menu,
                             id: button2,
                             anchor: .topTrailing
@@ -147,9 +148,11 @@ struct MenuView: View {
 }
 
 struct MenuContainerConfiguration: ContainerConfigurationProtocol {
-    var displayType: ContainerViewDisplayType = .stacking
-    var queueType: ContainerViewQueueType = .oneByOne
-    var alignment: Alignment? = .top
+    let displayType: ContainerViewDisplayType = .stacking
+    let queueType: ContainerViewQueueType = .oneByOne
+    let alignment: Alignment? = .top
+    // Set to true to prevent the menu (for button2) in the toolbar from displaying abnormally when the transition is scale
+    let clipped = true
 
     var shadowStyle: ContainerViewShadowStyle? {
         .radius(10)

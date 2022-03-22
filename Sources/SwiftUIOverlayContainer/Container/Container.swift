@@ -100,7 +100,7 @@ struct OverlayContainer: View {
     }
 
     var body: some View {
-        Group {
+        GeometryReader { _ in
             switch configuration.displayType {
             case .stacking:
                 GenericStack(displayType: configuration.displayType, alignment: .center) {
@@ -188,11 +188,12 @@ struct OverlayContainer: View {
                 queueHandler.maximumNumberOfViewsInMultiple = newMaximumNumberOfViewsInMultipleMode
         }
         // Prohibition of changing the containerName and the queueType
-        .onChange(of: configuration.queueType, containerName) { _ in
+        .onChange(of: configuration.queueType, containerName, configuration.clipped) { _ in
             #if DEBUG
-            fatalError("❌ Can't change container name or queue type in runtime, this message only show in Debug mode.")
+            fatalError("❌ Can't change container name,queue type and clipped in runtime, this message only show in Debug mode.")
             #endif
         }
+        .clipped(enable: configuration.clipped)
     }
 }
 

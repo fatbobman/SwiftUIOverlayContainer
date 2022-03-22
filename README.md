@@ -52,7 +52,7 @@ In SwiftUI, describing views has become very easy, so we can completely extract 
 * Multiple container support
 * Supports multiple views within a single container
 * Push views to any specified container within or outside of SwiftUI view code
-* The configuration of the container can be modified dynamically (except for the queue type)
+* The configuration of the container can be modified dynamically (except for `queue type` and `clipped`)
 * Views inside a container can be arranged in multiple ways
 * There are multiple queue types to guide the container on how to display the view
 
@@ -190,7 +190,11 @@ Other properties:
 
 * insets
 
-  In stacking mode, the value is an insets value of the view. In horizontal and vertical mode, the value is an insets value of the view group.
+  In stacking mode, the value is an insets value of the view. In horizontal and vertical mode, the value is an insets value of the view group
+
+* clipped
+
+  Clip the container, set to true when you want to limit the bounds of the view transition
 
 * Configuration for all other container views (used as defaults for container views)
 
