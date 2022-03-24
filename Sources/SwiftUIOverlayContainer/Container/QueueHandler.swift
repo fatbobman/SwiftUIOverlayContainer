@@ -156,7 +156,7 @@ extension ContainerQueueHandler {
     }
 
     func dismissTopmostView(animated flag: Bool) {
-        if let theTopView = mainQueue.first {
+        if let theTopView = mainQueue.last {
             dismiss(id: theTopView.id, animated: flag)
         }
     }
