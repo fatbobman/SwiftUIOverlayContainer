@@ -191,7 +191,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
-        XCTAssertEqual(handler.mainQueue.first?.id, view2.id)
+        XCTAssertEqual(handler.mainQueue.first?.id, view1.id)
     }
 
     func testShowViewAfterConnect() async throws {
