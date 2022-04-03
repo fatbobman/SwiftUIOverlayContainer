@@ -194,6 +194,7 @@ struct OverlayContainer: View {
             #endif
         }
         .clipped(enable: configuration.clipped)
+        .ignoresSafeArea(type: configuration.ignoresSafeArea)
     }
 }
 

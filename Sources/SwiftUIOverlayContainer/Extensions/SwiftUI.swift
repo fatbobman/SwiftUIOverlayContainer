@@ -89,14 +89,28 @@ extension View {
     }
 }
 
-// condition clip
+
 extension View {
+    /// condition clip
     @ViewBuilder
     func clipped(enable: Bool) -> some View {
         if enable {
             clipped()
         } else {
             self
+        }
+    }
+
+    /// condition ignoresSafeArea
+    @ViewBuilder
+    func ignoresSafeArea(type: ContainerIgnoresSafeArea) -> some View {
+        switch type {
+        case .disable:
+            self
+        case .all:
+            ignoresSafeArea()
+        case .custom(let regions, let edges):
+            ignoresSafeArea(regions, edges: edges)
         }
     }
 }

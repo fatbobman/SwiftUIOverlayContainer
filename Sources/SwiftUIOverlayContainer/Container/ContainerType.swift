@@ -39,3 +39,12 @@ public enum ContainerViewQueueType {
     /// The maximum number of view that can show at the same time base one maximumNumberOfViewsInMultipleMode
     case multiple
 }
+
+/// Expands the container out of its safe area.
+public enum ContainerIgnoresSafeArea {
+    case disable
+    /// equivalent to `ignoresSafeArea(_ regions: SafeAreaRegions = .all, edges: Edge.Set = .all)`
+    case all
+    /// set custom regions and edges of safe area
+    case custom(SafeAreaRegions, Edge.Set)
+}
