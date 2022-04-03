@@ -62,6 +62,8 @@ public protocol ContainerCompositionProtocol {
     /// Pass true when the bounds of the view's transition need to limited
     /// Can't be changed dynamically
     var clipped: Bool { get }
+    
+    var ignoresSafeArea: Bool { get }
 }
 
 public extension ContainerCompositionProtocol {
@@ -70,6 +72,8 @@ public extension ContainerCompositionProtocol {
     var insets: EdgeInsets { .init() }
 
     var clipped: Bool { false }
+    
+    var ignoresSafeArea: Bool { false }
 }
 
 /// A combined protocol that defines all the configuration of the container

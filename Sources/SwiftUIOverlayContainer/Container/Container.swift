@@ -194,6 +194,10 @@ struct OverlayContainer: View {
             #endif
         }
         .clipped(enable: configuration.clipped)
+        .if(configuration.ignoresSafeArea) { view in
+            view
+                .ignoresSafeArea()
+        }
     }
 }
 
@@ -266,5 +270,6 @@ struct ContainerConfiguration: ContainerConfigurationProtocol {
     var insets: EdgeInsets {
         .init(top: 0, leading: 0, bottom: 30, trailing: 0)
     }
+    
 }
 #endif
