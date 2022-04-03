@@ -135,12 +135,9 @@ struct OverlayContainer: View {
                 let insets = configuration.insets
 
                 ZStack(alignment: alignment) {
-                    Group {
-                        if !queueHandler.mainQueue.isEmpty {
-                            background
-                        }
-                    }
-                    .zIndex(1.0)
+                    background
+                        .opacity(queueHandler.mainQueue.isEmpty ? 0 : 1)
+                        .zIndex(1.0)
 
                     GenericStack(displayType: configuration.displayType, alignment: alignment, spacing: configuration.spacing) {
                         ForEach(queueHandler.mainQueue.alignment(
@@ -194,10 +191,7 @@ struct OverlayContainer: View {
             #endif
         }
         .clipped(enable: configuration.clipped)
-        .if(configuration.ignoresSafeArea) { view in
-            view
-                .ignoresSafeArea()
-        }
+        .ignoresSafeArea(type: configuration.ignoresSafeArea)
     }
 }
 

@@ -191,6 +191,10 @@ struct MyContainerConfiguration:ContainerConfigurationProtocol{
 
   对容器进行剪裁，当想限制视图转换的边界时需要设置为真
 
+* ignoresSafeArea
+
+  忽略安全区域。默认值为 disable (不忽略)、 all （忽略全部安全区域）、custom (自定义 region 和 edge )
+
 * 其他所有容器视图的配置（用作容器视图的默认值）
 
   详情参阅下方的配置容器视图

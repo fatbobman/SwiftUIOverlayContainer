@@ -194,7 +194,11 @@ Other properties:
 
 * clipped
 
-  Clip the container, set to true when you want to limit the bounds of the view transition
+  Clipping the container, set to true when you want to limit the bounds of the view transition
+
+* ignoresSafeArea
+
+  Expending the container out of it's safe area. The default value is `.disable` (do not ignore), `.all` (ignore all safe area) and `.custom` (customize regions and edges)
 
 * Configuration for all other container views (used as defaults for container views)
 
