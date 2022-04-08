@@ -37,6 +37,8 @@
 "DismissForHorizontal" = "点击或左划";
 "SliderOfSpace %@" = "视图间距 %@";
 "ContainerMoreInfo" = "除了名称和队列类型之外，容器的其他属性都可以动态地调整。";
+"ascending" = "新视图在最上层";
+"descending" = "新视图在最下层";
 
 // MARK: - View Configuration
 

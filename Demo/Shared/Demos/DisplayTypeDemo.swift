@@ -102,12 +102,11 @@ extension DisplayTypeDemo {
     func generateContainerView() -> some View {
         var size: CGSize = .zero
         var text: LocalizedStringKey = ""
-        var opacity = 0.8
+        let opacity = 0.9
         var offset: CGSize = .zero
         switch displayType {
         case .stacking:
             offset = .init(width: CGFloat.random(in: -30...30), height: CGFloat.random(in: -30...30) + 100)
-            opacity = 0.6
             text = "DismissForStacking"
             size = .init(width: 100, height: 100)
         case .vertical:

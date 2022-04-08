@@ -37,6 +37,8 @@
 "DismissForHorizontal" = "Tap or Swipe Left";
 "SliderOfSpace %@" = "spacing between views %@";
 "ContainerMoreInfo" = "All container properties can be dynamically adjusted expect for name and queue type";
+"ascending" = "Display on top";
+"descending" = "Display on bottom";
 
 // MARK: - View Configuration
 
