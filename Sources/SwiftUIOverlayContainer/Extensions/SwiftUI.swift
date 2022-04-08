@@ -87,8 +87,20 @@ extension View {
             .onChange(of: value2, perform: { newValue2 in action((value1, newValue2, value3)) })
             .onChange(of: value3, perform: { newValue3 in action((value1, value2, newValue3)) })
     }
-}
 
+    func onChange<C0, C1, C2, C3>(of value1: C0,
+                                  _ value2: C1,
+                                  _ value3: C2,
+                                  _ value4: C3,
+                                  perform action: @escaping (_ newValues: (C0, C1, C2, C3)) -> Void)
+        -> some View where C0: Equatable, C1: Equatable, C2: Equatable, C3: Equatable {
+        self
+            .onChange(of: value1, perform: { newValue1 in action((newValue1, value2, value3, value4)) })
+            .onChange(of: value2, perform: { newValue2 in action((value1, newValue2, value3, value4)) })
+            .onChange(of: value3, perform: { newValue3 in action((value1, value2, newValue3, value4)) })
+            .onChange(of: value4, perform: { newValue4 in action((value1, value2, value3, newValue4)) })
+    }
+}
 
 extension View {
     /// condition clip
@@ -112,5 +124,14 @@ extension View {
         case .custom(let regions, let edges):
             ignoresSafeArea(regions, edges: edges)
         }
+    }
+
+    /// set zIndex by timeStamp of indentifiableView
+    func zIndex(timeStamp: Date, order: ContainerDisplayOrder) -> some View {
+        var index = timeStamp.timeIntervalSince1970
+        if case .descending = order {
+            index = Date.distantFuture.timeIntervalSince1970 - index
+        }
+        return zIndex(index)
     }
 }

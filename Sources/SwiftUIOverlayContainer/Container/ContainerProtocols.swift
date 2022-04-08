@@ -67,6 +67,11 @@ public protocol ContainerCompositionProtocol {
     ///
     /// Default value is disable
     var ignoresSafeArea: ContainerIgnoresSafeArea { get }
+
+    /// Controls the display order of overlapping views.
+    ///
+    /// Default value is ascending order, new container view can overlap the old one
+    var displayOrder: ContainerDisplayOrder { get }
 }
 
 public extension ContainerCompositionProtocol {
@@ -77,6 +82,8 @@ public extension ContainerCompositionProtocol {
     var clipped: Bool { false }
 
     var ignoresSafeArea: ContainerIgnoresSafeArea { .disable }
+
+    var displayOrder: ContainerDisplayOrder { .ascending }
 }
 
 /// A combined protocol that defines all the configuration of the container

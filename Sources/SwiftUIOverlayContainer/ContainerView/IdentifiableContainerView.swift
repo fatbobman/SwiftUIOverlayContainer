@@ -26,6 +26,9 @@ public struct IdentifiableContainerView: Identifiable {
     /// A bind value that controls the display of the current container view, set false to dismiss the current view
     let isPresented: Binding<Bool>?
 
+    /// The timestamp of push to display queue, used as a reference for zIndex
+    var timeStamp = Date()
+
     public init<Context: View>(
         id: UUID,
         view: Context,

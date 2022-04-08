@@ -30,7 +30,8 @@ class QueueHandlerForOneByOneTests: XCTestCase {
             containerManager: manager,
             queueType: containerConfiguration.queueType,
             animation: containerConfiguration.animation,
-            delayForShowingNext: containerConfiguration.delayForShowingNext
+            delayForShowingNext: containerConfiguration.delayForShowingNext,
+            displayOrder: .ascending
         )
     }
 

@@ -48,3 +48,9 @@ public enum ContainerIgnoresSafeArea {
     /// set custom regions and edges of safe area
     case custom(SafeAreaRegions, Edge.Set)
 }
+
+/// Controls the display order of overlapping views.
+public enum ContainerDisplayOrder: String, Hashable, Equatable, CaseIterable {
+    case ascending
+    case descending
+}

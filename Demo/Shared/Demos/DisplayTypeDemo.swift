@@ -17,6 +17,7 @@ struct DisplayTypeDemo: View {
     @State var spacing: Double = 10
     @State var containerConfiguration = DisplayTypeContainerConfiguration()
     @State var viewConfiguration = DisplayTypeViewConfiguration()
+    @State var displayOrder: ContainerDisplayOrder = .ascending
     @Environment(\.overlayContainerManager) var manager
     var body: some View {
         ZStack(alignment: .top) {
@@ -46,6 +47,22 @@ struct DisplayTypeDemo: View {
                             containerConfiguration = .stacking
                             viewConfiguration = .stacking
                         }
+                    }
+                })
+
+                Picker("DisplayOrder", selection: $displayOrder) {
+                    ForEach(ContainerDisplayOrder.allCases, id: \.rawValue) { displayOrder in
+                        Text(LocalizedStringKey(displayOrder.rawValue))
+                            .tag(displayOrder)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                .onChange(of: displayOrder, perform: { _ in
+                    reset()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        containerConfiguration.displayOrder = displayOrder
                     }
                 })
 
@@ -114,7 +131,7 @@ extension DisplayTypeDemo {
     func sliderOfSpacing() -> some View {
         VStack {
             Text("SliderOfSpace \(String(format: "%.1f", spacing))")
-            Slider(value: $spacing, in: -20.0...30)
+            Slider(value: $spacing, in: -100.0...30)
                 .onChange(of: spacing, perform: { value in
                     containerConfiguration.spacing = value
                 })
@@ -180,6 +197,7 @@ struct DisplayTypeContainerConfiguration: ContainerConfigurationProtocol {
     var alignment: Alignment? = .center
     var spacing: CGFloat = 10
     var insets: EdgeInsets = .init()
+    var displayOrder: ContainerDisplayOrder = .ascending
 
     var shadowStyle: ContainerViewShadowStyle? {
         .radius(10)

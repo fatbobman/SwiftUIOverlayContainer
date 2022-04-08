@@ -54,6 +54,9 @@ final class ContainerQueueHandler: ObservableObject {
     /// In OneByOneWaitFinish mode,The view in temporary queue are delayed for a specific number of seconds when the currently displayed view is dismissed.
     var delayForShowingNext: TimeInterval
 
+    /// The display order of container view
+    var displayOrder: ContainerDisplayOrder
+
     var maximumNumberOfViewsInMultiple: UInt {
         didSet {
             // if user change the max number of view at runtime, get more views from temp queue
@@ -71,13 +74,15 @@ final class ContainerQueueHandler: ObservableObject {
          queueType: ContainerViewQueueType,
          animation: Animation?,
          delayForShowingNext: TimeInterval,
-         maximumNumberOfViewsInMultiple: UInt = UInt.max) {
+         maximumNumberOfViewsInMultiple: UInt = UInt.max,
+         displayOrder: ContainerDisplayOrder) {
         self.container = container
         self.queueType = queueType
         self.animation = animation
         self.delayForShowingNext = delayForShowingNext
         self.manager = containerManager
         self.maximumNumberOfViewsInMultiple = maximumNumberOfViewsInMultiple
+        self.displayOrder = displayOrder
     }
 
     /// Register the container in the container manager. This method will be called when  the container appear ( not in container view init ).
@@ -155,14 +160,24 @@ extension ContainerQueueHandler {
         }
     }
 
+    /// Dismiss the topmost view ( with the largest zIndex , not the top one of main queue )
     func dismissTopmostView(animated flag: Bool) {
-        if let theTopView = mainQueue.last {
-            dismiss(id: theTopView.id, animated: flag)
+        let theTopViewID: UUID?
+        switch displayOrder {
+        case .ascending:
+            theTopViewID = mainQueue.sorted(by: { $0.timeStamp > $1.timeStamp }).first?.id
+        case .descending:
+            theTopViewID = mainQueue.sorted(by: { $0.timeStamp < $1.timeStamp }).first?.id
+        }
+        if let id = theTopViewID {
+            dismiss(id: id, animated: flag)
         }
     }
 
     /// Push view into specific queue
     func pushViewIntoQueue(_ identifiableView: IdentifiableContainerView, queue: QueueType, animated flag: Bool = true) {
+        var identifiableView = identifiableView
+        identifiableView.timeStamp = Date()
         switch queue {
         case .main:
             var animation: Animation = .disable

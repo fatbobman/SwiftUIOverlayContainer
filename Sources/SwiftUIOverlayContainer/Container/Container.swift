@@ -94,7 +94,8 @@ struct OverlayContainer: View {
             queueType: configuration.queueType,
             animation: configuration.animation,
             delayForShowingNext: configuration.delayForShowingNext,
-            maximumNumberOfViewsInMultiple: configuration.maximumNumberOfViewsInMultipleMode
+            maximumNumberOfViewsInMultiple: configuration.maximumNumberOfViewsInMultipleMode,
+            displayOrder: configuration.displayOrder
         )
         _queueHandler = StateObject(wrappedValue: handler)
     }
@@ -125,6 +126,7 @@ struct OverlayContainer: View {
                         )
                         .onAppear(perform: appearAction)
                         .onDisappear(perform: disappearAction)
+                        .zIndex(timeStamp: identifiableView.timeStamp, order: configuration.displayOrder)
                     }
                 }
             case .vertical, .horizontal:
@@ -163,6 +165,7 @@ struct OverlayContainer: View {
                             )
                             .onAppear(perform: appearAction)
                             .onDisappear(perform: disappearAction)
+                            .zIndex(timeStamp: identifiableView.timeStamp, order: configuration.displayOrder)
                         }
                     }
                     .padding(insets)
@@ -179,10 +182,12 @@ struct OverlayContainer: View {
         .onChange(of:
             configuration.animation,
             configuration.delayForShowingNext,
-            configuration.maximumNumberOfViewsInMultipleMode) { newAnimation, newDelay, newMaximumNumberOfViewsInMultipleMode in
+            configuration.maximumNumberOfViewsInMultipleMode,
+            configuration.displayOrder) { newAnimation, newDelay, newMaximumNumberOfViewsInMultipleMode, displayOrder in
                 queueHandler.animation = newAnimation
                 queueHandler.delayForShowingNext = newDelay
                 queueHandler.maximumNumberOfViewsInMultiple = newMaximumNumberOfViewsInMultipleMode
+                queueHandler.displayOrder = displayOrder
         }
         // Prohibition of changing the containerName and the queueType
         .onChange(of: configuration.queueType, containerName, configuration.clipped) { _ in
