@@ -125,7 +125,7 @@ extension ContainerQueueHandler {
         var animation = Animation.disable
         if flag {
             animation = Animation.merge(
-                containerAnimation: animation,
+                containerAnimation: self.animation,
                 viewAnimation: identifiableView.configuration.animation
             )
         }
