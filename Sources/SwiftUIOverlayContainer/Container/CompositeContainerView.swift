@@ -173,14 +173,12 @@ extension OverlayContainer {
                 containerViewDisplayType: containerConfiguration.displayType
             )
             // the current context of view is ZStack (GenericStack)
-            ZStack {
                 backgroundOfIdentifiableView
                     .zIndex(1.0)
                 compositingView
                     .padding(containerConfiguration.insets) // add insets for each view
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: alignment)
                     .zIndex(2.0)
-            }
         }
     }
 }
