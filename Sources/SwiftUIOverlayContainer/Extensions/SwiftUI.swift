@@ -134,4 +134,16 @@ extension View {
         }
         return zIndex(index)
     }
+
+    /// set zIndex for stack mode
+    func zIndex(timeStamp: Date, order: ContainerDisplayOrder, background: Bool) -> some View {
+        var index = timeStamp.timeIntervalSince1970
+        if case .descending = order {
+            index = Date.distantFuture.timeIntervalSince1970 - index
+        }
+        if background {
+            index -= 0.0001
+        }
+        return zIndex(index)
+    }
 }

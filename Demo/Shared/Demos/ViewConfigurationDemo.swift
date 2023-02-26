@@ -59,12 +59,14 @@ struct ViewConfigurationDemo_Previews: PreviewProvider {
 }
 
 struct ViewConfigurationDemoContainerConfiguration: ContainerConfigurationProtocol {
-    var queueType: ContainerViewQueueType = .oneByOne
+    var queueType: ContainerViewQueueType = .multiple
     var displayType: ContainerViewDisplayType = .stacking
 
     var insets: EdgeInsets {
         .init(top: 30, leading: 30, bottom: 30, trailing: 30)
     }
+
+    var displayOrder: ContainerDisplayOrder = .descending
 }
 
 extension ContainerConfigurationProtocol where Self == ViewConfigurationDemoContainerConfiguration {
@@ -74,23 +76,23 @@ extension ContainerConfigurationProtocol where Self == ViewConfigurationDemoCont
 }
 
 class ViewConfigurationDemoContainerViewConfiguration: ContainerViewConfigurationProtocol {
-    var alignment: Alignment? {
+    var alignment: Alignment? = {
         [.leading, .topLeading, .bottomLeading, .center, .bottom, .topTrailing, .bottomTrailing, .top, .trailing].randomElement()
-    }
+    }()
 
-    var shadowStyle: ContainerViewShadowStyle? {
+    var shadowStyle: ContainerViewShadowStyle? = {
         let color: Color = [.blue, .green, .brown, .black].randomElement() ?? .red
         let x = CGFloat.random(in: -5...5)
         let y = CGFloat.random(in: -5...5)
         let radius = CGFloat.random(in: 5...14)
         return [.radius(radius), .disable, .custom(color, 10, x, y)].randomElement()
-    }
+    }()
 
     var dismissGesture: ContainerViewDismissGesture? {
         .tap
     }
 
-    var transition: AnyTransition? {
+    var transition: AnyTransition? = {
         let t1: AnyTransition = .opacity
         let t2: AnyTransition = .move(edge: .trailing).combined(with: .opacity)
         let t3: AnyTransition = .slide.combined(with: .opacity)
@@ -99,16 +101,14 @@ class ViewConfigurationDemoContainerViewConfiguration: ContainerViewConfiguratio
         let t6: AnyTransition = .asymmetric(insertion: t4, removal: t1)
         let t7: AnyTransition = .asymmetric(insertion: t2, removal: t4)
         return [t1, t2, t3, t4, t5, t6, t7].randomElement()
-    }
+    }()
 
-    var autoDismiss: ContainerViewAutoDismiss? {
-        .seconds(2)
-    }
+    var autoDismiss: ContainerViewAutoDismiss? = .seconds(2)
 
-    var animation: Animation? {
+    var animation: Animation? = {
         let speed = Double.random(in: 0.3...1.5)
         return [.easeIn, .easeInOut, .linear, .spring().speed(speed), .interactiveSpring()].randomElement()
-    }
+    }()
 }
 
 extension ContainerViewConfigurationProtocol where Self == ViewConfigurationDemoContainerViewConfiguration {
