@@ -65,6 +65,8 @@ final class ContainerQueueHandler: ObservableObject {
             }
         }
     }
+  
+    let queueControlOperator: QueueControlOperator
 
     /// Container Manager
     var manager: ContainerManager
@@ -75,7 +77,9 @@ final class ContainerQueueHandler: ObservableObject {
          animation: Animation?,
          delayForShowingNext: TimeInterval,
          maximumNumberOfViewsInMultiple: UInt = UInt.max,
-         displayOrder: ContainerDisplayOrder) {
+         displayOrder: ContainerDisplayOrder,
+         queueControlOperator: QueueControlOperator = .first(seconds: 0)
+    ) {
         self.container = container
         self.queueType = queueType
         self.animation = animation
@@ -83,25 +87,49 @@ final class ContainerQueueHandler: ObservableObject {
         self.manager = containerManager
         self.maximumNumberOfViewsInMultiple = maximumNumberOfViewsInMultiple
         self.displayOrder = displayOrder
+        self.queueControlOperator = queueControlOperator
     }
 
-    /// Register the container in the container manager. This method will be called when  the container appear ( not in container view init ).
+     /// Remove the container from the container manager. This method Will be called when container disappear
     func disconnect() {
         cancellable = nil
         manager.removeContainer(for: container)
         dismissAll(animated: false)
         sendMessage(type: .info, message: "container `\(container)` disconnected", debugLevel: 2)
     }
-
-    /// Remove the container from the container manager. This method Will be called when container disappear
+    
+    /// Register the container in the container manager. This method will be called when  the container appear ( not in container view init ).
     func connect() {
-        cancellable = manager.registerContainer(for: container)
+        var latest = false
+        var timeIntervale:TimeInterval = 0
+        switch queueControlOperator {
+        case .first(seconds: let seconds):
+          latest = false
+          timeIntervale = seconds
+        case .lastest(seconds: let seconds):
+          latest = true
+          timeIntervale = seconds
+        }
+        if timeIntervale == 0  {
+          cancellable = manager.registerContainer(for: container)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] action in
-                self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
-                guard let queueType = self?.queueType else { return }
-                self?.getStrategyHandler(for: queueType)(action)
+              self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
+              guard let queueType = self?.queueType else { return }
+              self?.getStrategyHandler(for: queueType)(action)
             }
+        } else {
+          cancellable = manager.registerContainer(for: container)
+            .print("\(Date())")
+            .throttle(for: .seconds(timeIntervale), scheduler: DispatchQueue.main, latest: latest)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] action in
+              self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
+              guard let queueType = self?.queueType else { return }
+              self?.getStrategyHandler(for: queueType)(action)
+              print("$\(action)")
+            }
+        }
         sendMessage(type: .info, message: "container `\(container)` connected", debugLevel: 2)
     }
 

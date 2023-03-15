@@ -74,6 +74,15 @@ public protocol ContainerCompositionProtocol {
     var displayOrder: ContainerDisplayOrder { get }
 }
 
+public protocol ContainerQueueControlProtocol {
+  var queueControlOperator: QueueControlOperator { get }
+}
+
+public enum QueueControlOperator:Equatable {
+  case first(seconds: TimeInterval)
+  case lastest(seconds: TimeInterval)
+}
+
 public extension ContainerCompositionProtocol {
     var spacing: CGFloat { 10 }
 
@@ -86,7 +95,12 @@ public extension ContainerCompositionProtocol {
     var displayOrder: ContainerDisplayOrder { .ascending }
 }
 
+public extension ContainerQueueControlProtocol {
+    var queueControlOperator:QueueControlOperator { .first(seconds: 0) }
+}
+
 /// A combined protocol that defines all the configuration of the container
 public protocol ContainerConfigurationProtocol: ContainerViewConfigurationProtocol
     & ContainerTypeConfigurationProtocol
-    & ContainerCompositionProtocol {}
+    & ContainerCompositionProtocol
+    & ContainerQueueControlProtocol {}
