@@ -108,7 +108,8 @@ final class ContainerQueueHandler: ObservableObject {
             .eraseToAnyPublisher()
           case .last(seconds: let seconds):
           publisher = manager.registerContainer(for: container)
-            .throttle(for: .seconds(seconds), scheduler: DispatchQueue.main, latest: true)
+//            .throttle(for: .seconds(seconds), scheduler: DispatchQueue.main, latest: true)
+            .debounce(for: .seconds(seconds), scheduler: DispatchQueue.main)
             .eraseToAnyPublisher()
         case .none:
           publisher = manager.registerContainer(for: container).eraseToAnyPublisher()
