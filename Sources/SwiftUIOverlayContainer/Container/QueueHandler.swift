@@ -78,7 +78,7 @@ final class ContainerQueueHandler: ObservableObject {
          delayForShowingNext: TimeInterval,
          maximumNumberOfViewsInMultiple: UInt = UInt.max,
          displayOrder: ContainerDisplayOrder,
-         queueControlOperator: QueueControlOperator = .first(seconds: 0)
+         queueControlOperator: QueueControlOperator = .none
     ) {
         self.container = container
         self.queueType = queueType
@@ -100,36 +100,26 @@ final class ContainerQueueHandler: ObservableObject {
     
     /// Register the container in the container manager. This method will be called when  the container appear ( not in container view init ).
     func connect() {
-        var latest = false
-        var timeIntervale:TimeInterval = 0
+        let publisher:AnyPublisher<OverlayContainerAction, Never>
         switch queueControlOperator {
-        case .first(seconds: let seconds):
-          latest = false
-          timeIntervale = seconds
-        case .lastest(seconds: let seconds):
-          latest = true
-          timeIntervale = seconds
+          case .first(seconds: let seconds):
+          publisher = manager.registerContainer(for: container)
+            .throttle(for: .seconds(seconds), scheduler: DispatchQueue.main, latest: false)
+            .eraseToAnyPublisher()
+          case .last(seconds: let seconds):
+          publisher = manager.registerContainer(for: container)
+            .throttle(for: .seconds(seconds), scheduler: DispatchQueue.main, latest: true)
+            .eraseToAnyPublisher()
+        case .none:
+          publisher = manager.registerContainer(for: container).eraseToAnyPublisher()
         }
-        if timeIntervale == 0  {
-          cancellable = manager.registerContainer(for: container)
+        cancellable = publisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] action in
-              self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
-              guard let queueType = self?.queueType else { return }
-              self?.getStrategyHandler(for: queueType)(action)
+             self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
+                guard let queueType = self?.queueType else { return }
+                self?.getStrategyHandler(for: queueType)(action)
             }
-        } else {
-          cancellable = manager.registerContainer(for: container)
-            .print("\(Date())")
-            .throttle(for: .seconds(timeIntervale), scheduler: DispatchQueue.main, latest: latest)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] action in
-              self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
-              guard let queueType = self?.queueType else { return }
-              self?.getStrategyHandler(for: queueType)(action)
-              print("$\(action)")
-            }
-        }
         sendMessage(type: .info, message: "container `\(container)` connected", debugLevel: 2)
     }
 

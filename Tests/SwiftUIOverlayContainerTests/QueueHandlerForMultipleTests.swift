@@ -355,4 +355,12 @@ struct ContainerConfiguration: ContainerConfigurationProtocol {
     var displayType: ContainerViewDisplayType
     var queueType: ContainerViewQueueType
     var delayForShowingNext: TimeInterval
+    var queueControlOperator: QueueControlOperator
+    
+    init(displayType: ContainerViewDisplayType, queueType: ContainerViewQueueType, delayForShowingNext: TimeInterval, queueControlOperator: QueueControlOperator = .none) {
+      self.displayType = displayType
+      self.queueType = queueType
+      self.delayForShowingNext = delayForShowingNext
+      self.queueControlOperator = queueControlOperator
+    }
 }

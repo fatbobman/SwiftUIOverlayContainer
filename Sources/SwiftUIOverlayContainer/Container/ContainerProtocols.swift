@@ -80,7 +80,8 @@ public protocol ContainerQueueControlProtocol {
 
 public enum QueueControlOperator:Equatable {
   case first(seconds: TimeInterval)
-  case lastest(seconds: TimeInterval)
+  case last(seconds: TimeInterval)
+  case none
 }
 
 public extension ContainerCompositionProtocol {
@@ -96,7 +97,7 @@ public extension ContainerCompositionProtocol {
 }
 
 public extension ContainerQueueControlProtocol {
-    var queueControlOperator:QueueControlOperator { .first(seconds: 0) }
+  var queueControlOperator:QueueControlOperator { .none }
 }
 
 /// A combined protocol that defines all the configuration of the container

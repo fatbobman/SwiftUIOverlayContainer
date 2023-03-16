@@ -28,7 +28,7 @@ class QueueControlOpretorTests: XCTestCase {
       animation: containerConfiguration.animation,
       delayForShowingNext: containerConfiguration.delayForShowingNext,
       displayOrder: .ascending,
-      queueControlOperator: .lastest(seconds: 1)
+      queueControlOperator: .last(seconds: 1)
     )
   }
   
@@ -38,23 +38,114 @@ class QueueControlOpretorTests: XCTestCase {
     self.handler = nil
   }
   
-  func testShowView() async throws {
+  func testControlOperatorLast() async throws {
     // given
+    let configuration = ContainerConfiguration(
+      displayType: .stacking, queueType: .multiple, delayForShowingNext: 0,queueControlOperator: .last(seconds: 0.3)
+    )
+    
+    let handler = ContainerQueueHandler(
+      container: "testContainer",
+      containerManager: manager,
+      queueType: configuration.queueType,
+      animation: configuration.animation,
+      delayForShowingNext: configuration.delayForShowingNext,
+      displayOrder: .ascending,
+      queueControlOperator: configuration.queueControlOperator
+    )
+    
+    let logger = ActionSpy()
+    manager.logger = logger
+    manager.debugLevel = 2
+    
+    handler.connect()
+    
     let view = MessageView()
     let uuid1 = UUID()
     let uuid2 = UUID()
-    let identifiableView1 = IdentifiableContainerView(
-      id: uuid1, view: view, viewConfiguration: view, isPresented: nil
+    
+    manager._show(view: view, with: uuid1, in: "testContainer", using: configuration)
+    manager._show(view: view, with: uuid2, in: "testContainer", using: configuration)
+
+    try? await Task.sleep(seconds: 0.2)
+    XCTAssertEqual(logger.messages.count, 1)
+    XCTAssertTrue(logger.messages.first!.contains("\(uuid2.uuidString)"))
+  }
+  
+  func testControlOperatorFirst() async throws {
+    // given
+    let configuration = ContainerConfiguration(
+      displayType: .stacking, queueType: .multiple, delayForShowingNext: 0,queueControlOperator: .first(seconds: 0.3)
     )
-    let identifiableView2 = IdentifiableContainerView(
-      id: uuid2, view: view, viewConfiguration: view, isPresented: nil
+    
+    let handler = ContainerQueueHandler(
+      container: "testContainer",
+      containerManager: manager,
+      queueType: configuration.queueType,
+      animation: configuration.animation,
+      delayForShowingNext: configuration.delayForShowingNext,
+      displayOrder: .ascending,
+      queueControlOperator: configuration.queueControlOperator
     )
+    
+    let logger = ActionSpy()
+    manager.logger = logger
+    manager.debugLevel = 2
+    
     handler.connect()
     
-    manager._show(containerView: view, in: "testContainer")
-    manager._show(containerView: view, in: "testContainer")
-    // then
+    let view = MessageView()
+    let uuid1 = UUID()
+    let uuid2 = UUID()
+    
+    manager._show(view: view, with: uuid1, in: "testContainer", using: configuration)
+    manager._show(view: view, with: uuid2, in: "testContainer", using: configuration)
 
-//    try? await Task.sleep(seconds: 2)
+    try? await Task.sleep(seconds: 0.2)
+    XCTAssertEqual(logger.messages.count, 1)
+    XCTAssertTrue(logger.messages.first!.contains("\(uuid1.uuidString)"))
   }
+  
+  func testControlOperatorNone() async throws {
+    // given
+    let configuration = ContainerConfiguration(
+      displayType: .stacking, queueType: .multiple, delayForShowingNext: 0,queueControlOperator: .none
+    )
+    
+    let handler = ContainerQueueHandler(
+      container: "testContainer",
+      containerManager: manager,
+      queueType: configuration.queueType,
+      animation: configuration.animation,
+      delayForShowingNext: configuration.delayForShowingNext,
+      displayOrder: .ascending,
+      queueControlOperator: configuration.queueControlOperator
+    )
+    
+    let logger = ActionSpy()
+    manager.logger = logger
+    manager.debugLevel = 2
+    
+    handler.connect()
+    
+    let view = MessageView()
+    let uuid1 = UUID()
+    let uuid2 = UUID()
+    
+    manager._show(view: view, with: uuid1, in: "testContainer", using: configuration)
+    manager._show(view: view, with: uuid2, in: "testContainer", using: configuration)
+
+    try? await Task.sleep(seconds: 0.2)
+    XCTAssertEqual(logger.messages.count, 2)
+  }
+}
+
+class ActionSpy: SwiftUIOverlayContainerLoggerProtocol {
+    var messages: [String] = []
+
+    func log(type: SwiftUIOverlayContainerLogType, message: String) {
+      if message.contains("get a action from manager") {
+        messages.append(message)
+      }
+    }
 }
