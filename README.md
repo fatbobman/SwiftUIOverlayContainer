@@ -200,6 +200,12 @@ Other properties:
 
   Expending the container out of it's safe area. The default value is `.disable` (do not ignore), `.all` (ignore all safe area) and `.custom` (customize regions and edges)
 
+* queueControlOperator
+
+  Execute the window operation only after the specified time interval has elapsed，default is `none`，that is, not enabled
+  
+  It is only applicable to special needs scenarios, such as using OverallContainer instead of Sheet.In a List, clicking each row will pop up a window. In this case, if the user accidentally uses multiple fingers to click, it will open multiple window condition.Enable the debounce function for the container, and the container will only retain one valid operation in a short period of time. Usually just set the duetime to 0.1 seconds( `.debounce(seconds: 0.1)` )
+
 * Configuration for all other container views (used as defaults for container views)
 
   See Configuring Container Views below for details

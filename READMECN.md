@@ -194,6 +194,12 @@ struct MyContainerConfiguration:ContainerConfigurationProtocol{
 * ignoresSafeArea
 
   忽略安全区域。默认值为 disable (不忽略)、 all （忽略全部安全区域）、custom (自定义 region 和 edge )
+  
+* queueControlOperator
+
+  只在指定的时间间隔过去后才执行窗口操作，默认为 `none` , 不启用时间控制操作
+  
+  只适用于有特殊需求的场景，比如用 OverallContainer 代替 Sheet 。在一个 List 中，点击每一行都会弹出一个窗口。在这种情况下，如果用户不小心用多根手指点击，就会出现同时打开多个窗口的情况。为容器开启 debounce 选项，容器会在短时间内只保留一次有效操作。 通常只需将到期时间设置为 0.1 秒（`.debounce(seconds: 0.1)`）
 
 * 其他所有容器视图的配置（用作容器视图的默认值）
 
