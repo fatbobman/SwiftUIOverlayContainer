@@ -95,7 +95,8 @@ struct OverlayContainer: View {
             animation: configuration.animation,
             delayForShowingNext: configuration.delayForShowingNext,
             maximumNumberOfViewsInMultiple: configuration.maximumNumberOfViewsInMultipleMode,
-            displayOrder: configuration.displayOrder
+            displayOrder: configuration.displayOrder,
+            queueControlOperator: configuration.queueControlOperator
         )
         _queueHandler = StateObject(wrappedValue: handler)
     }
