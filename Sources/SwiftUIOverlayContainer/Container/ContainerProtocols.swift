@@ -78,10 +78,15 @@ public protocol ContainerQueueControlProtocol {
   var queueControlOperator: QueueControlOperator { get }
 }
 
+/// A type defines how the container handles a large number of window display requests in a short period of time
 public enum QueueControlOperator:Equatable {
-  case first(seconds: TimeInterval)
-  case last(seconds: TimeInterval)
-  case none
+    /// Execute the window operation only after the specified time interval has elapsed
+    /// It is only applicable to special needs scenarios, such as using OverallContainer instead of Sheet.
+    /// In a List, clicking each row will pop up a window. In this case, if the user accidentally uses multiple fingers to click, it will open multiple window condition.
+    /// Enable the debounce function for the container, and the container will only retain one valid operation in a short period of time. Usually just set the duetime to 0.1 seconds
+    case debounce(seconds: TimeInterval)
+    /// Default, execute every window operation
+    case none
 }
 
 public extension ContainerCompositionProtocol {

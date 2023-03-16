@@ -26,7 +26,8 @@ final class ContainerQueueHandler: ObservableObject {
             // check maximum number setting ,if temp queue is not empty, get a new view into main queue in multiple mode
             if case .multiple = queueType,
                mainQueue.count < maximumNumberOfViewsInMultiple,
-               !_transferring {
+               !_transferring
+            {
                 _transferring = true
                 transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
             }
@@ -65,7 +66,7 @@ final class ContainerQueueHandler: ObservableObject {
             }
         }
     }
-  
+
     let queueControlOperator: QueueControlOperator
 
     /// Container Manager
@@ -78,46 +79,41 @@ final class ContainerQueueHandler: ObservableObject {
          delayForShowingNext: TimeInterval,
          maximumNumberOfViewsInMultiple: UInt = UInt.max,
          displayOrder: ContainerDisplayOrder,
-         queueControlOperator: QueueControlOperator = .none
-    ) {
+         queueControlOperator: QueueControlOperator = .none)
+    {
         self.container = container
         self.queueType = queueType
         self.animation = animation
         self.delayForShowingNext = delayForShowingNext
-        self.manager = containerManager
+        manager = containerManager
         self.maximumNumberOfViewsInMultiple = maximumNumberOfViewsInMultiple
         self.displayOrder = displayOrder
         self.queueControlOperator = queueControlOperator
     }
 
-     /// Remove the container from the container manager. This method Will be called when container disappear
+    /// Remove the container from the container manager. This method Will be called when container disappear
     func disconnect() {
         cancellable = nil
         manager.removeContainer(for: container)
         dismissAll(animated: false)
         sendMessage(type: .info, message: "container `\(container)` disconnected", debugLevel: 2)
     }
-    
+
     /// Register the container in the container manager. This method will be called when  the container appear ( not in container view init ).
     func connect() {
-        let publisher:AnyPublisher<OverlayContainerAction, Never>
+        let publisher: AnyPublisher<OverlayContainerAction, Never>
         switch queueControlOperator {
-          case .first(seconds: let seconds):
-          publisher = manager.registerContainer(for: container)
-            .throttle(for: .seconds(seconds), scheduler: DispatchQueue.main, latest: false)
-            .eraseToAnyPublisher()
-          case .last(seconds: let seconds):
-          publisher = manager.registerContainer(for: container)
-//            .throttle(for: .seconds(seconds), scheduler: DispatchQueue.main, latest: true)
-            .debounce(for: .seconds(seconds), scheduler: DispatchQueue.main)
-            .eraseToAnyPublisher()
+        case let .debounce(seconds: seconds):
+            publisher = manager.registerContainer(for: container)
+                .debounce(for: .seconds(seconds), scheduler: DispatchQueue.main)
+                .eraseToAnyPublisher()
         case .none:
-          publisher = manager.registerContainer(for: container).eraseToAnyPublisher()
+            publisher = manager.registerContainer(for: container).eraseToAnyPublisher()
         }
         cancellable = publisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] action in
-             self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
+                self?.sendMessage(type: .info, message: "`\(self?.container ?? "")` get a action from manager \(action)", debugLevel: 2)
                 guard let queueType = self?.queueType else { return }
                 self?.getStrategyHandler(for: queueType)(action)
             }
@@ -210,7 +206,7 @@ extension ContainerQueueHandler {
                 self.mainQueue.append(identifiableView)
             }
         case .temporary:
-            self.tempQueue.append(identifiableView)
+            tempQueue.append(identifiableView)
         }
     }
 
@@ -230,17 +226,17 @@ extension ContainerQueueHandler {
     func remove(view id: UUID, from queue: QueueType, animation: Animation) {
         switch queue {
         case .main:
-            if let index = self.mainQueue.firstIndex(where: { $0.id == id }) {
+            if let index = mainQueue.firstIndex(where: { $0.id == id }) {
                 withAnimation(animation) {
                     // swiftlint:disable:next redundant_discardable_let
-                    let _ = self.mainQueue.remove(at: index)
+                    _ = self.mainQueue.remove(at: index)
                 }
             }
         case .temporary:
-            if let index = self.tempQueue.firstIndex(where: { $0.id == id }) {
+            if let index = tempQueue.firstIndex(where: { $0.id == id }) {
                 withAnimation(animation) {
                     // swiftlint:disable:next redundant_discardable_let
-                    let _ = self.tempQueue.remove(at: index)
+                    _ = self.tempQueue.remove(at: index)
                 }
             }
         }
@@ -251,7 +247,7 @@ extension ContainerQueueHandler {
 
 extension ContainerQueueHandler {
     /// Get a method  based on queue type to handler he actions received from container manager
-    func getStrategyHandler(for queueType: ContainerViewQueueType) -> @MainActor(OverlayContainerAction) -> Void {
+    func getStrategyHandler(for queueType: ContainerViewQueueType) -> @MainActor (OverlayContainerAction) -> Void {
         switch queueType {
         case .oneByOne:
             return sinkForOneByOne
@@ -267,19 +263,19 @@ extension ContainerQueueHandler {
     /// Push all views into the main queue directly whether or not the main queue is empty
     func sinkForMultiple(action: OverlayContainerAction) {
         switch action {
-        case .show(let identifiableContainerView, let animated):
+        case let .show(identifiableContainerView, animated):
             if mainQueue.count < maximumNumberOfViewsInMultiple, tempQueue.isEmpty {
                 pushViewIntoQueue(identifiableContainerView, queue: .main, animated: animated)
             } else {
                 pushViewIntoQueue(identifiableContainerView, queue: .temporary, animated: animated)
             }
-        case .dismiss(let id, let animated):
+        case let .dismiss(id, animated):
             dismiss(id: id, animated: animated)
-        case .dismissAll(let animated):
+        case let .dismissAll(animated):
             dismissAll(animated: animated)
-        case .dismissShowing(let animated):
+        case let .dismissShowing(animated):
             dismissMainQueue(animated: animated)
-        case .dismissTopmostView(let animated):
+        case let .dismissTopmostView(animated):
             dismissTopmostView(animated: animated)
         }
     }
@@ -289,16 +285,16 @@ extension ContainerQueueHandler {
     /// If there is a view in the main queue when the show action is fetched, dismiss it first
     func sinkForOneByOne(action: OverlayContainerAction) {
         switch action {
-        case .show(let identifiableContainerView, let animated):
+        case let .show(identifiableContainerView, animated):
             dismissIfNeeded()
             pushViewIntoQueue(identifiableContainerView, queue: .main, animated: animated)
-        case .dismiss(let id, let animated):
+        case let .dismiss(id, animated):
             dismiss(id: id, animated: animated)
-        case .dismissAll(let animated):
+        case let .dismissAll(animated):
             dismissAll(animated: animated)
-        case .dismissShowing(let animated):
+        case let .dismissShowing(animated):
             dismissMainQueue(animated: animated)
-        case .dismissTopmostView(let animated):
+        case let .dismissTopmostView(animated):
             dismissTopmostView(animated: animated)
         }
     }
@@ -309,19 +305,19 @@ extension ContainerQueueHandler {
     /// Try to get a new view from the temporary queue when the view in the main queue is dismissed
     func sinkForOneByOneWaitFinish(action: OverlayContainerAction) {
         switch action {
-        case .show(let identifiableContainerView, let animated):
+        case let .show(identifiableContainerView, animated):
             if mainQueue.isEmpty {
                 pushViewIntoQueue(identifiableContainerView, queue: .main, animated: animated)
             } else {
                 pushViewIntoQueue(identifiableContainerView, queue: .temporary, animated: false)
             }
-        case .dismiss(let id, let animated):
+        case let .dismiss(id, animated):
             dismiss(id: id, animated: animated)
-        case .dismissAll(let animated):
+        case let .dismissAll(animated):
             dismissAll(animated: animated)
-        case .dismissShowing(let animated):
+        case let .dismissShowing(animated):
             dismissMainQueue(animated: animated)
-        case .dismissTopmostView(let animated):
+        case let .dismissTopmostView(animated):
             dismissTopmostView(animated: animated)
         }
     }
@@ -336,7 +332,7 @@ extension ContainerQueueHandler {
     ///
     /// If the main queue is empty, try transfer the first view from temp queue to main queue.
     func transferNewViewFromTempQueueIfNeeded(delay seconds: TimeInterval) {
-        guard !self.tempQueue.isEmpty else {
+        guard !tempQueue.isEmpty else {
             _transferring = false
             return
         }
