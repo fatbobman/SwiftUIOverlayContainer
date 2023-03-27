@@ -155,7 +155,7 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
         using configuration: ContainerViewConfigurationProtocol,
         animated: Bool = true
     ) -> UUID? where Content: View {
-        _show(view: view, in: container, using: configuration, isPresented: nil, animated: animated)
+        _show(view: view, with: ID, in: container, using: configuration, isPresented: nil, animated: animated)
     }
 
     /// Push ContainerView to specific overlay container
@@ -169,7 +169,7 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
         in container: String,
         animated: Bool = true
     ) -> UUID? where Content: ContainerView {
-        _show(view: containerView, in: container, using: containerView, isPresented: nil, animated: animated)
+        _show(view: containerView, with: ID, in: container, using: containerView, isPresented: nil, animated: animated)
     }
 
     /// Dismiss a specific view in a specific container
