@@ -32,7 +32,7 @@ import SwiftUI
 public final class ContainerManager: ContainerManagerLogger {
     var publishers: [String: ContainerViewPublisher] = [:]
 
-    private init(logger: SwiftUIOverlayContainerLoggerProtocol? = nil, debugLevel: Int = 0) {
+    public init(logger: SwiftUIOverlayContainerLoggerProtocol? = nil, debugLevel: Int = 0) {
         if logger == nil {
             self.logger = SwiftUIOverlayContainerDefaultLogger()
         }
