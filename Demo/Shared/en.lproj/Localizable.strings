@@ -68,7 +68,7 @@
 "DisableBackground" = "No background";
 "ViewBackgroundDescription" = "When using material type as background, only iOS 15, macOS 12, tvOS 15 and above are supported. TapToDismiss will be ignored when no background is used.\nIn vertical and horizontal modes, the container will use its own background configuration and ignore the view's background settings.";
 "TapToDismiss" = "Tap on the background to dismiss the view";
-
+"BgIgnoresSafeArea" = "Background Cancel Security Zone";
 
 // MARK: - Bind Demo
 

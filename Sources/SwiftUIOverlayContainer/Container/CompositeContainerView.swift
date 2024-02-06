@@ -175,6 +175,7 @@ extension OverlayContainer {
             // the current context of view is ZStack (GenericStack)
             backgroundOfIdentifiableView
                 .zIndex(timeStamp: identifiableView.timeStamp, order: containerConfiguration.displayOrder, background: true)
+                .ignoresSafeArea(type: containerConfiguration.bgIgnoresSafeArea)
             compositingView
                 .padding(containerConfiguration.insets) // add insets for each view
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: alignment)

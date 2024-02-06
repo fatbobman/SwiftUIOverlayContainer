@@ -15,6 +15,7 @@ import SwiftUIOverlayContainer
 struct BackgroundDemo: View {
     @Environment(\.overlayContainerManager) var manager
     @State var tapToDismiss = true
+    
     var body: some View {
         ZStack {
             Color.clear
@@ -26,6 +27,7 @@ struct BackgroundDemo: View {
                                 tapToDismiss: tapToDismiss,
                                 backgroundStyle: background.background
                             )
+                            
                             let size = CGSize(width: 300, height: 400)
                             let view = BlockView(size: size, text: background.description, opacity: 1, allowDismiss: false)
                             manager.show(view: view, in: "backgroundContainer", using: viewConfiguration)
@@ -97,6 +99,7 @@ struct BackgroundContainerConfiguration: ContainerConfigurationProtocol {
     var queueType: ContainerViewQueueType { .oneByOne }
     var alignment: Alignment? { .center }
     var transition: AnyTransition? { .scale.combined(with: .opacity) }
+    var bgIgnoresSafeArea: ContainerIgnoresSafeArea { .all}
     var dismissGesture: ContainerViewDismissGesture? {
         .tap
     }
@@ -104,6 +107,8 @@ struct BackgroundContainerConfiguration: ContainerConfigurationProtocol {
     var shadowStyle: ContainerViewShadowStyle? {
         .radius(10)
     }
+    
+    
 }
 
 struct BackgroundDemoViewConfiguration: ContainerViewConfigurationProtocol {

@@ -68,7 +68,7 @@
 "DisableBackground" = "不添加背景";
 "ViewBackgroundDescription" = "当使用材料类型作为背景时，只支持iOS 15、macOS 12、tvOS 15及以上版本。当没有使用背景时，TapToDismiss将被忽略。在垂直和水平模式下，将忽略视图的背景设置，使用容器的背景配置。";
 "TapToDismiss" = "点击背景取消视图";
-
+"BgIgnoresSafeArea" = "背景取消安全区域";
 
 // MARK: - Bind Demo
 

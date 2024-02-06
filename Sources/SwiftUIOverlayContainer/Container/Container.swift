@@ -141,6 +141,7 @@ struct OverlayContainer: View {
                     background
                         .opacity(queueHandler.mainQueue.isEmpty ? 0 : 1)
                         .zIndex(1.0)
+                        .ignoresSafeArea(type: configuration.bgIgnoresSafeArea)
 
                     GenericStack(displayType: configuration.displayType, alignment: alignment, spacing: configuration.spacing) {
                         ForEach(queueHandler.mainQueue.alignment(
