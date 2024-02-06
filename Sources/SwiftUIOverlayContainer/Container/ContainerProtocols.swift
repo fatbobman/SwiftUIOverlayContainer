@@ -68,6 +68,11 @@ public protocol ContainerCompositionProtocol {
     /// Default value is disable
     var ignoresSafeArea: ContainerIgnoresSafeArea { get }
 
+    /// Expands the backgroud container out of its safe area.
+    ///
+    /// Default value is disable
+    var bgIgnoresSafeArea: ContainerIgnoresSafeArea { get }
+    
     /// Controls the display order of overlapping views.
     ///
     /// Default value is ascending order, new container view can overlap the old one
@@ -97,7 +102,9 @@ public extension ContainerCompositionProtocol {
     var clipped: Bool { false }
 
     var ignoresSafeArea: ContainerIgnoresSafeArea { .disable }
-
+    
+    var bgIgnoresSafeArea: ContainerIgnoresSafeArea { .disable }
+    
     var displayOrder: ContainerDisplayOrder { .ascending }
 }
 
