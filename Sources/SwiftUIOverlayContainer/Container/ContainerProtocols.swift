@@ -68,7 +68,7 @@ public protocol ContainerCompositionProtocol {
     /// Default value is disable
     var ignoresSafeArea: ContainerIgnoresSafeArea { get }
 
-    /// Expands the backgroud container out of its safe area.
+    /// Expands the background container out of its safe area.
     ///
     /// Default value is disable
     var bgIgnoresSafeArea: ContainerIgnoresSafeArea { get }
