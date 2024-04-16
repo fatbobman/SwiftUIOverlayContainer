@@ -34,4 +34,8 @@ enum OverlayContainerAction {
     ///
     /// Pass false to disable animation of transition
     case dismissTopmostView(Bool)
+    /// Get specific container's view queue
+    ///
+    /// Pass container's name and a IdentifiableContainerViewQuery instance
+    case viewQuery(String, IdentifiableContainerViewQuery)
 }

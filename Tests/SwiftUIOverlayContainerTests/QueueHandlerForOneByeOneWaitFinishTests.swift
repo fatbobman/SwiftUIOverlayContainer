@@ -13,7 +13,7 @@ import SwiftUI
 @testable import SwiftUIOverlayContainer
 import XCTest
 
-@MainActor
+
 class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
     let manager = ContainerManager.share
     var containerConfiguration: ContainerConfiguration!
@@ -41,6 +41,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         self.handler = nil
     }
 
+    @MainActor
     func testShowView() throws {
         // given
         let view = MessageView()
@@ -55,8 +56,9 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
     }
-
-    func testShowViewOneByOne() throws {
+  
+    @MainActor
+    func testShowViewOneByOne() async throws {
         // given
         let view = MessageView()
         let identifiableView1 = IdentifiableContainerView(
@@ -83,13 +85,15 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
 
         // when
         perform(.dismiss(identifiableView1.id, true))
+        try? await Task.sleep(seconds: 0.001)
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
         XCTAssertEqual(handler.tempQueue.count, 0)
         XCTAssertEqual(handler.mainQueue.first?.id, identifiableView2.id)
     }
-
+  
+    @MainActor
     func testDismissViewInTempQueue() throws {
         // given
         let view = MessageView()
@@ -118,7 +122,8 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         XCTAssertEqual(handler.tempQueue.count, 0)
         XCTAssertEqual(handler.mainQueue.first?.id, identifiableView1.id)
     }
-
+  
+    @MainActor
     func testDismissAllView() async throws {
         // given
         let view = MessageView()
@@ -146,7 +151,8 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
         XCTAssertEqual(handler.tempQueue.count, 0)
     }
-
+  
+    @MainActor
     func testDismissTopmostView() async throws {
         // given
         let view = MessageView()
@@ -163,14 +169,15 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         perform(.show(identifiableView1, false))
         perform(.show(identifiableView2, false))
         perform(.dismissTopmostView(false))
-
+        try? await Task.sleep(seconds: 0.001)
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
         XCTAssertEqual(handler.tempQueue.count, 0)
         XCTAssertEqual(handler.mainQueue.first?.id, identifiableView2.id)
     }
-
-    func testDismissShowingView() throws {
+  
+    @MainActor
+    func testDismissShowingView() async throws {
         // given
         let view = MessageView()
         let identifiableView1 = IdentifiableContainerView(
@@ -193,6 +200,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
 
         // when
         perform(.dismissShowing(true))
+        try? await Task.sleep(seconds: 0.001)
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -200,6 +208,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         XCTAssertEqual(try XCTUnwrap(handler.mainQueue.first?.id), view2ID)
     }
 
+    @MainActor
     func testShowViewAfterConnect() async throws {
         // given
         let view = MessageView()
@@ -225,6 +234,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         }
     }
 
+    @MainActor
     func testDismissViewAfterConnect() async throws {
         // given
         let view = MessageView()
@@ -244,7 +254,8 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.first?.id, viewID2)
         XCTAssertEqual(handler.tempQueue.first?.id, viewID3)
     }
-
+  
+    @MainActor
     func testDismissViewTransferFormTempQueueAfterConnect() async throws {
         // given
         let view = MessageView()
@@ -264,7 +275,8 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.first?.id, viewID1)
         XCTAssertEqual(handler.tempQueue.first?.id, viewID3)
     }
-
+  
+    @MainActor
     func testDismissAllViewAfterConnect() throws {
         // given
         let view = MessageView()
@@ -283,6 +295,7 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
     }
 
     // temp queue is not empty
+    @MainActor
     func testDismissAllViewWithIsPresentedAfterConnect() async throws {
         // given
         let view = MessageView()
@@ -303,5 +316,25 @@ class QueueHandlerForOneByeOneWaitFinishTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
         XCTAssertEqual(handler.tempQueue.count, 0)
         XCTAssertFalse(bindMock.isPresented)
+    }
+  
+    // test query
+    @MainActor
+    func testQueryViews() async throws {
+      // given
+      let view = MessageView()
+      handler.connect()
+      let container = handler.container
+
+      // when
+      manager.show(view: view, in: container, using: view)
+      manager.show(view: view, in: container, using: view)
+      manager.show(view: view, in: container, using: view)
+      let query = IdentifiableContainerViewQuery()
+      manager.queryViews(in: handler.container, queryResult: query)
+      try await Task.sleep(seconds: 0.01)
+      
+      // then
+      XCTAssertEqual(query.views.count, 3)
     }
 }

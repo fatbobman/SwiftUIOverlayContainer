@@ -117,3 +117,8 @@ public protocol ContainerConfigurationProtocol: ContainerViewConfigurationProtoc
     & ContainerTypeConfigurationProtocol
     & ContainerCompositionProtocol
     & ContainerQueueControlProtocol {}
+
+/// A Query Type for get specific container's queue
+public class IdentifiableContainerViewQuery {
+  var views:[IdentifiableContainerView] = []
+}

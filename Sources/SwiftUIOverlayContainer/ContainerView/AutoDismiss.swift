@@ -60,12 +60,10 @@ extension View {
     func autoDismiss(_ type: ContainerViewAutoDismiss, dismissAction: @escaping DismissAction) -> some View {
         if case .seconds(let timeInterval) = type {
             self
-                .task {
+                .task { @MainActor in
                     try? await Task.sleep(seconds: timeInterval)
                     if !Task.isCancelled {
-                        await MainActor.run {
-                            dismissAction()
-                        }
+                        dismissAction()
                     }
                 }
         } else {

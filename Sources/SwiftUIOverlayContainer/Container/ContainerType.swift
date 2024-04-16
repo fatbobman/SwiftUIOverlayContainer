@@ -13,7 +13,7 @@ import Foundation
 import SwiftUI
 
 /// The display type of the container view, this type will determine the layout of the container
-public enum ContainerViewDisplayType {
+public enum ContainerViewDisplayType: Sendable {
     /// The views are arranged horizontally. Normally (spacing is greater than 0), views do not overlap each other. Internal implementation uses HStack.
     ///
     /// In horizontal mode, all views share a single background
@@ -29,7 +29,7 @@ public enum ContainerViewDisplayType {
 }
 
 /// The  view queue type of the container. This type will determine if multiple views are allowed to exist in the container at the same time
-public enum ContainerViewQueueType {
+public enum ContainerViewQueueType: Sendable {
     ///  Only one view can be displayed at a time. When the container receives a new view, the current view will be dismissed and the new view will be displayed.
     case oneByOne
     /// Only one view can be displayed at a time. A new view needs to wait until the current view is dismissed (close call dismiss code, Binding value, auto dismiss, etc.) before it can be displayed.

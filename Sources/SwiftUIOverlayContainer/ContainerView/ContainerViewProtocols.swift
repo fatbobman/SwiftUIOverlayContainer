@@ -12,7 +12,7 @@
 import Foundation
 import SwiftUI
 
-typealias DismissAction = () -> Void
+typealias DismissAction = @MainActor @Sendable () -> Void
 
 /// A configuration protocol for container and container view
 public protocol ContainerViewConfigurationProtocol {

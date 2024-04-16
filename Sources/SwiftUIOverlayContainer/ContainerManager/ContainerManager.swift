@@ -29,7 +29,7 @@ import SwiftUI
 ///     }
 ///
 /// Because the Container Manager adopts the singleton pattern, you can directly call public methods such as show and dismiss through code even if you are not in the SwiftUI view.
-public final class ContainerManager: ContainerManagerLogger {
+public final class ContainerManager: ContainerManagerLogger, @unchecked Sendable {
     var publishers: [String: ContainerViewPublisher] = [:]
 
     public init(logger: SwiftUIOverlayContainerLoggerProtocol? = nil, debugLevel: Int = 0) {
@@ -227,6 +227,18 @@ extension ContainerManager: ContainerViewManagementForEnvironment {
                 publisher.upstream.send(.dismissTopmostView(flag))
             }
         }
+    }
+  
+    /// Query a specific container's queue
+    ///
+    ///  A very brief wait is required, even if it's only 0.01 seconds, otherwise the result cannot be obtained.
+    /// - Parameters:
+    ///   - container: container name
+    ///   - queryResult: a IdentifiableContainerViewQuery instance
+    public func queryViews(in container: String, queryResult: IdentifiableContainerViewQuery ) {
+      if let publisher = getPublisher(for: container) {
+        publisher.upstream.send(.viewQuery(container, queryResult))
+      }
     }
 }
 

@@ -277,6 +277,10 @@ extension ContainerQueueHandler {
             dismissMainQueue(animated: animated)
         case let .dismissTopmostView(animated):
             dismissTopmostView(animated: animated)
+        case let .viewQuery(containerName, query):
+            if containerName == container {
+              query.views = mainQueue + tempQueue
+            }
         }
     }
 
@@ -296,6 +300,10 @@ extension ContainerQueueHandler {
             dismissMainQueue(animated: animated)
         case let .dismissTopmostView(animated):
             dismissTopmostView(animated: animated)
+        case let .viewQuery(containerName, query):
+            if containerName == container {
+              query.views = mainQueue + tempQueue
+            }
         }
     }
 
@@ -319,6 +327,10 @@ extension ContainerQueueHandler {
             dismissMainQueue(animated: animated)
         case let .dismissTopmostView(animated):
             dismissTopmostView(animated: animated)
+        case let .viewQuery(containerName, query):
+            if containerName == container {
+              query.views = mainQueue + tempQueue
+            }
         }
     }
 
@@ -336,11 +348,13 @@ extension ContainerQueueHandler {
             _transferring = false
             return
         }
-        delayToRun(seconds: seconds) {
+        Task { @MainActor in
+          await delayToRun(seconds: seconds) {
             guard let view = self.tempQueue.first else { return }
             self.tempQueue.removeFirst()
             self._transferring = false
             self.pushViewIntoQueue(view, queue: .main)
+          }
         }
     }
 }

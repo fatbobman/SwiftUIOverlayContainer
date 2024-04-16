@@ -12,7 +12,6 @@
 @testable import SwiftUIOverlayContainer
 import XCTest
 
-@MainActor
 class QueueHandlerTests: XCTestCase {
     let manager = ContainerManager.share
     var containerConfiguration: ContainerConfiguration!
@@ -54,6 +53,7 @@ class QueueHandlerTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
+    @MainActor
     func testDismissAll() throws {
         // given
         let view = MessageView()
@@ -73,6 +73,7 @@ class QueueHandlerTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
+    @MainActor
     func testPushViewIntoQueue() throws {
         // given
         let view = MessageView()
@@ -92,6 +93,7 @@ class QueueHandlerTests: XCTestCase {
         XCTAssertEqual(handler.tempQueue.count, 1)
     }
 
+    @MainActor
     func testDismissIfNeeded() throws {
         // given
         let view = MessageView()
@@ -107,7 +109,8 @@ class QueueHandlerTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
-    func testTransferNewViewFromTempQueueIfNeeded() throws {
+    @MainActor
+    func testTransferNewViewFromTempQueueIfNeeded() async throws {
         // given
         let view = MessageView()
         let identifiableView1 = IdentifiableContainerView(
@@ -118,6 +121,7 @@ class QueueHandlerTests: XCTestCase {
 
         // when
         handler.transferNewViewFromTempQueueIfNeeded(delay: 0)
+        try? await Task.sleep(seconds: 0.001)
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)

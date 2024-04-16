@@ -13,7 +13,7 @@ import Foundation
 import SwiftUI
 
 /// The Environment Key of overlay container
-public struct ContainerEnvironment {
+public struct ContainerEnvironment: @unchecked Sendable {
     public init(
         containerName: String,
         containerFrame: CGRect,
@@ -60,7 +60,7 @@ public struct ContainerEnvironment {
 
 /// An Environment Key that provides some informations and methods about container in the container views.
 public struct ContainerEnvironmentKey: EnvironmentKey {
-    public static var defaultValue = ContainerEnvironment(
+    public static let defaultValue = ContainerEnvironment(
         containerName: "`ContainerEnvironmentKey` Can only be used in container views",
         containerFrame: .zero,
         containerViewDisplayType: .stacking,

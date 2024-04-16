@@ -75,6 +75,7 @@ struct SwiftUIOverlayContainerModifier: ViewModifier {
 /// The SwiftUI overlay container view.
 ///
 /// Receive the command from container manager, show or dismiss views according the configuration
+@MainActor
 struct OverlayContainer: View {
     /// Container configuration
     let configuration: ContainerConfigurationProtocol

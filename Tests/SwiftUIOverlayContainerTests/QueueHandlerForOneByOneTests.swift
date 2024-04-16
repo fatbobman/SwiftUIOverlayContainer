@@ -13,7 +13,6 @@ import SwiftUI
 @testable import SwiftUIOverlayContainer
 import XCTest
 
-@MainActor
 class QueueHandlerForOneByOneTests: XCTestCase {
     let manager = ContainerManager.share
     var containerConfiguration: ContainerConfiguration!
@@ -41,6 +40,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         self.handler = nil
     }
 
+    @MainActor
     func testShowView() throws {
         // given
         let view = MessageView()
@@ -56,6 +56,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 1)
     }
 
+    @MainActor
     func testShowViewOneByOne() throws {
         // given
         let view = MessageView()
@@ -83,6 +84,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.first?.id, identifiableView2.id)
     }
 
+    @MainActor
     func testDismissView() throws {
         // given
         let view = MessageView()
@@ -99,6 +101,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
+    @MainActor
     func testDismissTopmostView() throws {
         // given
         let view = MessageView()
@@ -115,6 +118,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
+    @MainActor
     func testDismissAllView() throws {
         // given
         let view = MessageView()
@@ -136,6 +140,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
+    @MainActor
     func testShowViewAfterConnect() async throws {
         // given
         handler.connect()
@@ -153,6 +158,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.first?.id, id)
     }
 
+    @MainActor
     func testDismissViewAfterConnect() throws {
         // given
         handler.connect()
@@ -169,6 +175,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
+    @MainActor
     func testDismissAllViewAfterConnect() throws {
         // given
         handler.connect()
@@ -185,6 +192,7 @@ class QueueHandlerForOneByOneTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
+    @MainActor
     func testDismissViewWithIsPresented() async throws {
         // given
         let mock = BindingMock()

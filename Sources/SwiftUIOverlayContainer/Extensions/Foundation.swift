@@ -35,12 +35,12 @@ extension Bool {
 }
 
 /// Delay execution of closure on a specified dispatch queue
-func delayToRun(seconds: TimeInterval, in dispatchQueue: DispatchQueue = .main, perform action: @escaping () -> Void) {
+@MainActor
+func delayToRun(seconds: TimeInterval, in dispatchQueue: DispatchQueue = .main, perform action: @escaping @MainActor () -> Void) async {
     guard seconds > 0 else {
         action()
         return
     }
-    dispatchQueue.asyncAfter(deadline: .now() + seconds) {
-        action()
-    }
+    try? await Task.sleep(seconds: seconds)
+    action()
 }

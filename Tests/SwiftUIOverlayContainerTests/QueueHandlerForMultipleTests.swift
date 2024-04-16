@@ -12,7 +12,7 @@
 import SwiftUI
 @testable import SwiftUIOverlayContainer
 import XCTest
-@MainActor
+
 class QueueHandlerForMultipleUnitTests: XCTestCase {
     var manager: ContainerManager!
     var containerConfiguration: ContainerConfiguration!
@@ -45,6 +45,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         self.handler = nil
     }
 
+    @MainActor
     func testShowView() throws {
         // given
         let view1 = IdentifiableContainerView(
@@ -65,6 +66,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertEqual(handler.tempQueue.count, 0)
     }
 
+    @MainActor
     func testShowViewWithLimitedMaxView() async throws {
         // given
 
@@ -96,6 +98,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertEqual(handler.tempQueue.count, 1)
     }
 
+    @MainActor
     func testDismissView() throws {
         // given
         let view1 = IdentifiableContainerView(
@@ -118,6 +121,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 1)
     }
 
+    @MainActor
     func testDismissViewWithLimitedMaxView() async throws {
         // given
 
@@ -144,7 +148,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         perform(.show(view1, false))
         perform(.show(view2, false))
         perform(.dismiss(view1.id, false))
-        try await Task.sleep(seconds: 0.1)
+        try await Task.sleep(seconds: 0.2)
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 1)
@@ -152,6 +156,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.first?.id, view2.id)
     }
 
+    @MainActor
     func testDismissAllView() throws {
         // given
         let view1 = IdentifiableContainerView(
@@ -174,6 +179,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.count, 0)
     }
 
+    @MainActor
     func testDismissTopmostViewInAscendingOrder() throws {
         // given
         let view1 = IdentifiableContainerView(
@@ -197,6 +203,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.first?.id, view1.id)
     }
 
+    @MainActor
     func testDismissTopmostViewInDescendingOrder() throws {
         // given
         handler.displayOrder = .descending
@@ -221,6 +228,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertEqual(handler.mainQueue.first?.id, view2.id)
     }
 
+    @MainActor
     func testShowViewAfterConnect() async throws {
         // given
         let view1 = MessageView()
@@ -245,6 +253,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         }
     }
 
+    @MainActor
     func testDismissViewAfterConnect() async throws {
         // given
         let view1 = MessageView()
@@ -269,6 +278,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         }
     }
 
+    @MainActor
     func testDismissAllViewAfterConnect() throws {
         // given
         let view1 = MessageView()
@@ -291,6 +301,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         }
     }
 
+    @MainActor
     func testDismissViewWithIsPresentedAfterConnected() throws {
         // given
         let source = BindingMock()
@@ -308,6 +319,7 @@ class QueueHandlerForMultipleUnitTests: XCTestCase {
         XCTAssertFalse(source.isPresented)
     }
 
+    @MainActor
     func testChangedMaxViewOnRunTime() async throws {
         // given
 

@@ -9,7 +9,7 @@ import Foundation
 @testable import SwiftUIOverlayContainer
 import XCTest
 
-@MainActor
+
 class QueueControlOpretorTests: XCTestCase {
     let manager = ContainerManager.share
 
@@ -20,7 +20,8 @@ class QueueControlOpretorTests: XCTestCase {
 
     @MainActor
     override func tearDown() {}
-
+    
+    @MainActor
     func testControlOperatorDebounce() async throws {
         // given
         let configuration = ContainerConfiguration(
@@ -55,6 +56,7 @@ class QueueControlOpretorTests: XCTestCase {
         XCTAssertTrue(logger.messages.first!.contains("\(uuid2.uuidString)"))
     }
 
+    @MainActor
     func testControlOperatorNone() async throws {
         // given
         let configuration = ContainerConfiguration(

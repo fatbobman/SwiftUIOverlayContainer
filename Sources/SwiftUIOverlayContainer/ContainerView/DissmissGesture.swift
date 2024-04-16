@@ -44,6 +44,7 @@ extension ContainerViewDismissGesture {
     ///
     /// The dismiss Action not only includes the cancellation action of Overlay Container view,
     /// but also the dismiss closure specified by user
+    @MainActor
     func generateGesture(with dismissAction: @escaping DismissAction) -> AnyGesture<Void>? {
         // only support longPress in tvOS
         #if os(tvOS)
@@ -169,6 +170,7 @@ extension View {
     ///          .dismissGesture(gestureType:gesture, dismissAction: some action)
     ///
     @ViewBuilder
+    @MainActor
     func dismissGesture(gestureType: ContainerViewDismissGesture, dismissAction: @escaping () -> Void) -> some View {
         if let gesture = gestureType.generateGesture(with: dismissAction) {
             self.gesture(gesture)
