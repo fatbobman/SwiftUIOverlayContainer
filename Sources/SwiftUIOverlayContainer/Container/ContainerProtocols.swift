@@ -120,5 +120,6 @@ public protocol ContainerConfigurationProtocol: ContainerViewConfigurationProtoc
 
 /// A Query Type for get specific container's queue
 public class IdentifiableContainerViewQuery {
-  var views:[IdentifiableContainerView] = []
+  public var views:[IdentifiableContainerView] = []
+  public init() {}
 }
