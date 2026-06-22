@@ -19,6 +19,7 @@ final class ContainerQueueHandler: ObservableObject {
     /// the main queue for IdentifiableView, used in SwiftUI ForEach
     @Published var mainQueue: [IdentifiableContainerView] = [] {
         didSet {
+            guard !isRestoringPreservedQueueState else { return }
             // if the main queue is empty, get a new view from the temp queue in oneByeOneWaitFinish mode
             if case .oneByOneWaitFinish = queueType, mainQueue.isEmpty {
                 transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
@@ -39,6 +40,9 @@ final class ContainerQueueHandler: ObservableObject {
 
     /// The temporary queue of IdentifiableContainerView. Use in OneByOneWaitFinish mode
     var tempQueue: [IdentifiableContainerView] = []
+
+    /// Avoid queue transfer side effects while rebuilding state saved during inactive scene teardown.
+    var isRestoringPreservedQueueState = false
 
     /// Publisher storage
     var cancellable: AnyCancellable?
@@ -91,11 +95,21 @@ final class ContainerQueueHandler: ObservableObject {
         self.queueControlOperator = queueControlOperator
     }
 
-    /// Remove the container from the container manager. This method Will be called when container disappear
-    func disconnect() {
+    /// Unregister the container and optionally keep queued views for inactive scene transitions.
+    func disconnect(preservingQueue: Bool = false) {
         cancellable = nil
+        if preservingQueue {
+            manager.preserveQueueState(
+                PreservedContainerQueueState(mainQueue: mainQueue, tempQueue: tempQueue),
+                for: container
+            )
+        } else {
+            manager.removePreservedQueueState(for: container)
+        }
         manager.removeContainer(for: container)
-        dismissAll(animated: false)
+        if !preservingQueue {
+            dismissAll(animated: false)
+        }
         sendMessage(type: .info, message: "container `\(container)` disconnected", debugLevel: 2)
     }
 
@@ -117,12 +131,36 @@ final class ContainerQueueHandler: ObservableObject {
                 guard let queueType = self?.queueType else { return }
                 self?.getStrategyHandler(for: queueType)(action)
             }
+        restorePreservedQueueStateIfNeeded()
         sendMessage(type: .info, message: "container `\(container)` connected", debugLevel: 2)
     }
 
     /// Send message with debug level to container manager logger
     func sendMessage(type: SwiftUIOverlayContainerLogType, message: String, debugLevel: Int) {
         manager.sendMessage(type: type, message: message, debugLevel: debugLevel)
+    }
+
+    func restorePreservedQueueStateIfNeeded() {
+        guard let preservedQueueState = manager.restoreQueueState(for: container) else { return }
+        let restorableQueueState = preservedQueueState.restoringPresentedViewsOnly
+        isRestoringPreservedQueueState = true
+        tempQueue = restorableQueueState.tempQueue
+        mainQueue = restorableQueueState.mainQueue
+        _transferring = false
+        isRestoringPreservedQueueState = false
+        transferPreservedQueueIfNeeded()
+    }
+
+    func transferPreservedQueueIfNeeded() {
+        switch queueType {
+        case .oneByOneWaitFinish where mainQueue.isEmpty:
+            transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
+        case .multiple where mainQueue.count < maximumNumberOfViewsInMultiple && !tempQueue.isEmpty:
+            _transferring = true
+            transferNewViewFromTempQueueIfNeeded(delay: delayForShowingNext)
+        default:
+            break
+        }
     }
 }
 
@@ -349,4 +387,20 @@ extension ContainerQueueHandler {
 enum QueueType {
     case main
     case temporary
+}
+
+private extension PreservedContainerQueueState {
+    var restoringPresentedViewsOnly: PreservedContainerQueueState {
+        // Binding-backed views can be dismissed while the container is disconnected.
+        PreservedContainerQueueState(
+            mainQueue: mainQueue.filter(\.isRestorablePreservedView),
+            tempQueue: tempQueue.filter(\.isRestorablePreservedView)
+        )
+    }
+}
+
+private extension IdentifiableContainerView {
+    var isRestorablePreservedView: Bool {
+        isPresented?.wrappedValue != false
+    }
 }

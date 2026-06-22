@@ -13,6 +13,15 @@ import Combine
 import Foundation
 import SwiftUI
 
+struct PreservedContainerQueueState {
+    let mainQueue: [IdentifiableContainerView]
+    let tempQueue: [IdentifiableContainerView]
+
+    var isEmpty: Bool {
+        mainQueue.isEmpty && tempQueue.isEmpty
+    }
+}
+
 /// The manager of all overlay containers that provides a bridge between containers and SwiftUI views.
 ///
 /// In the SwiftUI view, it is better to call the Container Manager by accessing the environment value
@@ -31,6 +40,7 @@ import SwiftUI
 /// Because the Container Manager adopts the singleton pattern, you can directly call public methods such as show and dismiss through code even if you are not in the SwiftUI view.
 public final class ContainerManager: ContainerManagerLogger {
     var publishers: [String: ContainerViewPublisher] = [:]
+    var preservedQueueStates: [String: PreservedContainerQueueState] = [:]
 
     public init(logger: SwiftUIOverlayContainerLoggerProtocol? = nil, debugLevel: Int = 0) {
         if logger == nil {
@@ -48,6 +58,23 @@ public final class ContainerManager: ContainerManagerLogger {
         if debugLevel <= self.debugLevel {
             self.logger?.log(type: type, message: message)
         }
+    }
+
+    /// Keep queued overlays across inactive-scene teardown so a recreated container can resume them.
+    func preserveQueueState(_ state: PreservedContainerQueueState, for container: String) {
+        if state.isEmpty {
+            preservedQueueStates.removeValue(forKey: container)
+        } else {
+            preservedQueueStates[container] = state
+        }
+    }
+
+    func restoreQueueState(for container: String) -> PreservedContainerQueueState? {
+        preservedQueueStates.removeValue(forKey: container)
+    }
+
+    func removePreservedQueueState(for container: String) {
+        preservedQueueStates.removeValue(forKey: container)
     }
 }
 

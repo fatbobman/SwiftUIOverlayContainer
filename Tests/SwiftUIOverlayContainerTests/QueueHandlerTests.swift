@@ -10,6 +10,7 @@
 //
 
 @testable import SwiftUIOverlayContainer
+import SwiftUI
 import XCTest
 
 @MainActor
@@ -20,11 +21,16 @@ class QueueHandlerTests: XCTestCase {
 
     @MainActor override func setUp() {
         manager.publishers.removeAll()
+        manager.preservedQueueStates.removeAll()
         self.containerConfiguration = ContainerConfiguration(
             displayType: .stacking, queueType: .multiple, delayForShowingNext: 0
         )
-        self.handler = ContainerQueueHandler(
-            container: "testContainer",
+        self.handler = makeHandler()
+    }
+
+    func makeHandler(container: String = "testContainer") -> ContainerQueueHandler {
+        ContainerQueueHandler(
+            container: container,
             containerManager: manager,
             queueType: containerConfiguration.queueType,
             animation: containerConfiguration.animation,
@@ -71,6 +77,150 @@ class QueueHandlerTests: XCTestCase {
 
         // then
         XCTAssertEqual(handler.mainQueue.count, 0)
+    }
+
+    func testDisconnectClearsQueueByDefault() async throws {
+        // given
+        let view = MessageView()
+        handler.connect()
+        let viewID = try XCTUnwrap(manager.show(view: view, in: handler.container, using: view))
+        try await Task.sleep(seconds: 0.01)
+        XCTAssertEqual(handler.mainQueue.first?.id, viewID)
+
+        // when
+        handler.disconnect()
+
+        // then
+        XCTAssertEqual(manager.containerCount, 0)
+        XCTAssertEqual(handler.mainQueue.count, 0)
+        XCTAssertEqual(handler.tempQueue.count, 0)
+    }
+
+    func testDisconnectPreservingQueueKeepsViewDismissibleAfterReconnect() async throws {
+        // given
+        let view = MessageView()
+        handler.connect()
+        let viewID = try XCTUnwrap(manager.show(view: view, in: handler.container, using: view))
+        try await Task.sleep(seconds: 0.01)
+        XCTAssertEqual(handler.mainQueue.first?.id, viewID)
+
+        // when
+        handler.disconnect(preservingQueue: true)
+
+        // then
+        XCTAssertEqual(manager.containerCount, 0)
+        XCTAssertEqual(handler.mainQueue.first?.id, viewID)
+
+        // when
+        handler.connect()
+        manager.dismiss(view: viewID, in: handler.container, animated: false)
+        try await Task.sleep(seconds: 0.01)
+
+        // then
+        XCTAssertEqual(handler.mainQueue.count, 0)
+    }
+
+    func testDisconnectPreservingQueueKeepsBindingTrueUntilDismissAfterReconnect() async throws {
+        // given
+        let view = MessageView()
+        let source = BindingMock()
+        source.isPresented = true
+        let binding = Binding<Bool>(get: { source.isPresented }, set: { source.isPresented = $0 })
+        handler.connect()
+        let viewID = try XCTUnwrap(manager._show(view: view, in: handler.container, using: view, isPresented: binding))
+        try await Task.sleep(seconds: 0.01)
+
+        // when
+        handler.disconnect(preservingQueue: true)
+
+        // then
+        XCTAssertTrue(source.isPresented)
+        XCTAssertEqual(handler.mainQueue.first?.id, viewID)
+
+        // when
+        handler.connect()
+        manager.dismiss(view: viewID, in: handler.container, animated: false)
+        try await Task.sleep(seconds: 0.01)
+
+        // then
+        XCTAssertFalse(source.isPresented)
+        XCTAssertEqual(handler.mainQueue.count, 0)
+    }
+
+    func testDisconnectPreservingQueueRestoresViewIntoRecreatedHandler() async throws {
+        // given
+        let view = MessageView()
+        handler.connect()
+        let viewID = try XCTUnwrap(manager.show(view: view, in: handler.container, using: view))
+        try await Task.sleep(seconds: 0.01)
+        XCTAssertEqual(handler.mainQueue.first?.id, viewID)
+
+        // when
+        handler.disconnect(preservingQueue: true)
+        let restoredHandler = makeHandler()
+        restoredHandler.connect()
+
+        // then
+        XCTAssertEqual(restoredHandler.mainQueue.first?.id, viewID)
+        XCTAssertEqual(restoredHandler.tempQueue.count, 0)
+        XCTAssertNil(manager.preservedQueueStates[handler.container])
+
+        // when
+        manager.dismiss(view: viewID, in: restoredHandler.container, animated: false)
+        try await Task.sleep(seconds: 0.01)
+
+        // then
+        XCTAssertEqual(restoredHandler.mainQueue.count, 0)
+    }
+
+    func testDisconnectPreservingQueueKeepsBindingTrueUntilDismissAfterHandlerRecreation() async throws {
+        // given
+        let view = MessageView()
+        let source = BindingMock()
+        source.isPresented = true
+        let binding = Binding<Bool>(get: { source.isPresented }, set: { source.isPresented = $0 })
+        handler.connect()
+        let viewID = try XCTUnwrap(manager._show(view: view, in: handler.container, using: view, isPresented: binding))
+        try await Task.sleep(seconds: 0.01)
+
+        // when
+        handler.disconnect(preservingQueue: true)
+        let restoredHandler = makeHandler()
+        restoredHandler.connect()
+
+        // then
+        XCTAssertTrue(source.isPresented)
+        XCTAssertEqual(restoredHandler.mainQueue.first?.id, viewID)
+
+        // when
+        manager.dismiss(view: viewID, in: restoredHandler.container, animated: false)
+        try await Task.sleep(seconds: 0.01)
+
+        // then
+        XCTAssertFalse(source.isPresented)
+        XCTAssertEqual(restoredHandler.mainQueue.count, 0)
+    }
+
+    func testDisconnectPreservingQueueSkipsBindingViewDismissedBeforeHandlerRecreation() async throws {
+        // given
+        let view = MessageView()
+        let source = BindingMock()
+        source.isPresented = true
+        let binding = Binding<Bool>(get: { source.isPresented }, set: { source.isPresented = $0 })
+        handler.connect()
+        let viewID = try XCTUnwrap(manager._show(view: view, in: handler.container, using: view, isPresented: binding))
+        try await Task.sleep(seconds: 0.01)
+        XCTAssertEqual(handler.mainQueue.first?.id, viewID)
+
+        // when
+        handler.disconnect(preservingQueue: true)
+        source.isPresented = false
+        let restoredHandler = makeHandler()
+        restoredHandler.connect()
+
+        // then
+        XCTAssertEqual(restoredHandler.mainQueue.count, 0)
+        XCTAssertEqual(restoredHandler.tempQueue.count, 0)
     }
 
     func testPushViewIntoQueue() throws {

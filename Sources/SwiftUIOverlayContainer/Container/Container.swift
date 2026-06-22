@@ -82,6 +82,7 @@ struct OverlayContainer: View {
     let containerName: String
     /// The handler that communicate with container manager, receive commands and manage view queues.
     @StateObject var queueHandler: ContainerQueueHandler
+    @Environment(\.scenePhase) private var scenePhase
     /// A state value that records the frame information of the container, which will be sent to the container view through the environment value
     @State var containerFrame: CGRect = .zero
 
@@ -178,7 +179,8 @@ struct OverlayContainer: View {
         }
         .recordCurrentViewFrameInfo(to: $containerFrame)
         .onAppear { queueHandler.connect() }
-        .onDisappear { queueHandler.disconnect() }
+        // Inactive scenes can make SwiftUI disappear temporarily; keep queued overlays resumable.
+        .onDisappear { queueHandler.disconnect(preservingQueue: scenePhase != .active) }
         // if animation or delayForShowingNext changed, reassign the properties of queueHandler
         // The queue handler has the ability to respond to the container configuration changes
         .onChange(of:
