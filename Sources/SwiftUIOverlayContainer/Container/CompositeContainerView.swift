@@ -188,12 +188,22 @@ extension View {
     /// preform action when the optional bind value set to false
     @ViewBuilder
     func dismissViewWhenIsPresentedIsFalse(_ isPresented: Binding<Bool>?, preform dismissAction: @escaping () -> Void) -> some View {
-        ifNotNil(isPresented?.wrappedValue) { view, isPresented in
-            view.onChange(of: isPresented, perform: { _ in
-                if !isPresented {
-                    dismissAction()
-                }
+        if let isPresented = isPresented {
+            onChange(of: isPresented.wrappedValue, perform: { newValue in
+                // Layout rebuilds can leave stale snapshots behind.
+                // Dismiss only when the live binding also agrees.
+                guard shouldDismissViewWhenIsPresentedChanges(
+                    to: newValue,
+                    currentValue: isPresented.wrappedValue
+                ) else { return }
+                dismissAction()
             })
+        } else {
+            self
         }
     }
+}
+
+func shouldDismissViewWhenIsPresentedChanges(to newValue: Bool, currentValue: Bool) -> Bool {
+    !newValue && !currentValue
 }
