@@ -69,29 +69,10 @@ extension OverlayContainerBlurMaterial {
             }
             #endif
         } else {
-            Rectangle()
-                .fill(.gray)
-                .overlay(
-                    VStack {
-                        Text("Warning!")
-                            .font(.title)
-                            .foregroundColor(.red)
-                            .padding(.bottom, 20)
-                        Text(blueMessage)
-                            .lineLimit(10)
-                            .font(.body)
-                            .padding(.horizontal, 30)
-                    }
-                )
+            // Single child on purpose. A multi-child `else` here is dead code once the package compiles at iOS 15+,
+            // so Xcode 27 resolves its `buildBlock` to the iOS 26+ `TupleContent`, which crashes iOS 18 at launch.
+            Color.clear
         }
-    }
-
-    var blueMessage: String {
-        """
-        Blur backgrounds are only supported on iOS 15+ and macOS 12+. If you want to set a blur background, use the `.view(some blur view)`.
-
-        You can find a blur solutions on the internet that support lower os versions, such as: https://github.com/twostraws/VisualEffects
-        """
     }
 }
 
