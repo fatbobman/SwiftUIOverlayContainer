@@ -73,14 +73,17 @@ extension OverlayContainerBlurMaterial {
                 .fill(.gray)
                 .overlay(
                     VStack {
-                        Text("Warning!")
-                            .font(.title)
-                            .foregroundColor(.red)
-                            .padding(.bottom, 20)
-                        Text(blueMessage)
-                            .lineLimit(10)
-                            .font(.body)
-                            .padding(.horizontal, 30)
+                        // An explicit tuple keeps the fallback metadata usable on older OS versions.
+                        TupleView((
+                            Text("Warning!")
+                                .font(.title)
+                                .foregroundColor(.red)
+                                .padding(.bottom, 20),
+                            Text(blueMessage)
+                                .lineLimit(10)
+                                .font(.body)
+                                .padding(.horizontal, 30)
+                        ))
                     }
                 )
         }
